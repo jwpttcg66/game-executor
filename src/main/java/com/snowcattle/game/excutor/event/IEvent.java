@@ -7,4 +7,5 @@ package com.snowcattle.game.excutor.event;
 public interface IEvent {
     public EventType getEventType();
     public EventParam[] getParams();
+    public void call();
 }
