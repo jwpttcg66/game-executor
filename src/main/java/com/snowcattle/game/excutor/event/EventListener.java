@@ -6,14 +6,16 @@ import java.util.concurrent.CopyOnWriteArraySet;
 /**
  * Created by jiangwenping on 17/1/6.
  */
-public class EventListener implements  IEventListener{
+public abstract class EventListener implements  IEventListener{
 
     private Set<EventType> set;
 
     public EventListener() {
         this.set = new CopyOnWriteArraySet<EventType>();
+        initEventType();
     }
 
+    public abstract  void initEventType();
     public void register(EventType eventType) {
         this.set.add(eventType);
     }

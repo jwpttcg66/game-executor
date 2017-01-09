@@ -8,7 +8,7 @@ public class EventType {
 
     private int index;
 
-    EventType(int index) {
+    public EventType(int index) {
         this.index = index;
     }
 

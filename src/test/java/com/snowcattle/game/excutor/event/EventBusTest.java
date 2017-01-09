@@ -1,6 +1,6 @@
 package com.snowcattle.game.excutor.event;
 
-import com.snowcattle.game.excutor.thread.DispatchThread;
+import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -8,7 +8,7 @@ import com.snowcattle.game.excutor.thread.DispatchThread;
 public class EventBusTest {
     public static void main(String[] args) {
         EventBus eventBus = new EventBus();
-        DispatchThread dispatchThread = new DispatchThread(eventBus);
+        LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(eventBus);
 
     }
 }
