@@ -8,5 +8,6 @@ public interface IEventListener {
 
     public void register(EventType eventType);
     public void unRegister(EventType eventType);
+    public boolean containEventType(EventType eventType);
     public void fireEvent(IEvent event);
 }

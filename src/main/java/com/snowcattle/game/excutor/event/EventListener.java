@@ -22,9 +22,11 @@ public class EventListener implements  IEventListener{
         this.set.remove(eventType);
     }
 
+    public boolean containEventType(EventType eventType) {
+        return set.contains(eventType);
+    }
+
     public void fireEvent(IEvent event) {
-        if(set.contains(event)){
-            event.call();
-        }
+        event.call();
     }
 }
