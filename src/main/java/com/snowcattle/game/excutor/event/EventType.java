@@ -5,4 +5,18 @@ package com.snowcattle.game.excutor.event;
  * 事件类型
  */
 public class EventType {
+
+    private int index;
+
+    EventType(int index) {
+        this.index = index;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
 }
