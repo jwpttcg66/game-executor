@@ -40,12 +40,17 @@ public class EventBus implements IEventBus{
     public void handleEvent() {
         while (!events.isEmpty()){
             IEvent event = events.poll();
-            if(event != null){
-                for(IEventListener eventListener:this.listenerSet){
-                    if(eventListener.containEventType(event.getEventType())) {
-                        eventListener.fireEvent(event);
-                    }
-                }
+            if(event == null){
+                break;
+            }
+            handleSingleEvent(event);
+        }
+    }
+
+    public void handleSingleEvent(IEvent event) {
+        for(IEventListener eventListener:this.listenerSet){
+            if(eventListener.containEventType(event.getEventType())) {
+                eventListener.fireEvent(event);
             }
         }
     }
