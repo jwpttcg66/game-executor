@@ -4,6 +4,7 @@ import com.snowcattle.game.excutor.event.EventBus;
 
 /**
  * Created by jiangwenping on 17/1/9.
+ * ⌚事件分配器
  */
 public class DispatchThread extends Thread{
 

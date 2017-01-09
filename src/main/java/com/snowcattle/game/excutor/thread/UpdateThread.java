@@ -3,10 +3,9 @@ package com.snowcattle.game.excutor.thread;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.update.IUpdate;
 
-import java.util.concurrent.locks.LockSupport;
-
 /**
  * Created by jiangwenping on 17/1/9.
+ * 事件执行器
  */
 public class UpdateThread implements Runnable{
     /**
@@ -28,7 +27,6 @@ public class UpdateThread implements Runnable{
 
     public void run() {
         iUpdate.update();
-        LockSupport.unpark(dispatchThread);
         iUpdate = null;
     }
 
@@ -38,5 +36,21 @@ public class UpdateThread implements Runnable{
 
     public void setiUpdate(IUpdate iUpdate) {
         this.iUpdate = iUpdate;
+    }
+
+    public DispatchThread getDispatchThread() {
+        return dispatchThread;
+    }
+
+    public void setDispatchThread(DispatchThread dispatchThread) {
+        this.dispatchThread = dispatchThread;
+    }
+
+    public EventBus getEventBus() {
+        return eventBus;
+    }
+
+    public void setEventBus(EventBus eventBus) {
+        this.eventBus = eventBus;
     }
 }
