@@ -10,13 +10,23 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class LockSupportUpdateThread extends UpdateThread{
 
+    private DispatchThread dispatchThread;
+
     public LockSupportUpdateThread(DispatchThread dispatchThread, EventBus eventBus) {
-        super(dispatchThread, eventBus);
+        super(eventBus);
+        this.dispatchThread = dispatchThread;
     }
 
     public void run() {
-        getiUpdate().update();
-        LockSupport.unpark(getDispatchThread());
+        if(getiUpdate() != null) {
+            getiUpdate().update();
+            setiUpdate(null);
+            LockSupport.unpark(getDispatchThread());
+        }
     }
 
+
+    public DispatchThread getDispatchThread() {
+        return dispatchThread;
+    }
 }

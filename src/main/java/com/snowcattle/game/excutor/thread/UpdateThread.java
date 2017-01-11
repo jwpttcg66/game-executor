@@ -8,42 +8,23 @@ import com.snowcattle.game.excutor.update.IUpdate;
  * 事件执行器
  */
 public class UpdateThread implements Runnable{
-    /**
-     * 调度线程
-     */
-    private DispatchThread dispatchThread;
+
     /**
      * 事件总线
      */
     private EventBus eventBus;
 
-
-    private IUpdate iUpdate;
-
-    public UpdateThread(DispatchThread dispatchThread, EventBus eventBus) {
-        this.dispatchThread = dispatchThread;
+    public UpdateThread(EventBus eventBus) {
         this.eventBus = eventBus;
     }
 
+    private IUpdate iUpdate;
+
     public void run() {
-        iUpdate.update();
-        iUpdate = null;
-    }
-
-    public IUpdate getiUpdate() {
-        return iUpdate;
-    }
-
-    public void setiUpdate(IUpdate iUpdate) {
-        this.iUpdate = iUpdate;
-    }
-
-    public DispatchThread getDispatchThread() {
-        return dispatchThread;
-    }
-
-    public void setDispatchThread(DispatchThread dispatchThread) {
-        this.dispatchThread = dispatchThread;
+        if(iUpdate != null) {
+            iUpdate.update();
+            iUpdate = null;
+        }
     }
 
     public EventBus getEventBus() {
@@ -52,5 +33,13 @@ public class UpdateThread implements Runnable{
 
     public void setEventBus(EventBus eventBus) {
         this.eventBus = eventBus;
+    }
+
+    public IUpdate getiUpdate() {
+        return iUpdate;
+    }
+
+    public void setiUpdate(IUpdate iUpdate) {
+        this.iUpdate = iUpdate;
     }
 }
