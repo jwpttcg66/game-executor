@@ -9,7 +9,7 @@ import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
 /**
  * Created by jiangwenping on 17/1/9.
  */
-public class EventBusTest {
+public class SynsEventBusTest {
     public static void main(String[] args) {
         testSynsEvent();
     }
@@ -24,8 +24,10 @@ public class EventBusTest {
         for(int i = 0; i < 10000; i++) {
             EventParam<Integer> intParam = new EventParam<Integer>(1);
             EventParam<Float> floatEventParam = new EventParam<Float>(2.0f);
-            CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, intParam, floatEventParam);
-            eventBus.addEvent(createEvent);
+//            CreateEvent event = new CreateEvent(Constants.EventTypeConstans.createEventType, intParam, floatEventParam);
+//            UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, intParam, floatEventParam);
+            FinishEvent event = new FinishEvent(Constants.EventTypeConstans.finishEventType, intParam, floatEventParam);
+            eventBus.addEvent(event);
         }
 
         eventBus.handleEvent();
