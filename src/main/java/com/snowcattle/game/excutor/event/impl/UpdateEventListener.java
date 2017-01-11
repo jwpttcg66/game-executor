@@ -1,6 +1,6 @@
 package com.snowcattle.game.excutor.event.impl;
 
-import com.snowcattle.game.excutor.Constants;
+import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.event.EventListener;
 
 /**

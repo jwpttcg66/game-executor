@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor;
+package com.snowcattle.game.excutor.utils;
 
 import com.snowcattle.game.excutor.event.EventType;
 import com.snowcattle.game.excutor.event.EventTypeEnum;
@@ -15,5 +15,12 @@ public class Constants {
         public static EventType createEventType = new EventType(EventTypeEnum.CREATE.ordinal());
         public static EventType updateEventType = new EventType(EventTypeEnum.UPDATE.ordinal());
         public static EventType finishEventType = new EventType(EventTypeEnum.FINISH.ordinal());
+    }
+
+    /**
+     * Thread的名字前缀
+     */
+    public static class Thread{
+        public static final String UPDATE="update";
     }
 }
