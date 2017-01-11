@@ -31,4 +31,9 @@ public abstract class EventListener implements  IEventListener{
     public void fireEvent(IEvent event) {
         event.call();
     }
+
+    public Set<EventType> getSet() {
+        return set;
+    }
+
 }

@@ -13,4 +13,5 @@ public class FinishEventListener extends EventListener {
     public void initEventType() {
         register(Constants.EventTypeConstans.finishEventType);
     }
+
 }

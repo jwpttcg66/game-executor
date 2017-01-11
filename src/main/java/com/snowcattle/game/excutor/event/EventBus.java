@@ -1,7 +1,9 @@
 package com.snowcattle.game.excutor.event;
 
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -10,27 +12,34 @@ import java.util.concurrent.ConcurrentSkipListSet;
  */
 public class EventBus implements IEventBus{
 
-    private Set<EventListener> listenerSet;
+    private Map<EventType, Set<EventListener>> listenerMap;
 
     private Queue<IEvent> events;
 
     public EventBus() {
-        this.listenerSet = new ConcurrentSkipListSet<EventListener>();
+        this.listenerMap = new ConcurrentHashMap<EventType, Set<EventListener>>();
         this.events = new ConcurrentLinkedQueue<IEvent>();
     }
 
     public void addEventListener(EventListener listener) {
-        if(!listenerSet.contains(listener)){
-            listenerSet.add(listener);
+        Set<EventType> sets = listener.getSet();
+        for (EventType eventType: sets){
+            if(!listenerMap.containsKey(eventType)){
+                listenerMap.put(eventType, new ConcurrentSkipListSet<EventListener>());
+            }
+            listenerMap.get(eventType).add(listener);
         }
     }
 
     public void removeEventListener(EventListener eventListener)   {
-        listenerSet.remove(eventListener);
+        Set<EventType> sets = eventListener.getSet();
+        for (EventType eventType: sets){
+            listenerMap.get(eventType).remove(eventListener);
+        }
     }
 
     public void clearEventListener() {
-        listenerSet.clear();
+        listenerMap.clear();
     }
 
     public void addEvent(IEvent event) {
@@ -48,9 +57,14 @@ public class EventBus implements IEventBus{
     }
 
     public void handleSingleEvent(IEvent event) {
-        for(IEventListener eventListener:this.listenerSet){
-            if(eventListener.containEventType(event.getEventType())) {
-                eventListener.fireEvent(event);
+
+        EventType eventType = event.getEventType();
+        if(listenerMap.containsKey(eventType)){
+            Set<EventListener> listenerSet = listenerMap.get(eventType);
+            for(IEventListener eventListener:listenerSet){
+                if(eventListener.containEventType(event.getEventType())) {
+                    eventListener.fireEvent(event);
+                }
             }
         }
     }
