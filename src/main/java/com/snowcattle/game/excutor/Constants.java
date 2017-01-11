@@ -12,8 +12,8 @@ public class Constants {
      * ⌚事件类型常量
      */
     public static class EventTypeConstans{
-        public static EventType createEventType = new EventType(EventTypeEnum.create.ordinal());
-        public static EventType updateEventType = new EventType(EventTypeEnum.update.ordinal());
-        public static EventType finishEventType = new EventType(EventTypeEnum.finish.ordinal());
+        public static EventType createEventType = new EventType(EventTypeEnum.CREATE.ordinal());
+        public static EventType updateEventType = new EventType(EventTypeEnum.UPDATE.ordinal());
+        public static EventType finishEventType = new EventType(EventTypeEnum.FINISH.ordinal());
     }
 }

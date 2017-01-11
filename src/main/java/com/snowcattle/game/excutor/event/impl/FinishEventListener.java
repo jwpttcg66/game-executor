@@ -5,21 +5,19 @@ import com.snowcattle.game.excutor.event.EventListener;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 
 /**
- * Created by jiangwenping on 17/1/9.
- * 创建监听器
+ * Created by jiangwenping on 17/1/11.
+ * 完成监听器
  */
-public class CreateEventListener extends EventListener{
+public class FinishEventListener extends EventListener {
 
-    private DispatchThread dispatchThread ;
-
-    public CreateEventListener(DispatchThread dispatchThread) {
-        super();
+    public FinishEventListener(DispatchThread dispatchThread) {
         this.dispatchThread = dispatchThread;
-
     }
+
+    private DispatchThread dispatchThread;
 
     @Override
     public void initEventType() {
-        register(Constants.EventTypeConstans.createEventType);
+        register(Constants.EventTypeConstans.finishEventType);
     }
 }
