@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.event.syns;
+package com.snowcattle.game.excutor.event.impl;
 
 import com.snowcattle.game.excutor.event.Event;
 import com.snowcattle.game.excutor.event.EventParam;
@@ -14,7 +14,7 @@ public class UpdateEvent extends Event {
     }
 
     public void call() {
-        EventParam[] eventParams = getParams();
-        System.out.println(eventParams[0].getT() + "float"+ eventParams[1].getT());
+//        EventParam[] eventParams = getParams();
+//        System.out.println(eventParams[0].getT() + "float"+ eventParams[1].getT());
     }
 }

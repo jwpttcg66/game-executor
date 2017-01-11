@@ -1,5 +1,6 @@
 package com.snowcattle.game.excutor.event.syns;
 
+import com.snowcattle.game.excutor.event.impl.FinishEvent;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
