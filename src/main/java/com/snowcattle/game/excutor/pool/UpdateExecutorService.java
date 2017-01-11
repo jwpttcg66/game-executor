@@ -4,36 +4,29 @@ import com.snowcattle.game.excutor.thread.ThreadNameFactory;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.ExecutorUtil;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by jiangwenping on 17/1/11.
+ * 更新执行器
  */
-public class UpdateExecutorService {
-    public UpdateExecutorService(ExecutorService executorService, int size) {
-        this.executorService = executorService;
-        this.threadSize = size;
+public class UpdateExecutorService extends ThreadPoolExecutor {
+
+
+    public UpdateExecutorService(int corePoolSize, long keepAliveTime, TimeUnit unit) {
+        super(corePoolSize, Integer.MAX_VALUE, keepAliveTime, unit, new SynchronousQueue<Runnable>(),
+                new ThreadNameFactory(Constants.Thread.UPDATE), new AbortPolicy());
     }
 
-    private ExecutorService executorService;
-    private int threadSize;
-
-    public void startUp(){
-        ThreadNameFactory threadNameFactory = new ThreadNameFactory(Constants.Thread.UPDATE);
-        this.executorService = Executors.newCachedThreadPool(threadNameFactory);
-        for (int i = 0; i < threadSize; i++) {
-//            this.executorService.execute(new UpdateThread());
-        }
+    public UpdateExecutorService(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit,
+                                 ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
+        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new SynchronousQueue<Runnable>(),
+                threadFactory, new AbortPolicy());
     }
 
-    public void shutDown(){
-        if (this.executorService != null) {
-            ExecutorUtil.shutdownAndAwaitTermination(this.executorService, 60,
-                    TimeUnit.MILLISECONDS);
-            this.executorService = null;
-        }
+    public void shutDown() {
+        ExecutorUtil.shutdownAndAwaitTermination(this, 60,
+                TimeUnit.MILLISECONDS);
 
     }
 
