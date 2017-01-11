@@ -13,7 +13,7 @@ public abstract  class Event implements IEvent{
     }
 
     public EventType getEventType() {
-        return this.getEventType();
+        return this.eventType;
     }
 
     public EventParam[] getParams() {

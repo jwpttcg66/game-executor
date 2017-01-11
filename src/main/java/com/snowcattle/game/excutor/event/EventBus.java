@@ -1,11 +1,11 @@
 package com.snowcattle.game.excutor.event;
 
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -25,7 +25,7 @@ public class EventBus implements IEventBus{
         Set<EventType> sets = listener.getSet();
         for (EventType eventType: sets){
             if(!listenerMap.containsKey(eventType)){
-                listenerMap.put(eventType, new ConcurrentSkipListSet<EventListener>());
+                listenerMap.put(eventType, new HashSet<EventListener>());
             }
             listenerMap.get(eventType).add(listener);
         }

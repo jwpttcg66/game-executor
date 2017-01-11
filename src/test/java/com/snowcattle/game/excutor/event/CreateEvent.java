@@ -11,6 +11,6 @@ public class CreateEvent extends Event {
 
     public void call() {
         EventParam[] eventParams = getParams();
-        System.out.println(eventParams[0] + "float"+ eventParams[1]);
+        System.out.println(eventParams[0].getT() + "float"+ eventParams[1].getT());
     }
 }

@@ -18,7 +18,7 @@ public class EventBusTest {
         eventBus.addEventListener(new FinishEventListener());
         int maxSize = 1000;
         for(int i = 0; i < 10000; i++) {
-            EventParam<Integer> intParam = new EventParam<Integer>(2);
+            EventParam<Integer> intParam = new EventParam<Integer>(1);
             EventParam<Float> floatEventParam = new EventParam<Float>(2.0f);
             CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, intParam, floatEventParam);
             eventBus.addEvent(createEvent);
