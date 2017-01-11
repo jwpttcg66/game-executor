@@ -11,6 +11,10 @@ import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
  */
 public class EventBusTest {
     public static void main(String[] args) {
+        testSynsEvent();
+    }
+
+    public static void testSynsEvent(){
         EventBus eventBus = new EventBus();
         LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(eventBus);
         eventBus.addEventListener(new CreateEventListener());

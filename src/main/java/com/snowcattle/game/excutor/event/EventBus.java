@@ -56,6 +56,25 @@ public class EventBus implements IEventBus{
         }
     }
 
+    /**
+     *单次超过最大设置需要停止
+     * @param maxSize
+     */
+    public void cycle(int maxSize) {
+        int i = 0;
+        while (!events.isEmpty()){
+            IEvent event = events.poll();
+            if(event == null){
+                break;
+            }
+            handleSingleEvent(event);
+            i++;
+            if(i > maxSize){
+                break;
+            }
+        }
+    }
+
     public void handleSingleEvent(IEvent event) {
 
         EventType eventType = event.getEventType();
