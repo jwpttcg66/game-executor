@@ -26,7 +26,8 @@ public class AsyncEventBusTest {
         eventBus.addEventListener(new CreateEventListener());
         eventBus.addEventListener(new UpdateEventListener());
         eventBus.addEventListener(new FinishEventListener());
-        long maxSize = Long.MAX_VALUE;
+        //测试10万就够了
+        long maxSize = 100000;
         dispatchThread.start();
         for(long i = 0; i < maxSize; i++) {
             EventParam<Integer> intParam = new EventParam<Integer>((int) i);
@@ -34,7 +35,5 @@ public class AsyncEventBusTest {
             TestCreateEvent event = new TestCreateEvent(Constants.EventTypeConstans.finishEventType, intParam, floatEventParam);
             dispatchThread.addEvent(event);
         }
-
-//        eventBus.handleEvent();
     }
 }
