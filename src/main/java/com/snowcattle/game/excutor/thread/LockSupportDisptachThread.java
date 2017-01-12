@@ -1,5 +1,6 @@
 package com.snowcattle.game.excutor.thread;
 
+import com.snowcattle.game.excutor.event.Event;
 import com.snowcattle.game.excutor.event.EventBus;
 
 import java.util.concurrent.locks.LockSupport;
@@ -13,9 +14,15 @@ public class LockSupportDisptachThread extends DispatchThread{
     public LockSupportDisptachThread(EventBus eventBus) {
         super(eventBus);
     }
-
     public void run() {
-        super.run();
-        LockSupport.park();
+        while (true) {
+            super.run();
+            LockSupport.park();
+        }
+    }
+
+    public void addEvent(Event event){
+        getEventBus().addEvent(event);
+        LockSupport.unpark(this);
     }
 }
