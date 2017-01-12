@@ -33,7 +33,7 @@ public class AsyncEventBusTest {
             EventParam<Integer> intParam = new EventParam<Integer>((int) i);
             EventParam<Float> floatEventParam = new EventParam<Float>((float)(i+1));
             TestCreateEvent event = new TestCreateEvent(Constants.EventTypeConstans.finishEventType, intParam, floatEventParam);
-            dispatchThread.addEvent(event);
+            dispatchThread.addUpdateEvent(event);
         }
     }
 }

@@ -22,8 +22,12 @@ public class LockSupportDisptachThread extends DispatchThread{
         }
     }
 
-    public void addEvent(Event event){
+    public void addUpdateEvent(Event event){
         getEventBus().addEvent(event);
+        unpark();
+    }
+
+    public void unpark(){
         LockSupport.unpark(this);
     }
 }
