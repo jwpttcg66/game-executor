@@ -15,8 +15,9 @@ public class LockSupportDisptachThread extends DispatchThread{
         super(eventBus);
     }
     public void run() {
+        int maxSize = 10000;
         while (true) {
-            super.run();
+            getEventBus().cycle(maxSize);
             LockSupport.park();
         }
     }
