@@ -5,4 +5,5 @@ package com.snowcattle.game.excutor.update;
  */
 public interface IUpdate {
     public void update();
+    public long getId();
 }
