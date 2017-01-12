@@ -1,6 +1,7 @@
 package com.snowcattle.game.excutor.service;
 
 import com.snowcattle.game.excutor.event.Event;
+import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 
@@ -18,14 +19,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class UpdateService {
 
     private DispatchThread dispatchThread;
-    private UpdateService updateService;
+    private EventBus eventBus;
 
     //记录当前循环的更新接口
     private Map<Long, IUpdate> updateMap;
 
-    public UpdateService(DispatchThread dispatchThread, UpdateService updateService) {
+    public UpdateService(DispatchThread dispatchThread, EventBus eventBus) {
         this.dispatchThread = dispatchThread;
-        this.updateService = updateService;
+        this.eventBus = eventBus;
         this.updateMap = new ConcurrentHashMap<Long, IUpdate>();
     }
 
@@ -37,12 +38,8 @@ public class UpdateService {
         this.dispatchThread = dispatchThread;
     }
 
-    public UpdateService getUpdateService() {
-        return updateService;
-    }
-
-    public void setUpdateService(UpdateService updateService) {
-        this.updateService = updateService;
+    public UpdateService(DispatchThread dispatchThread) {
+        this.dispatchThread = dispatchThread;
     }
 
     public void addCreateEvent(Event event){
