@@ -78,4 +78,10 @@ public class UpdateService {
     public void setUpdateExecutorService(UpdateExecutorService updateExecutorService) {
         this.updateExecutorService = updateExecutorService;
     }
+
+    public void shutDown(){
+        updateExecutorService.shutdown();
+        dispatchThread.shutDown();
+        this.updateMap.clear();
+    }
 }

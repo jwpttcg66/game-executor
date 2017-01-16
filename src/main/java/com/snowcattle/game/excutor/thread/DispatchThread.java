@@ -25,4 +25,8 @@ public class DispatchThread extends Thread{
     public void setEventBus(EventBus eventBus) {
         this.eventBus = eventBus;
     }
+
+    public void shutDown(){
+
+    }
 }

@@ -74,4 +74,8 @@ public class LockSupportDisptachThread extends DispatchThread{
     public void setUpdateExecutorService(UpdateExecutorService updateExecutorService) {
         this.updateExecutorService = updateExecutorService;
     }
+
+    public void shutDown(){
+        this.runningFlag = false;
+    }
 }
