@@ -17,4 +17,8 @@ public class CycleEvent extends Event {
     public void call() {
 
     }
+
+    public long getId() {
+        return id;
+    }
 }

@@ -1,7 +1,8 @@
 package com.snowcattle.game.excutor.service;
 
-import com.snowcattle.game.excutor.event.Event;
+import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventBus;
+import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
@@ -32,13 +33,15 @@ public class UpdateService {
         this.updateExecutorService = updateExecutorService;
     }
 
-    public void addReadyCreateEvent(Event event){
-        //注册future-listener
-
+    public void addReadyCreateEvent(CycleEvent event){
+        EventParam[] eventParams = event.getParams();
+        updateMap.put(event.getId(), (IUpdate) eventParams[0].getT());
+        //通知dispatchThread
     }
 
-    public void addReadyFinishEvent(Event event){
-
+    public void addReadyFinishEvent(CycleEvent event){
+        updateMap.remove(event.getId());
+        //通知dispatchThread
     }
 
     public DispatchThread getDispatchThread() {
