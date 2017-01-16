@@ -35,8 +35,10 @@ public class UpdateService {
 
     public void addReadyCreateEvent(CycleEvent event){
         EventParam[] eventParams = event.getParams();
-        updateMap.put(event.getId(), (IUpdate) eventParams[0].getT());
+        IUpdate  iUpdate = (IUpdate) eventParams[0].getT();
+        updateMap.put(event.getId(), iUpdate);
         //通知dispatchThread
+        System.out.println("通知" + iUpdate.getId() + " dispatch");
     }
 
     public void addReadyFinishEvent(CycleEvent event){
