@@ -82,8 +82,10 @@ public class EventBus implements IEventBus{
 
         if(Loggers.utilLogger.isDebugEnabled()) {
             EventParam[] eventParams = event.getParams();
-            IUpdate iUpdate = (IUpdate) eventParams[0].getT();
-            Loggers.utilLogger.debug("处理" + iUpdate.getId() + " dispatch");
+            if(eventParams[0].getT() instanceof  IUpdate) {
+                IUpdate iUpdate = (IUpdate) eventParams[0].getT();
+                Loggers.utilLogger.debug("处理" + iUpdate.getId() + " dispatch");
+            }
         }
 
         EventType eventType = event.getEventType();
