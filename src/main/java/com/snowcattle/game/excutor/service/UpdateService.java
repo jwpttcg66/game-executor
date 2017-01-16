@@ -32,12 +32,12 @@ public class UpdateService {
         this.updateExecutorService = updateExecutorService;
     }
 
-    public void addCreateEvent(Event event){
+    public void addReadyCreateEvent(Event event){
         //注册future-listener
 
     }
 
-    public void addFinishEvent(Event event){
+    public void addReadyFinishEvent(Event event){
 
     }
 
