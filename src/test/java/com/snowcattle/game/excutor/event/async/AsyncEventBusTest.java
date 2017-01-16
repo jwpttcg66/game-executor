@@ -6,9 +6,7 @@ package com.snowcattle.game.excutor.event.async;
 
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
-import com.snowcattle.game.excutor.event.impl.CreateEventListener;
-import com.snowcattle.game.excutor.event.impl.FinishEventListener;
-import com.snowcattle.game.excutor.event.impl.UpdateEventListener;
+import com.snowcattle.game.excutor.event.impl.*;
 import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
 import com.snowcattle.game.excutor.utils.Constants;
 
@@ -23,9 +21,14 @@ public class AsyncEventBusTest {
     public static void testEvent(){
         EventBus eventBus = new EventBus();
         LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(eventBus);
-        eventBus.addEventListener(new CreateEventListener());
-        eventBus.addEventListener(new UpdateEventListener());
-        eventBus.addEventListener(new FinishEventListener());
+        eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread));
+        eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread));
+        eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread));
+
+        EventBus updateEventBus = new EventBus();
+        updateEventBus.addEventListener(new ReadyCreateEventListener());
+        updateEventBus.addEventListener(new ReadyFinishEventListener());
+
         //测试10万就够了
         long maxSize = 100000;
         dispatchThread.start();
