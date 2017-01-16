@@ -1,13 +1,13 @@
 package com.snowcattle.game.excutor.event.syns;
 
-import com.snowcattle.game.excutor.event.impl.FinishEvent;
-import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.CreateEventListener;
+import com.snowcattle.game.excutor.event.impl.FinishEvent;
 import com.snowcattle.game.excutor.event.impl.FinishEventListener;
 import com.snowcattle.game.excutor.event.impl.UpdateEventListener;
-import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
+import com.snowcattle.game.excutor.thread.DispatchThread;
+import com.snowcattle.game.excutor.utils.Constants;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -19,7 +19,7 @@ public class SynsEventBusTest {
 
     public static void testSynsEvent(){
         EventBus eventBus = new EventBus();
-        LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(eventBus);
+        DispatchThread dispatchThread = new DispatchThread(eventBus);
         eventBus.addEventListener(new CreateEventListener());
         eventBus.addEventListener(new UpdateEventListener());
         eventBus.addEventListener(new FinishEventListener());
