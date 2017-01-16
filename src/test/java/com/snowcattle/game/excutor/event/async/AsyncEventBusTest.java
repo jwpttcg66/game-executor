@@ -9,6 +9,7 @@ import com.snowcattle.game.excutor.event.impl.DispatchCreateEventListener;
 import com.snowcattle.game.excutor.event.impl.ReadyCreateEventListener;
 import com.snowcattle.game.excutor.event.impl.ReadyFinishEventListener;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
+import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
 
 import java.util.concurrent.TimeUnit;
@@ -37,14 +38,11 @@ public class AsyncEventBusTest {
         updateEventBus.addEventListener(new ReadyCreateEventListener());
         updateEventBus.addEventListener(new ReadyFinishEventListener());
 
-        //测试10万就够了
         dispatchThread.start();
+        UpdateService updateService = new UpdateService(dispatchThread, updateEventBus, updateExecutorService);
 
-//        for(long i = 0; i < maxSize; i++) {
-//            EventParam<Integer> intParam = new EventParam<Integer>((int) i);
-//            EventParam<Float> floatEventParam = new EventParam<Float>((float)(i+1));
-//            TestCreateEvent event = new TestCreateEvent(Constants.EventTypeConstans.finishEventType, intParam, floatEventParam);
-//            dispatchThread.addUpdateEvent(event);
-//        }
+        for(long i = 0; i < maxSize; i++) {
+
+        }
     }
 }
