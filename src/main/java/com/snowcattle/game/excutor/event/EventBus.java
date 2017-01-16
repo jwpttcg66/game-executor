@@ -1,5 +1,8 @@
 package com.snowcattle.game.excutor.event;
 
+import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.utils.Loggers;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Queue;
@@ -76,6 +79,12 @@ public class EventBus implements IEventBus{
     }
 
     public void handleSingleEvent(IEvent event) {
+
+        if(Loggers.utilLogger.isDebugEnabled()) {
+            EventParam[] eventParams = event.getParams();
+            IUpdate iUpdate = (IUpdate) eventParams[0].getT();
+            Loggers.utilLogger.debug("处理" + iUpdate.getId() + " dispatch");
+        }
 
         EventType eventType = event.getEventType();
         if(listenerMap.containsKey(eventType)){
