@@ -19,5 +19,17 @@ public enum EventTypeEnum {
      * 完成
      */
     FINISH,
+
+
+    /**
+     * 准备创建
+     */
+    REDAY_CREATE,
+
+    /**
+     * 准备结束
+     */
+    REDAY_FINISH,
+
     ;
 }
