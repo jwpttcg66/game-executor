@@ -23,6 +23,11 @@ public class IntegerUpdate implements IUpdate{
         return id;
     }
 
+    @Override
+    public boolean isActive() {
+        return true;
+    }
+
     public void setId(long id) {
         this.id = id;
     }

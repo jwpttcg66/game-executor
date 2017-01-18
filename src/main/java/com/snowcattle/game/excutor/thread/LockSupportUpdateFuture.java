@@ -2,7 +2,6 @@ package com.snowcattle.game.excutor.thread;
 
 import com.snowcattle.future.AbstractFuture;
 import com.snowcattle.future.ITaskFuture;
-import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.update.IUpdate;
 
 /**
@@ -11,11 +10,9 @@ import com.snowcattle.game.excutor.update.IUpdate;
 public class LockSupportUpdateFuture extends AbstractFuture<IUpdate> {
 
     private DispatchThread dispatchThread;
-    private EventBus updateServiceeventBus;
 
-    public LockSupportUpdateFuture(DispatchThread dispatchThread, EventBus updateServiceeventBus) {
+    public LockSupportUpdateFuture(DispatchThread dispatchThread) {
         this.dispatchThread = dispatchThread;
-        this.updateServiceeventBus = updateServiceeventBus;
     }
 
     @Override
@@ -34,13 +31,5 @@ public class LockSupportUpdateFuture extends AbstractFuture<IUpdate> {
 
     public void setDispatchThread(DispatchThread dispatchThread) {
         this.dispatchThread = dispatchThread;
-    }
-
-    public EventBus getUpdateServiceeventBus() {
-        return updateServiceeventBus;
-    }
-
-    public void setUpdateServiceeventBus(EventBus updateServiceeventBus) {
-        this.updateServiceeventBus = updateServiceeventBus;
     }
 }

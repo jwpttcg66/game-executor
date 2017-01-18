@@ -6,4 +6,5 @@ package com.snowcattle.game.excutor.update;
 public interface IUpdate {
     public void update();
     public long getId();
+    public boolean isActive();
 }

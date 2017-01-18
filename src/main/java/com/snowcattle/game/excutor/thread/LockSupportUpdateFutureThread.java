@@ -1,6 +1,5 @@
 package com.snowcattle.game.excutor.thread;
 
-import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.update.IUpdate;
 
 /**
@@ -9,17 +8,12 @@ import com.snowcattle.game.excutor.update.IUpdate;
 public class LockSupportUpdateFutureThread implements Runnable {
 
     private DispatchThread dispatchThread;
-    /**
-     * 事件总线
-     */
-    private EventBus eventBus;
     private IUpdate iUpdate;
     private LockSupportUpdateFuture lockSupportUpdateFuture;
 
-    public LockSupportUpdateFutureThread(DispatchThread dispatchThread, EventBus eventBus, IUpdate iUpdate
+    public LockSupportUpdateFutureThread(DispatchThread dispatchThread, IUpdate iUpdate
         , LockSupportUpdateFuture lockSupportUpdateFuture) {
         this.dispatchThread = dispatchThread;
-        this.eventBus = eventBus;
         this.iUpdate = iUpdate;
         this.lockSupportUpdateFuture = lockSupportUpdateFuture;
     }
@@ -40,14 +34,6 @@ public class LockSupportUpdateFutureThread implements Runnable {
 
     public void setDispatchThread(DispatchThread dispatchThread) {
         this.dispatchThread = dispatchThread;
-    }
-
-    public EventBus getEventBus() {
-        return eventBus;
-    }
-
-    public void setEventBus(EventBus eventBus) {
-        this.eventBus = eventBus;
     }
 
     public IUpdate getiUpdate() {
