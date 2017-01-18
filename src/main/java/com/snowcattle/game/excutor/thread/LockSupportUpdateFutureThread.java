@@ -29,7 +29,7 @@ public class LockSupportUpdateFutureThread implements Runnable {
             IUpdate excutorUpdate = getiUpdate();
             excutorUpdate.update();
             setiUpdate(null);
-            lockSupportUpdateFuture.setSuccess(true);
+            lockSupportUpdateFuture.setSuccess(excutorUpdate);
         }
     }
 

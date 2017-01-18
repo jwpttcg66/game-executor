@@ -1,6 +1,5 @@
 package com.snowcattle.game.excutor.thread;
 
-import com.snowcattle.game.excutor.event.Event;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 
@@ -34,10 +33,10 @@ public class LockSupportDisptachThread extends DispatchThread{
         }
     }
 
-    public void addUpdateEvent(Event event){
-        getEventBus().addEvent(event);
-        unpark();
-    }
+//    public void addUpdateEvent(Event event){
+//        getEventBus().addEvent(event);
+//        unpark();
+//    }
 
     public void unpark(){
         LockSupport.unpark(this);

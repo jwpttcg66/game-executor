@@ -1,5 +1,6 @@
 package com.snowcattle.game.excutor.thread;
 
+import com.snowcattle.game.excutor.event.Event;
 import com.snowcattle.game.excutor.event.EventBus;
 
 /**
@@ -28,5 +29,9 @@ public class DispatchThread extends Thread{
 
     public void shutDown(){
 
+    }
+
+    public void addUpdateEvent(Event event){
+        getEventBus().addEvent(event);
     }
 }
