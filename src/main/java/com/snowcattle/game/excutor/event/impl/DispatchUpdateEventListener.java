@@ -1,5 +1,6 @@
 package com.snowcattle.game.excutor.event.impl;
 
+import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.IEvent;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
@@ -8,15 +9,18 @@ import com.snowcattle.game.excutor.thread.LockSupportUpdateFuture;
 import com.snowcattle.game.excutor.thread.LockSupportUpdateFutureThread;
 import com.snowcattle.game.excutor.thread.listener.LockSupportUpdateFutureListener;
 import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.utils.Constants;
 
 /**
  * Created by jiangwenping on 17/1/11.
  */
 public class DispatchUpdateEventListener extends UpdateEventListener {
     private LockSupportDisptachThread dispatchThread;
+    private EventBus updateServiceEventBus;
 
-    public DispatchUpdateEventListener(LockSupportDisptachThread dispatchThread) {
+    public DispatchUpdateEventListener(LockSupportDisptachThread dispatchThread, EventBus updateServiceEventBus) {
         this.dispatchThread = dispatchThread;
+        this.updateServiceEventBus = updateServiceEventBus;
     }
 
     public void fireEvent(IEvent event) {
@@ -31,7 +35,9 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
             UpdateExecutorService updateExecutorService = dispatchThread.getUpdateExecutorService();
             LockSupportUpdateFutureThread lockSupportUpdateFutureThread = new LockSupportUpdateFutureThread(dispatchThread, iUpdate, lockSupportUpdateFuture);
             updateExecutorService.submit(lockSupportUpdateFutureThread);
+        }else{
+            ReadFinishEvent finishEvent = new ReadFinishEvent(Constants.EventTypeConstans.readyFinishEventType, iUpdate.getId(), event.getParams());
+            updateServiceEventBus.addEvent(finishEvent);
         }
-
     }
 }

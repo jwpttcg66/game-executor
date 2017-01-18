@@ -9,6 +9,9 @@ import com.snowcattle.game.excutor.event.EventType;
  */
 public class ReadFinishEvent extends CycleEvent {
 
+    //是否是内部销毁 内部销毁才会销毁缓存
+    private boolean innerUpdateFlag;
+
     public ReadFinishEvent(EventType eventType,long eventId, EventParam... parms){
         super(eventType, eventId, parms);
     }
