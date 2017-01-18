@@ -25,7 +25,7 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
         //提交执行线程
         EventParam[] eventParams = event.getParams();
         IUpdate iUpdate = (IUpdate) eventParams[0].getT();
-        if(iUpdate.active()) {
+        if(iUpdate.isActive()) {
             LockSupportUpdateFuture lockSupportUpdateFuture = new LockSupportUpdateFuture(dispatchThread);
             lockSupportUpdateFuture.addListener(new LockSupportUpdateFutureListener());
             UpdateExecutorService updateExecutorService = dispatchThread.getUpdateExecutorService();
