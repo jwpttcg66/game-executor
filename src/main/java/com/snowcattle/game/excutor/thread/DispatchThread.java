@@ -1,7 +1,7 @@
 package com.snowcattle.game.excutor.thread;
 
-import com.snowcattle.game.excutor.event.Event;
 import com.snowcattle.game.excutor.event.EventBus;
+import com.snowcattle.game.excutor.event.IEvent;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -31,7 +31,7 @@ public class DispatchThread extends Thread{
 
     }
 
-    public void addUpdateEvent(Event event){
+    public void addUpdateEvent(IEvent event){
         getEventBus().addEvent(event);
     }
 }

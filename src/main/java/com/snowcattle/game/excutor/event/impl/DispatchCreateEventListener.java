@@ -1,5 +1,6 @@
 package com.snowcattle.game.excutor.event.impl;
 
+import com.snowcattle.game.excutor.event.IEvent;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 
 /**
@@ -7,11 +8,17 @@ import com.snowcattle.game.excutor.thread.DispatchThread;
  */
 public class DispatchCreateEventListener extends CreateEventListener {
 
-    private DispatchThread dispatchThread ;
+    private DispatchThread dispatchThread;
 
     public DispatchCreateEventListener(DispatchThread dispatchThread) {
         super();
         this.dispatchThread = dispatchThread;
+    }
 
+    public void fireEvent(IEvent event) {
+        super.fireEvent(event);
+//        UpdateEvent updateEvent = new UpdateEvent(Constants.EventTypeConstans.updateEventType, event.getParams());
+//        this.dispatchThread.addUpdateEvent(updateEvent);
+        //执行一个update线程
     }
 }
