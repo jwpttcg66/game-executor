@@ -26,4 +26,8 @@ public class IntegerUpdate implements IUpdate{
     public void setId(long id) {
         this.id = id;
     }
+
+    public String toString(){
+        return String.valueOf(this.id);
+    }
 }

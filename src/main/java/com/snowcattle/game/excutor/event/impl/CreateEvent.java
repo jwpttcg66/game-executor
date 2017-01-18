@@ -17,7 +17,7 @@ public class CreateEvent extends Event {
     public void call() {
         if(Loggers.utilLogger.isDebugEnabled()){
             EventParam[] eventParams = getParams();
-            Loggers.utilLogger.debug("create event" + eventParams[0].getT() + "float" + eventParams[1].getT());
+            Loggers.utilLogger.debug("create event " + eventParams[0].getT());
         }
 
     }
