@@ -43,7 +43,7 @@ public class UpdateService {
         updateMap.put(event.getId(), iUpdate);
         //通知dispatchThread
         if(Loggers.utilLogger.isDebugEnabled()) {
-            Loggers.utilLogger.debug("通知" + iUpdate.getId() + " dispatch");
+            Loggers.utilLogger.debug("readycreate " + iUpdate.getId() + " dispatch");
         }
         CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, eventParams);
         dispatchThread.getEventBus().addEvent(createEvent);

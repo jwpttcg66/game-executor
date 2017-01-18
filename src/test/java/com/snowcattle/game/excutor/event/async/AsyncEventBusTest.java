@@ -7,9 +7,7 @@ package com.snowcattle.game.excutor.event.async;
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
-import com.snowcattle.game.excutor.event.impl.DispatchCreateEventListener;
-import com.snowcattle.game.excutor.event.impl.ReadyCreateEventListener;
-import com.snowcattle.game.excutor.event.impl.ReadyFinishEventListener;
+import com.snowcattle.game.excutor.event.impl.*;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
@@ -35,8 +33,8 @@ public class AsyncEventBusTest {
         UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize, keepAliveTime, timeUnit);
         LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(eventBus, updateEventBus, updateExecutorService,  maxSize);
         eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread));
-        eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread));
-        eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread));
+        eventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread));
+        eventBus.addEventListener(new DispatchFinishEventListener(dispatchThread));
 
         updateEventBus.addEventListener(new ReadyCreateEventListener());
         updateEventBus.addEventListener(new ReadyFinishEventListener());
