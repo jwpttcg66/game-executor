@@ -2,8 +2,9 @@
 > 采用react模型，注册readycreate, readyfinish事件到更新服务UpdateService，通过处理后进行模型缓存，然后将消息转化为
 dispatchThread消息分配模型需要的create, update, finish的事件进行单线程循环调度
 。调度过程使用了系统预置锁模型，来进行多线程唤醒机制，将所有的update循环检测进行多
-线程调度，多线程更新服务使用future-listener机制，在完成调度后，重新将消息转化为update, finish
-事件注册到dispatchThread消息分配模型进行循环处理。
+线程调度，多线程更新服务使用future-listener机制，在完成调度后，根据模型状态，如果模型存活重新将消息转化为update
+事件注册到dispatchThread消息分配模型进行循环处理。如果模型死亡将消息转化为readyfinish事件注册到更新服务UpdateServic进行销毁
+。这个系统实现了模型自动缓存，多线程异步循环调度模型更新，自动处理模型死亡事件进行销毁。
 
 ## 异步使用例子
 
