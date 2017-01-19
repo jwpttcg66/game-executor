@@ -40,7 +40,7 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
             updateExecutorService.submit(lockSupportUpdateFutureThread);
         }else{
             FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
-            dispatchThread.getEventBus().addEvent(finishEvent);
+            dispatchThread.addFinishEvent(finishEvent);
         }
     }
 }

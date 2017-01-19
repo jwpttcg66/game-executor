@@ -32,11 +32,8 @@ public class DispatchCreateEventListener extends CreateEventListener {
             UpdateEvent updateEvent = new UpdateEvent(Constants.EventTypeConstans.updateEventType, event.getParams());
             this.dispatchThread.addUpdateEvent(updateEvent);
         }else{
-//            ReadFinishEvent finishEvent = new ReadFinishEvent(Constants.EventTypeConstans.readyFinishEventType, iUpdate.getId(), event.getParams());
-////            this.dispatchThread.addUpdateEvent(finishEvent);
-//            this.updateService.addReadyFinishEvent(finishEvent);
             FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
-            dispatchThread.getEventBus().addEvent(finishEvent);
+            dispatchThread.addFinishEvent(finishEvent);
         }
     }
 }

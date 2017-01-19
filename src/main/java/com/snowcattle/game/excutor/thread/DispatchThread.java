@@ -34,4 +34,11 @@ public class DispatchThread extends Thread{
     public void addUpdateEvent(IEvent event){
         getEventBus().addEvent(event);
     }
+    public void addCreateEvent(IEvent event){
+        getEventBus().addEvent(event);
+    }
+
+    public void addFinishEvent(IEvent event){
+        getEventBus().addEvent(event);
+    }
 }

@@ -12,6 +12,7 @@ import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
 import com.snowcattle.game.excutor.utils.Constants;
+import sun.org.mozilla.javascript.internal.ast.WhileLoop;
 
 import java.util.concurrent.TimeUnit;
 
@@ -19,11 +20,11 @@ import java.util.concurrent.TimeUnit;
  * Created by jiangwenping on 17/1/9.
  */
 public class AsyncEventBusTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws  Exception{
         testEvent();
     }
 
-    public static void testEvent(){
+    public static void testEvent() throws Exception{
         EventBus eventBus = new EventBus();
         EventBus updateEventBus = new EventBus();
         int maxSize = 10;
@@ -46,6 +47,11 @@ public class AsyncEventBusTest {
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);
             CycleEvent cycleEvent = new CycleEvent(Constants.EventTypeConstans.readyCreateEventType, integerUpdate.getId(), param);
             updateService.addReadyCreateEvent(cycleEvent);
+        }
+
+        while (true){
+            Thread.currentThread().sleep(100);
+            updateService.toString();
         }
     }
 }

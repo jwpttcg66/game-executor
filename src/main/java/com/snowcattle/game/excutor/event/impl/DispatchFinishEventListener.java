@@ -26,8 +26,7 @@ public class DispatchFinishEventListener extends FinishEventListener {
 
     public void fireEvent(IEvent event) {
         super.fireEvent(event);
-
-        //提交执行线程
+        //提交更新服务器 执行完成调度
         EventParam[] eventParams = event.getParams();
         IUpdate iUpdate = (IUpdate) eventParams[0].getT();
         ReadFinishEvent finishEvent = new ReadFinishEvent(Constants.EventTypeConstans.readyFinishEventType, iUpdate.getId(), event.getParams());

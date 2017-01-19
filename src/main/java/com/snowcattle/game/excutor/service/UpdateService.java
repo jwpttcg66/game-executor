@@ -4,6 +4,8 @@ import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.CreateEvent;
+import com.snowcattle.game.excutor.event.impl.FinishEvent;
+import com.snowcattle.game.excutor.event.impl.ReadFinishEvent;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
@@ -51,8 +53,17 @@ public class UpdateService {
     }
 
     public void addReadyFinishEvent(CycleEvent event){
-        updateMap.remove(event.getId());
-        //通知dispatchThread
+        ReadFinishEvent readFinishEvent = (ReadFinishEvent) event;
+        EventParam[] eventParams = event.getParams();
+        //只有distpatch转发结束后，才会才缓存池里销毁
+        if(readFinishEvent.isInnerUpdateFlag()){
+            updateMap.remove(event.getId());
+        }else{
+            //通知dispatchThread
+            FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
+            dispatchThread.getEventBus().addEvent(finishEvent);
+        }
+
     }
 
     public DispatchThread getDispatchThread() {
