@@ -32,8 +32,8 @@ public class AsyncEventBusTest {
         TimeUnit timeUnit = TimeUnit.SECONDS;
         UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize, keepAliveTime, timeUnit);
         LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(eventBus, updateEventBus, updateExecutorService,  maxSize);
-        eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread));
-        eventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread));
+        eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread,updateEventBus));
+        eventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread,updateEventBus));
         eventBus.addEventListener(new DispatchFinishEventListener(dispatchThread));
 
         updateEventBus.addEventListener(new ReadyCreateEventListener());
