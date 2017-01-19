@@ -24,6 +24,7 @@ public class Constants {
      */
     public static class Thread{
         public static final String UPDATE="update";
+        public static final String DISPATCH="dispatch";
     }
 
     /**

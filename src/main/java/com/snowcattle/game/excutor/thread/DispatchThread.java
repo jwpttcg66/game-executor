@@ -2,6 +2,7 @@ package com.snowcattle.game.excutor.thread;
 
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.IEvent;
+import com.snowcattle.game.excutor.utils.Constants;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -12,6 +13,7 @@ public class DispatchThread extends Thread{
     private EventBus eventBus;
 
     public DispatchThread(EventBus eventBus) {
+        super(Constants.Thread.DISPATCH);
         this.eventBus = eventBus;
     }
 
