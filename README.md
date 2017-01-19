@@ -1,9 +1,9 @@
 # game-excutor
-> 采用react模型，使用readycreate, readyfinish来进行模型缓存，然后将消息转化为
-dispatchThread消息分配模型需要的create, update, finish进行单线程循环调度
-中间使用了系统预置锁模型，来进行多线程唤醒机制，将所有的update循环检测接口进行多
-线程调度，使用future-listener机制完成调度后，重新将消息转化为update, finish
-事件进行循环处理。
+> 采用react模型，注册readycreate, readyfinish事件，处理后进行模型缓存，然后将消息转化为
+dispatchThread消息分配模型需要的create, update, finish的事件进行单线程循环调度
+。调度过程使用了系统预置锁模型，来进行多线程唤醒机制，将所有的update循环检测接口进行多
+线程调度，多线程更新服务使用future-listener机制，在完成调度后，重新将消息转化为update, finish
+事件注册到dispatchThread消息分配模型进行循环处理。
 
 ## 异步使用例子
 
