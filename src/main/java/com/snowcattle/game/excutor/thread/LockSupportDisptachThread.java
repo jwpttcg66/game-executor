@@ -2,6 +2,8 @@ package com.snowcattle.game.excutor.thread;
 
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
+import com.snowcattle.game.excutor.utils.Constants;
+import com.snowcattle.game.excutor.utils.Loggers;
 
 import java.util.concurrent.locks.LockSupport;
 
@@ -28,8 +30,22 @@ public class LockSupportDisptachThread extends DispatchThread{
 
     public void run() {
         while (runningFlag) {
-            getEventBus().cycle(cycleSize);
+            long time = System.nanoTime();
+            int size = getEventBus().cycle(cycleSize);
             LockSupport.park();
+
+            long notifyTime = System.nanoTime();
+            int diff = (int) (notifyTime - time);
+            int cycleTime = 1000 / Constants.cycle.cycleSize;
+            long minTime = 1000 * cycleTime;
+            if(diff < minTime){
+                try {
+                    Thread.currentThread().sleep(cycleTime, diff);
+                } catch (Exception e) {
+                    Loggers.utilLogger.error(e.toString(), e);
+                }
+            }
+
         }
     }
 

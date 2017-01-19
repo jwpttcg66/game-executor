@@ -61,9 +61,10 @@ public class EventBus implements IEventBus{
 
     /**
      *单次超过最大设置需要停止
+     * 并且返回调度了多少事件
      * @param maxSize
      */
-    public void cycle(int maxSize) {
+    public int cycle(int maxSize) {
         int i = 0;
         while (!events.isEmpty()){
             IEvent event = events.poll();
@@ -76,6 +77,8 @@ public class EventBus implements IEventBus{
                 break;
             }
         }
+
+        return i;
     }
 
     public void handleSingleEvent(IEvent event) {

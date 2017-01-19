@@ -25,4 +25,15 @@ public class Constants {
     public static class Thread{
         public static final String UPDATE="update";
     }
+
+    /**
+     * 循环次数
+     */
+    public static class cycle{
+        /**
+         * 每秒循环次数
+         */
+
+        public static final int cycleSize = 1;
+    }
 }
