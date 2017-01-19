@@ -3,6 +3,7 @@ package com.snowcattle.game.excutor.event.impl;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.IEvent;
+import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
@@ -13,12 +14,14 @@ import com.snowcattle.game.excutor.utils.Constants;
 public class DispatchCreateEventListener extends CreateEventListener {
 
     private DispatchThread dispatchThread;
-    private EventBus updateServiceEventBus;
+//    private EventBus updateServiceEventBus;
 
-    public DispatchCreateEventListener(DispatchThread dispatchThread, EventBus updateServiceEventBus) {
+    private UpdateService updateService;
+    public DispatchCreateEventListener(DispatchThread dispatchThread, UpdateService updateService) {
         super();
         this.dispatchThread = dispatchThread;
-        this.updateServiceEventBus = updateServiceEventBus;
+//        this.updateServiceEventBus = updateServiceEventBus;
+        this.updateService = updateService;
     }
 
     public void fireEvent(IEvent event) {
@@ -29,8 +32,11 @@ public class DispatchCreateEventListener extends CreateEventListener {
             UpdateEvent updateEvent = new UpdateEvent(Constants.EventTypeConstans.updateEventType, event.getParams());
             this.dispatchThread.addUpdateEvent(updateEvent);
         }else{
-            ReadFinishEvent finishEvent = new ReadFinishEvent(Constants.EventTypeConstans.readyFinishEventType, iUpdate.getId(), event.getParams());
-            this.dispatchThread.addUpdateEvent(finishEvent);
+//            ReadFinishEvent finishEvent = new ReadFinishEvent(Constants.EventTypeConstans.readyFinishEventType, iUpdate.getId(), event.getParams());
+////            this.dispatchThread.addUpdateEvent(finishEvent);
+//            this.updateService.addReadyFinishEvent(finishEvent);
+            FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
+            dispatchThread.getEventBus().addEvent(finishEvent);
         }
     }
 }

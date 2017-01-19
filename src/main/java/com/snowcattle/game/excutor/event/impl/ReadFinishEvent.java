@@ -19,4 +19,12 @@ public class ReadFinishEvent extends CycleEvent {
     public void call() {
 
     }
+
+    public boolean isInnerUpdateFlag() {
+        return innerUpdateFlag;
+    }
+
+    public void setInnerUpdateFlag(boolean innerUpdateFlag) {
+        this.innerUpdateFlag = innerUpdateFlag;
+    }
 }

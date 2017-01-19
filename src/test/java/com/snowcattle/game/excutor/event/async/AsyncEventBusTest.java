@@ -32,16 +32,15 @@ public class AsyncEventBusTest {
         TimeUnit timeUnit = TimeUnit.SECONDS;
         UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize, keepAliveTime, timeUnit);
         LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(eventBus, updateEventBus, updateExecutorService,  maxSize);
-        eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread,updateEventBus));
-        eventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread,updateEventBus));
-        eventBus.addEventListener(new DispatchFinishEventListener(dispatchThread));
+        UpdateService updateService = new UpdateService(dispatchThread, updateEventBus, updateExecutorService);
+        eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread,updateService));
+        eventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread,updateService));
+        eventBus.addEventListener(new DispatchFinishEventListener(dispatchThread,updateService));
 
         updateEventBus.addEventListener(new ReadyCreateEventListener());
         updateEventBus.addEventListener(new ReadyFinishEventListener());
 
         dispatchThread.start();
-        UpdateService updateService = new UpdateService(dispatchThread, updateEventBus, updateExecutorService);
-
         for(long i = 0; i < maxSize; i++) {
             IntegerUpdate integerUpdate = new IntegerUpdate(i);
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);

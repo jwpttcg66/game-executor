@@ -1,6 +1,8 @@
 package com.snowcattle.game.excutor.event.async;
 
 import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.utils.Loggers;
+import sun.rmi.runtime.Log;
 
 /**
  * Created by jiangwenping on 17/1/16.
@@ -13,9 +15,13 @@ public class IntegerUpdate implements IUpdate{
 
     private long id;
 
+    private long incrId;
     @Override
     public void update() {
-        System.out.println("id" + id + ":update");
+        incrId++;
+        if(Loggers.utilLogger.isDebugEnabled()){
+            Loggers.utilLogger.debug("update id " + id + " incrId:" + incrId);
+        }
     }
 
     @Override

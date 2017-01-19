@@ -4,6 +4,7 @@ import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.IEvent;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
+import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
 import com.snowcattle.game.excutor.thread.LockSupportUpdateFuture;
 import com.snowcattle.game.excutor.thread.LockSupportUpdateFutureThread;
@@ -16,12 +17,14 @@ import com.snowcattle.game.excutor.utils.Constants;
  */
 public class DispatchUpdateEventListener extends UpdateEventListener {
     private LockSupportDisptachThread dispatchThread;
-    private EventBus updateServiceEventBus;
-
-    public DispatchUpdateEventListener(LockSupportDisptachThread dispatchThread, EventBus updateServiceEventBus) {
+//    private EventBus updateServiceEventBus;
+    private UpdateService updateService;
+    public DispatchUpdateEventListener(LockSupportDisptachThread dispatchThread, UpdateService updateService) {
         this.dispatchThread = dispatchThread;
-        this.updateServiceEventBus = updateServiceEventBus;
+//        this.updateServiceEventBus = updateServiceEventBus;
+        this.updateService = updateService;
     }
+
 
     public void fireEvent(IEvent event) {
         super.fireEvent(event);
@@ -36,8 +39,8 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
             LockSupportUpdateFutureThread lockSupportUpdateFutureThread = new LockSupportUpdateFutureThread(dispatchThread, iUpdate, lockSupportUpdateFuture);
             updateExecutorService.submit(lockSupportUpdateFutureThread);
         }else{
-            ReadFinishEvent finishEvent = new ReadFinishEvent(Constants.EventTypeConstans.readyFinishEventType, iUpdate.getId(), event.getParams());
-            updateServiceEventBus.addEvent(finishEvent);
+            FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
+            dispatchThread.getEventBus().addEvent(finishEvent);
         }
     }
 }
