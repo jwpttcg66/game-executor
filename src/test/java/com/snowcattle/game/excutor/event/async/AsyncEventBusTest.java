@@ -49,9 +49,15 @@ public class AsyncEventBusTest {
             updateService.addReadyCreateEvent(cycleEvent);
         }
 
+//        while (true){
+//            Thread.currentThread().sleep(100);
+//            updateService.toString();
+//        }
+        updateService.shutDown();
         while (true){
             Thread.currentThread().sleep(100);
             updateService.toString();
         }
+
     }
 }

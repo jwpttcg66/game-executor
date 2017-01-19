@@ -92,5 +92,6 @@ public class LockSupportDisptachThread extends DispatchThread{
 
     public void shutDown(){
         this.runningFlag = false;
+        super.shutDown();
     }
 }

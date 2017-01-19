@@ -93,6 +93,7 @@ public class UpdateService {
     public void shutDown(){
         updateExecutorService.shutdown();
         dispatchThread.shutDown();
+        this.eventBus.clear();
         this.updateMap.clear();
     }
 }

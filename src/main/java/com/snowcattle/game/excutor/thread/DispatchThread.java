@@ -30,7 +30,7 @@ public class DispatchThread extends Thread{
     }
 
     public void shutDown(){
-
+        eventBus.clear();
     }
 
     public void addUpdateEvent(IEvent event){
