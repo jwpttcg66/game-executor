@@ -12,7 +12,6 @@ import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
 import com.snowcattle.game.excutor.utils.Constants;
-import sun.org.mozilla.javascript.internal.ast.WhileLoop;
 
 import java.util.concurrent.TimeUnit;
 
