@@ -1,5 +1,5 @@
 # game-excutor
-> 采用react模型，注册readycreate, readyfinish事件到更新服务UpdateService，通过处理后进行模型缓存，然后将消息转化为
+> 采用Reactor模式，注册readycreate, readyfinish事件到更新服务UpdateService，通过处理后进行模型缓存，然后将消息转化为
 dispatchThread消息分配模型需要的create, update, finish的事件进行单线程循环调度
 。调度过程使用了系统预置锁模型，来进行多线程唤醒机制，将所有的update循环检测进行多
 线程调度，多线程更新服务使用future-listener机制，在完成调度后，根据模型状态，如果模型存活重新将消息转化为update
