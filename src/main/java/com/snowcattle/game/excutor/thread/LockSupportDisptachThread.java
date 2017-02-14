@@ -2,7 +2,6 @@ package com.snowcattle.game.excutor.thread;
 
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
-import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.Loggers;
 
 import java.util.concurrent.locks.LockSupport;
@@ -21,11 +20,16 @@ public class LockSupportDisptachThread extends DispatchThread{
     private boolean runningFlag = true;
     private UpdateExecutorService updateExecutorService;
 
-    public LockSupportDisptachThread(EventBus eventBus, EventBus updateServiceEventBus, UpdateExecutorService updateExecutorService, int cycleSize) {
+    private int cycleTime;
+    private long minCycleTime;
+    public LockSupportDisptachThread(EventBus eventBus, EventBus updateServiceEventBus, UpdateExecutorService updateExecutorService, int cycleSize
+            , int cycleTime , long minCycleTime) {
         super(eventBus);
         this.updateServiceEventBus = updateServiceEventBus;
         this.updateExecutorService = updateExecutorService;
         this.cycleSize = cycleSize;
+        this.cycleTime = cycleTime;
+        this.minCycleTime = minCycleTime;
     }
 
     public void run() {
@@ -36,15 +40,14 @@ public class LockSupportDisptachThread extends DispatchThread{
 
             long notifyTime = System.nanoTime();
             int diff = (int) (notifyTime - time);
-            int cycleTime = 1000 / Constants.cycle.cycleSize;
-            long minTime = 1000 * cycleTime;
-            if(diff < minTime){
+//            int cycleTime = 1000 / Constants.cycle.cycleSize;
+//            long minTime = 1000 * cycleTime;
+            if(diff < minCycleTime){
                 try {
                     Thread.currentThread().sleep(cycleTime, diff%999999);
                 } catch (Exception e) {
                     Loggers.utilLogger.error(e.toString(), e);
                 }
-//                System.out.println("唤醒"+ System.currentTimeMillis());
             }
 
         }
