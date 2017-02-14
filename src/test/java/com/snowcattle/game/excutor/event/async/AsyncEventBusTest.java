@@ -33,7 +33,7 @@ public class AsyncEventBusTest {
         UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize, keepAliveTime, timeUnit);
         int cycleTime = 1000 / Constants.cycle.cycleSize;
         long minCycleTime = 1000 * cycleTime;
-        LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(eventBus, updateEventBus, updateExecutorService, maxSize
+        LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(eventBus, updateEventBus, updateExecutorService
                 , cycleTime, minCycleTime);
         UpdateService updateService = new UpdateService(dispatchThread, updateEventBus, updateExecutorService);
         eventBus.addEventListener(new DispatchCreateEventListener(dispatchThread, updateService));

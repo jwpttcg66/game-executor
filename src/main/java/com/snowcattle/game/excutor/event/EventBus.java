@@ -110,4 +110,12 @@ public class EventBus implements IEventBus{
         clearEvent();
         clearEventListener();
     }
+
+    /**
+     * 获取事件的大小
+     * @return
+     */
+    public int getEventsSize(){
+        return events.size();
+    }
 }
