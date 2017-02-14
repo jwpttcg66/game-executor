@@ -52,7 +52,7 @@ public class AsyncEventBusTest {
 //            Thread.currentThread().sleep(100);
 //            updateService.toString();
 //        }
-        updateService.shutDown();
+//        updateService.shutDown();
         while (true){
             Thread.currentThread().sleep(100);
             updateService.toString();
