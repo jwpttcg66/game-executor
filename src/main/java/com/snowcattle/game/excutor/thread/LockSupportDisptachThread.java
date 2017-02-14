@@ -44,7 +44,7 @@ public class LockSupportDisptachThread extends DispatchThread{
                 } catch (Exception e) {
                     Loggers.utilLogger.error(e.toString(), e);
                 }
-                System.out.println("唤醒"+ System.currentTimeMillis());
+//                System.out.println("唤醒"+ System.currentTimeMillis());
             }
 
         }
