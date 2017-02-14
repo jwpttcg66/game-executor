@@ -40,10 +40,11 @@ public class LockSupportDisptachThread extends DispatchThread{
             long minTime = 1000 * cycleTime;
             if(diff < minTime){
                 try {
-                    Thread.currentThread().sleep(cycleTime, diff);
+                    Thread.currentThread().sleep(cycleTime, diff%999999);
                 } catch (Exception e) {
                     Loggers.utilLogger.error(e.toString(), e);
                 }
+                System.out.println("唤醒"+ System.currentTimeMillis());
             }
 
         }
