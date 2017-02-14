@@ -26,8 +26,8 @@ public class AsyncEventBusTest {
     public static void testEvent() throws Exception{
         EventBus eventBus = new EventBus();
         EventBus updateEventBus = new EventBus();
-        int maxSize = 10;
-        int corePoolSize= 10;
+        int maxSize = 1000;
+        int corePoolSize= 100;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
         UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize, keepAliveTime, timeUnit);
