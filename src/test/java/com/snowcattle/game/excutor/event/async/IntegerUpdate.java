@@ -1,9 +1,7 @@
 package com.snowcattle.game.excutor.event.async;
 
 import com.snowcattle.game.excutor.update.AbstractUpdate;
-import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Loggers;
-import sun.rmi.runtime.Log;
 
 /**
  * Created by jiangwenping on 17/1/16.
