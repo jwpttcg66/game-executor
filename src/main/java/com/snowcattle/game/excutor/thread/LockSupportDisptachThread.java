@@ -39,7 +39,7 @@ public class LockSupportDisptachThread extends DispatchThread{
 
             long notifyTime = System.nanoTime();
             int diff = (int) (notifyTime - time);
-            if(diff < minCycleTime){
+            if(diff < minCycleTime &&  diff > 0){
                 try {
                     Thread.currentThread().sleep(cycleTime, diff%999999);
                 } catch (Exception e) {
