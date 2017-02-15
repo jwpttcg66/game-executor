@@ -43,7 +43,8 @@ public class AsyncEventBusTest {
         updateEventBus.addEventListener(new ReadyCreateEventListener());
         updateEventBus.addEventListener(new ReadyFinishEventListener());
 
-        dispatchThread.start();
+//        dispatchThread.start();
+        updateService.start();
         for (long i = 0; i < maxSize; i++) {
             IntegerUpdate integerUpdate = new IntegerUpdate(i);
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);

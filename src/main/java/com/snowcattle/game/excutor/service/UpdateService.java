@@ -96,4 +96,10 @@ public class UpdateService {
         this.eventBus.clear();
         this.updateMap.clear();
     }
+
+    public void start(){
+        dispatchThread.start();
+        this.eventBus.clear();
+        this.updateMap.clear();
+    }
 }

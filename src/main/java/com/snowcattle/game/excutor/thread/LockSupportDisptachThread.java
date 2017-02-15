@@ -39,8 +39,6 @@ public class LockSupportDisptachThread extends DispatchThread{
 
             long notifyTime = System.nanoTime();
             int diff = (int) (notifyTime - time);
-//            int cycleTime = 1000 / Constants.cycle.cycleSize;
-//            long minTime = 1000 * cycleTime;
             if(diff < minCycleTime){
                 try {
                     Thread.currentThread().sleep(cycleTime, diff%999999);
@@ -51,11 +49,6 @@ public class LockSupportDisptachThread extends DispatchThread{
 
         }
     }
-
-//    public void addUpdateEvent(Event event){
-//        getEventBus().addEvent(event);
-//        unpark();
-//    }
 
     public void unpark(){
         LockSupport.unpark(this);
