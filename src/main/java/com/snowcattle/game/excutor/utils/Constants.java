@@ -17,6 +17,7 @@ public class Constants {
         public static EventType finishEventType = new EventType(EventTypeEnum.FINISH.ordinal());
         public static EventType readyCreateEventType = new EventType(EventTypeEnum.REDAY_CREATE.ordinal());
         public static EventType readyFinishEventType = new EventType(EventTypeEnum.REDAY_FINISH.ordinal());
+        public static EventType finishedEventType = new EventType(EventTypeEnum.FINISHED.ordinal());
     }
 
     /**

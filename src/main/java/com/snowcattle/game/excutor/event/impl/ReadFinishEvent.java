@@ -6,6 +6,7 @@ import com.snowcattle.game.excutor.event.EventType;
 
 /**
  * Created by jiangwenping on 17/1/16.
+ * updateService使用
  */
 public class ReadFinishEvent extends CycleEvent {
 

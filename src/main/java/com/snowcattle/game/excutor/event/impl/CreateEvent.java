@@ -7,6 +7,7 @@ import com.snowcattle.game.excutor.utils.Loggers;
 
 /**
  * Created by jiangwenping on 17/1/11.
+ *  dispatch thread使用
  */
 public class CreateEvent extends Event {
     public CreateEvent(EventType eventType, EventParam... parms){

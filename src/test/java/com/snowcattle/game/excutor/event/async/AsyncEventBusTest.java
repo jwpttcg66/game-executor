@@ -26,8 +26,10 @@ public class AsyncEventBusTest {
     public static void testEvent() throws Exception {
         EventBus eventBus = new EventBus();
         EventBus updateEventBus = new EventBus();
-        int maxSize = 10000;
-        int corePoolSize = 100;
+//        int maxSize = 10000;
+//        int corePoolSize = 100;
+        int maxSize = 1;
+        int corePoolSize = 1;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
         UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize, keepAliveTime, timeUnit);
@@ -40,8 +42,8 @@ public class AsyncEventBusTest {
         eventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread, updateService));
         eventBus.addEventListener(new DispatchFinishEventListener(dispatchThread, updateService));
 
-        updateEventBus.addEventListener(new ReadyCreateEventListener());
-        updateEventBus.addEventListener(new ReadyFinishEventListener());
+//        updateEventBus.addEventListener(new ReadyCreateEventListener());
+//        updateEventBus.addEventListener(new ReadyFinishEventListener());
 
 //        dispatchThread.start();
         updateService.start();

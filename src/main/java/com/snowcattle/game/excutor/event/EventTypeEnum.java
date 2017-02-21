@@ -31,5 +31,9 @@ public enum EventTypeEnum {
      */
     REDAY_FINISH,
 
+    /**
+     * 结束
+     */
+    FINISHED,
     ;
 }
