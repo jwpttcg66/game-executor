@@ -10,6 +10,6 @@ import org.slf4j.LoggerFactory;
  */
 public class Loggers {
     /** Server相关的日志 */
-    public static final Logger utilLogger = (Logger) LoggerFactory.getLogger("util");
+    public static final Logger utilLogger = (Logger) LoggerFactory.getLogger("gameExcutorUtil");
 }
 
