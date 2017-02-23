@@ -2,6 +2,7 @@ package com.snowcattle.game.excutor.pool;
 
 import com.snowcattle.game.excutor.pool.excutor.SingleThreadEventExecutor;
 import com.snowcattle.game.excutor.thread.DispatchThread;
+import com.snowcattle.game.excutor.thread.SingleLockSupportUpdateThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.ExecutorUtil;
 
@@ -18,6 +19,8 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
     private SingleThreadEventExecutor[] singleThreadEventExecutors;
 
     private final AtomicInteger idx = new AtomicInteger();
+
+    private DispatchThread dispatchThread;
 
     public UpdateEventExcutorService(int excutorSize) {
         this.excutorSize = excutorSize;
@@ -51,8 +54,15 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
             //将自己放入队列
             //启动新线程，
             singleThreadEventExecutor.setEventLoopFlag(true);
+            singleThreadEventExecutor.doStartThread(new SingleLockSupportUpdateThread(dispatchThread));
         }
+    }
 
+    public DispatchThread getDispatchThread() {
+        return dispatchThread;
+    }
 
+    public void setDispatchThread(DispatchThread dispatchThread) {
+        this.dispatchThread = dispatchThread;
     }
 }

@@ -37,6 +37,7 @@ public class AsyncEventTest {
         long minCycleTime = 1000 * cycleTime;
         LockSupportEventDisptachThread dispatchThread = new LockSupportEventDisptachThread(updateEventBus, updateEventExcutorService
                 , cycleTime, minCycleTime);
+        updateEventExcutorService.setDispatchThread(dispatchThread);
         UpdateService updateService = new UpdateService(dispatchThread, updateEventExcutorService);
         updateEventBus.addEventListener(new DispatchCreateEventListener(dispatchThread, updateService));
         updateEventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread, updateService));

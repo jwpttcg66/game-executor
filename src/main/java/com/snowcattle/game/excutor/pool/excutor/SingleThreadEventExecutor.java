@@ -27,4 +27,8 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
     public void setEventLoopFlag(boolean eventLoopFlag) {
         this.eventLoopFlag = eventLoopFlag;
     }
+
+    public void doStartThread(Runnable runnable){
+        execute(runnable);
+    }
 }

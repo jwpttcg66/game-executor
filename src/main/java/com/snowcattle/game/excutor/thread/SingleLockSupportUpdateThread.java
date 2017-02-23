@@ -22,8 +22,8 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
     private List<IUpdate> updateFinishList;
     private boolean runningFlag;
 
-    public SingleLockSupportUpdateThread(DispatchThread dispatchThread, EventBus eventBus) {
-        super(dispatchThread, eventBus);
+    public SingleLockSupportUpdateThread(DispatchThread dispatchThread) {
+        super(dispatchThread, dispatchThread.getEventBus());
         iUpdates = new ConcurrentLinkedQueue<IUpdate>();
         fetchUpdates = new ConcurrentLinkedQueue<IUpdate>();
         updateFinishList = new ArrayList<>(updateFinishList);
