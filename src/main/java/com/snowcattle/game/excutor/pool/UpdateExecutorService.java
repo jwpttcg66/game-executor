@@ -1,6 +1,11 @@
 package com.snowcattle.game.excutor.pool;
 
+import com.snowcattle.game.excutor.thread.DispatchThread;
+import com.snowcattle.game.excutor.thread.LockSupportUpdateFuture;
+import com.snowcattle.game.excutor.thread.LockSupportUpdateFutureThread;
 import com.snowcattle.game.excutor.thread.ThreadNameFactory;
+import com.snowcattle.game.excutor.thread.listener.LockSupportUpdateFutureListener;
+import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.ExecutorUtil;
 
@@ -10,7 +15,7 @@ import java.util.concurrent.*;
  * Created by jiangwenping on 17/1/11.
  * 更新执行器
  */
-public class UpdateExecutorService extends ThreadPoolExecutor {
+public class UpdateExecutorService extends ThreadPoolExecutor implements IUpdateExcutor{
 
 
     public UpdateExecutorService(int corePoolSize, long keepAliveTime, TimeUnit unit) {
@@ -24,10 +29,17 @@ public class UpdateExecutorService extends ThreadPoolExecutor {
                 threadFactory, new AbortPolicy());
     }
 
-    public void shutDown() {
-        ExecutorUtil.shutdownAndAwaitTermination(this, 60,
-                TimeUnit.MILLISECONDS);
-
+    @Override
+    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate) {
+        LockSupportUpdateFuture lockSupportUpdateFuture = new LockSupportUpdateFuture(dispatchThread);
+        lockSupportUpdateFuture.addListener(new LockSupportUpdateFutureListener());
+        LockSupportUpdateFutureThread lockSupportUpdateFutureThread = new LockSupportUpdateFutureThread(dispatchThread, iUpdate, lockSupportUpdateFuture);
+        submit(lockSupportUpdateFutureThread);
     }
 
+    @Override
+    public void stop() {
+        ExecutorUtil.shutdownAndAwaitTermination(this, 60,
+                TimeUnit.MILLISECONDS);
+    }
 }

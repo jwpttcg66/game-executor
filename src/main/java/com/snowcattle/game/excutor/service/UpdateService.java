@@ -7,6 +7,7 @@ import com.snowcattle.game.excutor.event.impl.CreateEvent;
 import com.snowcattle.game.excutor.event.impl.FinishEvent;
 import com.snowcattle.game.excutor.event.impl.FinishedEvent;
 import com.snowcattle.game.excutor.event.impl.ReadFinishEvent;
+import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
@@ -28,16 +29,22 @@ import java.util.concurrent.locks.LockSupport;
 public class UpdateService {
 
     private DispatchThread dispatchThread;
-    //处理创建，销毁的eventBus
-    private EventBus eventBus;
-    private UpdateExecutorService updateExecutorService;
+//    //处理创建，销毁的eventBus
+//    private EventBus eventBus;
+    private IUpdateExcutor iUpdateExcutor;
     //记录当前循环的更新接口
     private Map<Long, IUpdate> updateMap = new ConcurrentHashMap<Long, IUpdate>();
 
-    public UpdateService(DispatchThread dispatchThread, EventBus eventBus, UpdateExecutorService updateExecutorService) {
+//    public UpdateService(DispatchThread dispatchThread, EventBus eventBus, IUpdateExcutor iUpdateExcutor) {
+//        this.dispatchThread = dispatchThread;
+//        this.eventBus = eventBus;
+//        this.iUpdateExcutor = iUpdateExcutor;
+//    }
+
+
+    public UpdateService(DispatchThread dispatchThread, IUpdateExcutor iUpdateExcutor) {
         this.dispatchThread = dispatchThread;
-        this.eventBus = eventBus;
-        this.updateExecutorService = updateExecutorService;
+        this.iUpdateExcutor = iUpdateExcutor;
     }
 
     public void addReadyCreateEvent(CycleEvent event){
@@ -49,7 +56,7 @@ public class UpdateService {
             Loggers.utilLogger.debug("readycreate " + iUpdate.getId() + " dispatch");
         }
         CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, eventParams);
-        dispatchThread.getEventBus().addEvent(createEvent);
+        dispatchThread.addCreateEvent(createEvent);
         LockSupport.unpark(dispatchThread);
     }
 
@@ -58,8 +65,7 @@ public class UpdateService {
         EventParam[] eventParams = event.getParams();
         //通知dispatchThread
         FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
-        dispatchThread.getEventBus().addEvent(finishEvent);
-
+        dispatchThread.addFinishEvent(finishEvent);
     }
 
     public void notifyFinishedEvent(CycleEvent event){
@@ -77,32 +83,26 @@ public class UpdateService {
         this.dispatchThread = dispatchThread;
     }
 
-    public EventBus getEventBus() {
-        return eventBus;
-    }
+//    public EventBus getEventBus() {
+//        return eventBus;
+//    }
+//
+//    public void setEventBus(EventBus eventBus) {
+//        this.eventBus = eventBus;
+//    }
 
-    public void setEventBus(EventBus eventBus) {
-        this.eventBus = eventBus;
-    }
-
-    public UpdateExecutorService getUpdateExecutorService() {
-        return updateExecutorService;
-    }
-
-    public void setUpdateExecutorService(UpdateExecutorService updateExecutorService) {
-        this.updateExecutorService = updateExecutorService;
-    }
-
-    public void shutDown(){
-        updateExecutorService.shutdown();
+    public void stop(){
+        iUpdateExcutor.stop();
         dispatchThread.shutDown();
-        this.eventBus.clear();
         this.updateMap.clear();
     }
 
     public void start(){
         dispatchThread.start();
-        this.eventBus.clear();
         this.updateMap.clear();
+    }
+
+    public UpdateService(IUpdateExcutor iUpdateExcutor) {
+        this.iUpdateExcutor = iUpdateExcutor;
     }
 }

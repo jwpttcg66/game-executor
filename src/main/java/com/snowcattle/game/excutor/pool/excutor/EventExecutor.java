@@ -7,5 +7,5 @@ import java.util.concurrent.ExecutorService;
  * 事件执行器
  */
 public interface EventExecutor  extends ExecutorService {
-
+    boolean inEventLoop();
 }

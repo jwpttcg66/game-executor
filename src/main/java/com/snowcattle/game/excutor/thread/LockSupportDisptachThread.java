@@ -1,6 +1,7 @@
 package com.snowcattle.game.excutor.thread;
 
 import com.snowcattle.game.excutor.event.EventBus;
+import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.utils.Loggers;
 
@@ -17,15 +18,14 @@ public class LockSupportDisptachThread extends DispatchThread{
     private EventBus updateServiceEventBus;
 
     private boolean runningFlag = true;
-    private UpdateExecutorService updateExecutorService;
+    private IUpdateExcutor iUpdateExcutor;
 
     private int cycleTime;
     private long minCycleTime;
-    public LockSupportDisptachThread(EventBus eventBus, EventBus updateServiceEventBus, UpdateExecutorService updateExecutorService
+    public LockSupportDisptachThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor
             , int cycleTime , long minCycleTime) {
         super(eventBus);
-        this.updateServiceEventBus = updateServiceEventBus;
-        this.updateExecutorService = updateExecutorService;
+        this.iUpdateExcutor = iUpdateExcutor;
         this.cycleTime = cycleTime;
         this.minCycleTime = minCycleTime;
     }
@@ -70,12 +70,12 @@ public class LockSupportDisptachThread extends DispatchThread{
         this.runningFlag = runningFlag;
     }
 
-    public UpdateExecutorService getUpdateExecutorService() {
-        return updateExecutorService;
+    public IUpdateExcutor getiUpdateExcutor() {
+        return iUpdateExcutor;
     }
 
-    public void setUpdateExecutorService(UpdateExecutorService updateExecutorService) {
-        this.updateExecutorService = updateExecutorService;
+    public void setiUpdateExcutor(IUpdateExcutor iUpdateExcutor) {
+        this.iUpdateExcutor = iUpdateExcutor;
     }
 
     public void shutDown(){
