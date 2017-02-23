@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.service.excutor;
+package com.snowcattle.game.excutor.pool.excutor;
 
 import java.util.concurrent.ExecutorService;
 

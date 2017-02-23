@@ -1,7 +1,5 @@
-package com.snowcattle.game.excutor.service.excutor;
+package com.snowcattle.game.excutor.pool.excutor;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.concurrent.*;
 
 /**
