@@ -19,7 +19,7 @@ public class IntegerUpdate extends AbstractUpdate {
     @Override
     public void update() {
         incrId++;
-        if(incrId == 2){
+        if(incrId == 20){
             setActive(false);
         }
         if(Loggers.utilLogger.isDebugEnabled()){

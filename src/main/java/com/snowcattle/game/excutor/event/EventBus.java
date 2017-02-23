@@ -9,6 +9,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -19,6 +20,8 @@ public class EventBus implements IEventBus{
 
     private Queue<IEvent> events;
 
+    //调用线程size比较费性能，这里采用原子的更新器
+    private AtomicInteger size = new AtomicInteger();
     public EventBus() {
         this.listenerMap = new ConcurrentHashMap<EventType, Set<EventListener>>();
         this.events = new ConcurrentLinkedQueue<IEvent>();
@@ -47,11 +50,19 @@ public class EventBus implements IEventBus{
 
     public void addEvent(IEvent event) {
         this.events.add(event);
+        size.getAndIncrement();
     }
 
+    public IEvent pollEvent(){
+        IEvent event = events.poll();
+        if(event != null){
+            size.getAndIncrement();
+        }
+        return event;
+    }
     public void handleEvent() {
         while (!events.isEmpty()){
-            IEvent event = events.poll();
+            IEvent event = pollEvent();
             if(event == null){
                 break;
             }
@@ -67,7 +78,7 @@ public class EventBus implements IEventBus{
     public int cycle(int maxSize) {
         int i = 0;
         while (!events.isEmpty()){
-            IEvent event = events.poll();
+            IEvent event = pollEvent();
             if(event == null){
                 break;
             }
@@ -116,6 +127,6 @@ public class EventBus implements IEventBus{
      * @return
      */
     public int getEventsSize(){
-        return events.size();
+        return size.get();
     }
 }
