@@ -44,6 +44,15 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
 
     @Override
     public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate) {
+        SingleThreadEventExecutor singleThreadEventExecutor = getNext();
+        if(singleThreadEventExecutor.inEventLoop()){
+            //启动新线程
+        }else{
+            //将自己放入队列
+            //启动新线程，
+            singleThreadEventExecutor.setEventLoopFlag(true);
+        }
+
 
     }
 }
