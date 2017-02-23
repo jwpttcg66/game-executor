@@ -9,5 +9,5 @@ public interface IUpdate {
     public long getId();
     public boolean isActive();
     public void setActive(boolean activeFlag);
-    public void setId(long id);
+//    public void setId(long id);
 }

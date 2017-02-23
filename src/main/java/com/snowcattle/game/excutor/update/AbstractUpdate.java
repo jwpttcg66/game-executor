@@ -26,7 +26,6 @@ public abstract class AbstractUpdate implements IUpdate {
         this.activeFlag = activeFlag;
     }
 
-    @Override
     public void setId(long id) {
         this.id = id;
     }
