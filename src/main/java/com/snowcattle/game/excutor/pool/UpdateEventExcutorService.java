@@ -53,8 +53,10 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
         }else{
             //将自己放入队列
             //启动新线程，
-            singleThreadEventExecutor.setEventLoopFlag(true);
-            singleThreadEventExecutor.doStartThread(new SingleLockSupportUpdateThread(dispatchThread));
+//            singleThreadEventExecutor.setEventLoopFlag(true);
+            SingleLockSupportUpdateThread singleLockSupportUpdateThread = new SingleLockSupportUpdateThread(dispatchThread);
+            singleLockSupportUpdateThread.addUpdate(iUpdate);
+            singleThreadEventExecutor.doStartThread(singleLockSupportUpdateThread);
         }
     }
 

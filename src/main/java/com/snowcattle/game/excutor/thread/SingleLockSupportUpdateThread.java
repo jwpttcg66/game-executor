@@ -26,7 +26,7 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
         super(dispatchThread, dispatchThread.getEventBus());
         iUpdates = new ConcurrentLinkedQueue<IUpdate>();
         fetchUpdates = new ConcurrentLinkedQueue<IUpdate>();
-        updateFinishList = new ArrayList<>(updateFinishList);
+        updateFinishList = new ArrayList<IUpdate>();
         runningFlag = true;
     }
 
@@ -48,7 +48,9 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
             //执行结束，进入等待状态，等待唤醒
             try {
                 sendFinish();
-                wait();
+                synchronized (this) {
+                    this.wait();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -69,6 +71,10 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
         }
         updateFinishList.clear();
         LockSupport.unpark(getDispatchThread());
+    }
+
+    public void addUpdate(IUpdate iUpdate){
+        iUpdates.add(iUpdate);
     }
 
 

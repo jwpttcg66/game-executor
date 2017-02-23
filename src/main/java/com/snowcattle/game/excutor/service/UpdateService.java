@@ -98,6 +98,7 @@ public class UpdateService {
     }
 
     public void start(){
+        iUpdateExcutor.start();
         dispatchThread.start();
         this.updateMap.clear();
     }

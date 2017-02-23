@@ -38,6 +38,11 @@ public class UpdateExecutorService extends ThreadPoolExecutor implements IUpdate
     }
 
     @Override
+    public void start() {
+
+    }
+
+    @Override
     public void stop() {
         ExecutorUtil.shutdownAndAwaitTermination(this, 60,
                 TimeUnit.MILLISECONDS);
