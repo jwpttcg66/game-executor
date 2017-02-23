@@ -8,31 +8,24 @@ import com.snowcattle.game.excutor.utils.Loggers;
  */
 public class IntegerUpdate extends AbstractUpdate {
 
-    public IntegerUpdate(long id) {
-        this.id = id;
-    }
-
-    private long id;
-
     private long incrId;
+
+    public IntegerUpdate(long id) {
+        setId(id);
+    }
 
     @Override
     public void update() {
         incrId++;
-        if(incrId == 20){
+        if (incrId == 20) {
             setActive(false);
         }
-        if(Loggers.utilLogger.isDebugEnabled()){
-            Loggers.utilLogger.debug("update id " + id + " incrId:" + incrId);
+        if (Loggers.utilLogger.isDebugEnabled()) {
+            Loggers.utilLogger.debug("update id " + getId() + " incrId:" + incrId);
         }
     }
 
-    @Override
-    public long getId() {
-        return id;
-    }
-
-    public String toString(){
-        return String.valueOf(this.id);
+    public String toString() {
+        return String.valueOf(this.getId());
     }
 }
