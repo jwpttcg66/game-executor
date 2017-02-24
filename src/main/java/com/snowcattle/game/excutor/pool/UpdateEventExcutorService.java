@@ -4,6 +4,7 @@ import com.snowcattle.game.excutor.pool.excutor.SingleThreadEventExecutor;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 import com.snowcattle.game.excutor.thread.SingleLockSupportUpdateThread;
 import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.update.NullWeakUpUpdate;
 import com.snowcattle.game.excutor.utils.ExecutorUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -29,7 +30,7 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
     public void start() {
         singleThreadEventExecutors = new SingleThreadEventExecutor[excutorSize];
         for (int i = 0; i < excutorSize; i++) {
-            singleThreadEventExecutors[i] = new SingleThreadEventExecutor();
+            singleThreadEventExecutors[i] = new SingleThreadEventExecutor(dispatchThread);
         }
     }
 

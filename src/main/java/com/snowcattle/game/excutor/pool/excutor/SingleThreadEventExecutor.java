@@ -1,6 +1,14 @@
 package com.snowcattle.game.excutor.pool.excutor;
 
+import com.snowcattle.game.excutor.pool.UpdateEventExcutorService;
+import com.snowcattle.game.excutor.thread.DispatchThread;
+import com.snowcattle.game.excutor.thread.LockSupportUpdateFuture;
+import com.snowcattle.game.excutor.thread.LockSupportUpdateFutureThread;
+import com.snowcattle.game.excutor.thread.SingleLockSupportUpdateThread;
+import com.snowcattle.game.excutor.thread.listener.LockSupportUpdateFutureListener;
 import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.update.NullWeakUpUpdate;
+import com.snowcattle.game.excutor.utils.Loggers;
 
 import java.util.Queue;
 import java.util.concurrent.*;
@@ -31,12 +39,18 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
 
     private Queue<IUpdate> updateQueue;
     private ArrayBlockingQueue<IUpdate> fetchUpdates;
-    public SingleThreadEventExecutor() {
+    private DispatchThread dispatchThread;
+
+    //用来唤醒updatethread
+    public static final NullWeakUpUpdate nullWeakUpUpdate = new NullWeakUpUpdate();
+
+    public SingleThreadEventExecutor(DispatchThread dispatchThread) {
         super(new ThreadPoolExecutor(1, 1,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>()));
         updateQueue = new ConcurrentLinkedQueue<IUpdate>();
         fetchUpdates = new ArrayBlockingQueue<IUpdate>(Short.MAX_VALUE);
+        this.dispatchThread = dispatchThread;
     }
 
 //    @Override
@@ -52,12 +66,17 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
     public void excuteUpdate(IUpdate iUpdate, boolean initFlag){
         if(initFlag){
             startThread();
+            addTaskQueue(iUpdate);
         }
-        addTaskQueue(iUpdate);
+        wakeUp();
     }
 
     public void wakeUp(){
-
+        try {
+            fetchUpdates.put(nullWeakUpUpdate);
+        } catch (InterruptedException e) {
+            Loggers.errorLogger.error(e.toString(), e);
+        }
     }
 
     private void startThread() {
@@ -70,7 +89,9 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
 
     //启动执行线程
     public void doStartThread(){
-//        execute(runnable);
+        SingleLockSupportUpdateThread singleLockSupportUpdateThread = new SingleLockSupportUpdateThread(dispatchThread, updateQueue, fetchUpdates);
+//        submit(singleLockSupportUpdateThread);
+        execute(singleLockSupportUpdateThread);
     }
 
     //增加到队列里面
