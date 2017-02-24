@@ -34,9 +34,8 @@ public class AsyncEventTest {
         TimeUnit timeUnit = TimeUnit.SECONDS;
         UpdateEventExcutorService updateEventExcutorService = new UpdateEventExcutorService(corePoolSize);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
-        long minCycleTime = 1000;
         LockSupportEventDisptachThread dispatchThread = new LockSupportEventDisptachThread(updateEventBus, updateEventExcutorService
-                , cycleSleepTime, minCycleTime);
+                , cycleSleepTime, cycleSleepTime*1000);
         updateEventExcutorService.setDispatchThread(dispatchThread);
         UpdateService updateService = new UpdateService(dispatchThread, updateEventExcutorService);
         updateEventBus.addEventListener(new DispatchCreateEventListener(dispatchThread, updateService));
