@@ -96,6 +96,7 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
         EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
         UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
         event.setUpdateExcutorIndex(singleThreadEventExecutor.getUpdateExcutorIndex());
+        event.setUpdateAliveFlag(excutorUpdate.isActive());
         getEventBus().addEvent(event);
 
     }

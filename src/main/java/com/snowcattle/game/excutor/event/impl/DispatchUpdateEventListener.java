@@ -33,7 +33,8 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
         EventParam[] eventParams = event.getParams();
         for(EventParam eventParam: eventParams) {
             IUpdate iUpdate = (IUpdate) eventParam.getT();
-            if (iUpdate.isActive()) {
+            boolean aliveFlag = updateEvent.isUpdateAliveFlag();
+            if (aliveFlag) {
                 IUpdateExcutor iUpdateExcutor = dispatchThread.getiUpdateExcutor();
                 iUpdateExcutor.excutorUpdate(dispatchThread, iUpdate, updateEvent.isInitFlag(), updateEvent.getUpdateExcutorIndex());
             } else {

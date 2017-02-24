@@ -14,9 +14,14 @@ public class UpdateEvent extends Event {
 
     //使用的更新器的索引
     private int updateExcutorIndex;
+
+    //对象是否存活
+    private boolean updateAliveFlag;
+
     public UpdateEvent(EventType eventType, EventParam... parms){
         setEventType(eventType);
         setParams(parms);
+        updateAliveFlag = true;
     }
 
     public void call() {
@@ -40,5 +45,13 @@ public class UpdateEvent extends Event {
 
     public int getUpdateExcutorIndex() {
         return updateExcutorIndex;
+    }
+
+    public boolean isUpdateAliveFlag() {
+        return updateAliveFlag;
+    }
+
+    public void setUpdateAliveFlag(boolean updateAliveFlag) {
+        this.updateAliveFlag = updateAliveFlag;
     }
 }
