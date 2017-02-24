@@ -13,8 +13,8 @@ import java.util.concurrent.locks.LockSupport;
 public class LockSupportEventDisptachThread extends LockSupportDisptachThread{
 
     public LockSupportEventDisptachThread(EventBus eventBus, UpdateEventExcutorService updateEventExcutorService
-            , int cycleTime , long minCycleTime) {
-        super(eventBus,updateEventExcutorService, cycleTime, minCycleTime);
+            , int cycleSleepTime , long minCycleTime) {
+        super(eventBus,updateEventExcutorService, cycleSleepTime, minCycleTime);
     }
 
 }

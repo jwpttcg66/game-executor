@@ -20,13 +20,13 @@ public class LockSupportDisptachThread extends DispatchThread{
     private boolean runningFlag = true;
     private IUpdateExcutor iUpdateExcutor;
 
-    private int cycleTime;
+    private int cycleSleepTime;
     private long minCycleTime;
     public LockSupportDisptachThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor
-            , int cycleTime , long minCycleTime) {
+            , int cycleSleepTime , long minCycleTime) {
         super(eventBus);
         this.iUpdateExcutor = iUpdateExcutor;
-        this.cycleTime = cycleTime;
+        this.cycleSleepTime = cycleSleepTime;
         this.minCycleTime = minCycleTime;
     }
 
@@ -41,7 +41,7 @@ public class LockSupportDisptachThread extends DispatchThread{
             int diff = (int) (notifyTime - time);
             if(diff < minCycleTime &&  diff > 0){
                 try {
-                    Thread.currentThread().sleep(cycleTime, diff%999999);
+                    Thread.currentThread().sleep(cycleSleepTime, diff%999999);
                 } catch (Exception e) {
                     Loggers.utilLogger.error(e.toString(), e);
                 }
