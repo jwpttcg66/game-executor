@@ -28,8 +28,8 @@ public class AsyncEventTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 300;
-        int corePoolSize = 60;
+        int maxSize = 1;
+        int corePoolSize = 1;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
         UpdateEventExcutorService updateEventExcutorService = new UpdateEventExcutorService(corePoolSize);

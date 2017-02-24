@@ -77,7 +77,6 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
     public void cleanFetch(){
         fetchSize = 0;
         updateSize = 0;
-        finishList.clear();
     }
 
     public void fetchUpdates() {
@@ -89,32 +88,27 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
     }
 
     public void sendFinish(IUpdate excutorUpdate) {
+        //如果生命周期结束了，直接进行销毁
+        if(!excutorUpdate.isActive()){
+            singleThreadEventExecutor.removeTaskQueue(excutorUpdate);
+        }
         //事件总线增加更新完成通知
         EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
         UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
         event.setUpdateExcutorIndex(singleThreadEventExecutor.getUpdateExcutorIndex());
         getEventBus().addEvent(event);
-        //如果生命周期结束了，直接进行销毁
-        if(!excutorUpdate.isActive()){
-            singleThreadEventExecutor.removeTaskQueue(excutorUpdate);
-        }
-        LockSupport.unpark(getDispatchThread());
+
     }
 
     public void sendFinishList(){
         //事件总线增加更新完成通知
-        EventParam<IUpdate>[] eventParams = new EventParam[finishList.size()];
-        for(int i = 0; i < finishList.size(); i++){
-            IUpdate excutorUpdate = finishList.get(i);
-            eventParams[i] = new EventParam<IUpdate>(excutorUpdate);
-            //如果生命周期结束了，直接进行销毁
-            if(!excutorUpdate.isActive()){
-                singleThreadEventExecutor.removeTaskQueue(excutorUpdate);
-            }
+        for(IUpdate excutorUpdate : finishList){
+//            System.out.println(excutorUpdate.getId() + "存活" + excutorUpdate.isActive());
+            sendFinish(excutorUpdate);
         }
-        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, eventParams);
-        getEventBus().addEvent(event);
+        finishList.clear();
         LockSupport.unpark(getDispatchThread());
+
     }
 
     public void addUpdate(IUpdate iUpdate){
