@@ -38,18 +38,21 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
     private volatile int state = ST_NOT_STARTED;
 
     private Queue<IUpdate> updateQueue;
-    private ArrayBlockingQueue<IUpdate> fetchUpdates;
+    private BlockingQueue<IUpdate> fetchUpdates;
     private DispatchThread dispatchThread;
 
     //用来唤醒updatethread
     public static final NullWeakUpUpdate nullWeakUpUpdate = new NullWeakUpUpdate();
 
-    public SingleThreadEventExecutor(DispatchThread dispatchThread) {
+
+    private int updateExcutorIndex;
+    public SingleThreadEventExecutor(int updateExcutorIndex, DispatchThread dispatchThread) {
         super(new ThreadPoolExecutor(1, 1,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>()));
+        this.updateExcutorIndex = updateExcutorIndex;
         updateQueue = new ConcurrentLinkedQueue<IUpdate>();
-        fetchUpdates = new ArrayBlockingQueue<IUpdate>(Short.MAX_VALUE);
+        fetchUpdates = new LinkedBlockingQueue<IUpdate>(Short.MAX_VALUE);
         this.dispatchThread = dispatchThread;
     }
 
@@ -89,7 +92,7 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
 
     //启动执行线程
     public void doStartThread(){
-        SingleLockSupportUpdateThread singleLockSupportUpdateThread = new SingleLockSupportUpdateThread(dispatchThread, updateQueue, fetchUpdates);
+        SingleLockSupportUpdateThread singleLockSupportUpdateThread = new SingleLockSupportUpdateThread(this,dispatchThread, updateQueue, fetchUpdates);
 //        submit(singleLockSupportUpdateThread);
         execute(singleLockSupportUpdateThread);
     }
@@ -102,5 +105,9 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
     //删除队列
     public void removeTaskQueue(IUpdate update){
         this.updateQueue.remove(update);
+    }
+
+    public int getUpdateExcutorIndex() {
+        return updateExcutorIndex;
     }
 }

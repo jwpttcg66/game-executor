@@ -30,7 +30,7 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
     public void start() {
         singleThreadEventExecutors = new SingleThreadEventExecutor[excutorSize];
         for (int i = 0; i < excutorSize; i++) {
-            singleThreadEventExecutors[i] = new SingleThreadEventExecutor(dispatchThread);
+            singleThreadEventExecutors[i] = new SingleThreadEventExecutor(i, dispatchThread);
         }
     }
 
@@ -47,13 +47,13 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
     }
 
     @Override
-    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean initFlag) {
+    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean initFlag, int updateExcutorIndex) {
         if(initFlag) {
             SingleThreadEventExecutor singleThreadEventExecutor = getNext();
             singleThreadEventExecutor.excuteUpdate(iUpdate, initFlag);
         }else{
             //查找老的更新器
-            SingleThreadEventExecutor singleThreadEventExecutor = getNext();
+            SingleThreadEventExecutor singleThreadEventExecutor = singleThreadEventExecutors[updateExcutorIndex];
             singleThreadEventExecutor.excuteUpdate(iUpdate, false);
         }
     }
