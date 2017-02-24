@@ -30,7 +30,7 @@ public class UpdateExecutorService extends ThreadPoolExecutor implements IUpdate
     }
 
     @Override
-    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate) {
+    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean initFlag) {
         LockSupportUpdateFuture lockSupportUpdateFuture = new LockSupportUpdateFuture(dispatchThread);
         lockSupportUpdateFuture.addListener(new LockSupportUpdateFutureListener());
         LockSupportUpdateFutureThread lockSupportUpdateFutureThread = new LockSupportUpdateFutureThread(dispatchThread, iUpdate, lockSupportUpdateFuture);

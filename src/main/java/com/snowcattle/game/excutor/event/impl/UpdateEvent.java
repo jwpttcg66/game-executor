@@ -9,6 +9,9 @@ import com.snowcattle.game.excutor.event.EventType;
  *  disptach线程使用
  */
 public class UpdateEvent extends Event {
+    //是否进行过初始化
+    private boolean initFlag;
+
     public UpdateEvent(EventType eventType, EventParam... parms){
         setEventType(eventType);
         setParams(parms);
@@ -19,5 +22,13 @@ public class UpdateEvent extends Event {
 //            EventParam[] eventParams = getParams();
 //            Loggers.utilLogger.debug("update event " + eventParams[0].getT());
 //        }
+    }
+
+    public boolean isInitFlag() {
+        return initFlag;
+    }
+
+    public void setInitFlag(boolean initFlag) {
+        this.initFlag = initFlag;
     }
 }

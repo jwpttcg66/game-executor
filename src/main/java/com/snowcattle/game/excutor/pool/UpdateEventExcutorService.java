@@ -46,9 +46,9 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
     }
 
     @Override
-    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate) {
+    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean initFlag) {
         SingleThreadEventExecutor singleThreadEventExecutor = getNext();
-        singleThreadEventExecutor.excuteUpdate(iUpdate);
+        singleThreadEventExecutor.excuteUpdate(iUpdate, initFlag);
     }
 
     public DispatchThread getDispatchThread() {

@@ -14,13 +14,11 @@ import com.snowcattle.game.excutor.utils.Constants;
 public class DispatchCreateEventListener extends CreateEventListener {
 
     private DispatchThread dispatchThread;
-//    private EventBus updateServiceEventBus;
 
     private UpdateService updateService;
     public DispatchCreateEventListener(DispatchThread dispatchThread, UpdateService updateService) {
         super();
         this.dispatchThread = dispatchThread;
-//        this.updateServiceEventBus = updateServiceEventBus;
         this.updateService = updateService;
     }
 
@@ -30,6 +28,7 @@ public class DispatchCreateEventListener extends CreateEventListener {
         IUpdate iUpdate = (IUpdate) eventParams[0].getT();
         if(iUpdate.isActive()) {
             UpdateEvent updateEvent = new UpdateEvent(Constants.EventTypeConstans.updateEventType, event.getParams());
+            updateEvent.setInitFlag(true);
             this.dispatchThread.addUpdateEvent(updateEvent);
         }else{
             FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);

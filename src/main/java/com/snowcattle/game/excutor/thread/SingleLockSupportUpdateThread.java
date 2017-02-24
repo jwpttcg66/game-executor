@@ -6,6 +6,7 @@ import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -22,44 +23,49 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
     private Queue<IUpdate> iUpdates;
     //这里会用来阻塞
     private ArrayBlockingQueue<IUpdate> fetchUpdates;
-    private boolean runningFlag;
 
-    public SingleLockSupportUpdateThread(DispatchThread dispatchThread) {
+    private int fetchSize;
+
+    public SingleLockSupportUpdateThread(DispatchThread dispatchThread, Queue<IUpdate> iUpdates, ArrayBlockingQueue<IUpdate> fetchUpdates) {
         super(dispatchThread, dispatchThread.getEventBus());
-        iUpdates = new ConcurrentLinkedQueue<IUpdate>();
-        fetchUpdates = new ArrayBlockingQueue<IUpdate>(Short.MAX_VALUE);
-        runningFlag = true;
+        this.iUpdates = iUpdates;
+        this.fetchUpdates = fetchUpdates;
     }
 
     @Override
     public void run() {
 
-        do {
+        for (; ; ) {
+            fetchUpdates();
             for (; ; ) {
-                fetchUpdates();
-                for (; ; ) {
-                    IUpdate excutorUpdate = null;
-                    try {
-                        excutorUpdate = fetchUpdates.take();
-                        if (excutorUpdate != null) {
-                            excutorUpdate.update();
-                            sendFinish(excutorUpdate);
-                        } else {
-                            break;
-                        }
-                    } catch (Exception e) {
-                        break;
-                    }
-
+                IUpdate excutorUpdate = null;
+                try {
+                    excutorUpdate = fetchUpdates.take();
+                    if (excutorUpdate != null) {
+                        excutorUpdate.update();
+                        sendFinish(excutorUpdate);
+                    } 
+                } catch (Exception e) {
+                    break;
                 }
 
             }
-        } while (runningFlag);
+            cleanFetch();
+
+        }
 
     }
 
+    public void cleanFetch(){
+        fetchSize = 0;
+    }
+
     public void fetchUpdates() {
-        fetchUpdates.addAll(iUpdates);
+        Iterator<IUpdate> iUpdateIterator = iUpdates.iterator();
+        while (iUpdateIterator.hasNext()){
+            fetchUpdates.add(iUpdateIterator.next());
+            fetchSize++;
+        }
     }
 
     public void sendFinish(IUpdate excutorUpdate) {

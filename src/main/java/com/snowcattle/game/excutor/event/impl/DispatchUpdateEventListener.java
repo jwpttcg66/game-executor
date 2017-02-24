@@ -29,11 +29,12 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
         super.fireEvent(event);
 
         //提交执行线程
+        UpdateEvent updateEvent = (UpdateEvent) event;
         EventParam[] eventParams = event.getParams();
         IUpdate iUpdate = (IUpdate) eventParams[0].getT();
         if(iUpdate.isActive()) {
             IUpdateExcutor iUpdateExcutor = dispatchThread.getiUpdateExcutor();
-            iUpdateExcutor.excutorUpdate(dispatchThread, iUpdate);
+            iUpdateExcutor.excutorUpdate(dispatchThread, iUpdate, updateEvent.isInitFlag());
         }else{
             FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
             dispatchThread.addFinishEvent(finishEvent);
