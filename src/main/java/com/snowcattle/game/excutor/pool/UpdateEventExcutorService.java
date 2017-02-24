@@ -43,13 +43,19 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
     }
 
     public SingleThreadEventExecutor getNext() {
-        return singleThreadEventExecutors[idx.getAndIncrement() & singleThreadEventExecutors.length - 1];
+        return singleThreadEventExecutors[idx.getAndIncrement() % excutorSize];
     }
 
     @Override
     public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean initFlag) {
-        SingleThreadEventExecutor singleThreadEventExecutor = getNext();
-        singleThreadEventExecutor.excuteUpdate(iUpdate, initFlag);
+        if(initFlag) {
+            SingleThreadEventExecutor singleThreadEventExecutor = getNext();
+            singleThreadEventExecutor.excuteUpdate(iUpdate, initFlag);
+        }else{
+            //查找老的更新器
+            SingleThreadEventExecutor singleThreadEventExecutor = getNext();
+            singleThreadEventExecutor.excuteUpdate(iUpdate, false);
+        }
     }
 
     public DispatchThread getDispatchThread() {
