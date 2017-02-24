@@ -56,7 +56,7 @@ public class EventBus implements IEventBus{
     public IEvent pollEvent(){
         IEvent event = events.poll();
         if(event != null){
-            size.getAndIncrement();
+            size.getAndDecrement();
         }
         return event;
     }
