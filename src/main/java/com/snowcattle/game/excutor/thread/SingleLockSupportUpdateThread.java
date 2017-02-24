@@ -94,6 +94,10 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
         UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
         event.setUpdateExcutorIndex(singleThreadEventExecutor.getUpdateExcutorIndex());
         getEventBus().addEvent(event);
+        //如果生命周期结束了，直接进行销毁
+        if(!excutorUpdate.isActive()){
+            singleThreadEventExecutor.removeTaskQueue(excutorUpdate);
+        }
         LockSupport.unpark(getDispatchThread());
     }
 
@@ -101,7 +105,12 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
         //事件总线增加更新完成通知
         EventParam<IUpdate>[] eventParams = new EventParam[finishList.size()];
         for(int i = 0; i < finishList.size(); i++){
-            eventParams[i] = new EventParam<IUpdate>(finishList.get(i));
+            IUpdate excutorUpdate = finishList.get(i);
+            eventParams[i] = new EventParam<IUpdate>(excutorUpdate);
+            //如果生命周期结束了，直接进行销毁
+            if(!excutorUpdate.isActive()){
+                singleThreadEventExecutor.removeTaskQueue(excutorUpdate);
+            }
         }
         UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, eventParams);
         getEventBus().addEvent(event);
