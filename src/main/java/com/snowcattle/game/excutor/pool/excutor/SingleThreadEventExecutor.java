@@ -1,6 +1,9 @@
 package com.snowcattle.game.excutor.pool.excutor;
 
+import com.snowcattle.game.excutor.update.IUpdate;
+
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 /**
  * Created by jwp on 2017/2/23.
@@ -10,8 +13,20 @@ import java.util.concurrent.*;
  */
 public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorService implements OrderedEventExecutor{
 
-    //是否处于事件循环中
-    private boolean eventLoopFlag;
+
+    //当前线程执行器 执行状态
+    private static final int ST_NOT_STARTED = 1;
+    private static final int ST_STARTED = 2;
+    private static final int ST_SHUTTING_DOWN = 3;
+    private static final int ST_SHUTDOWN = 4;
+    private static final int ST_TERMINATED = 5;
+
+    private final AtomicIntegerFieldUpdater<SingleThreadEventExecutor> STATE_UPDATER =  AtomicIntegerFieldUpdater.newUpdater(SingleThreadEventExecutor.class, "state");;
+//
+//    //是否处于事件循环中
+//    private boolean eventLoopFlag;
+    @SuppressWarnings({ "FieldMayBeFinal", "unused" })
+    private volatile int state = ST_NOT_STARTED;
 
     public SingleThreadEventExecutor() {
         super(new ThreadPoolExecutor(1, 1,
@@ -19,16 +34,33 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
                 new LinkedBlockingQueue<Runnable>()));
     }
 
-    @Override
-    public boolean inEventLoop() {
-        return eventLoopFlag;
+//    @Override
+//    public boolean inEventLoop() {
+//        return eventLoopFlag;
+//    }
+
+//    public void setEventLoopFlag(boolean eventLoopFlag) {
+//        this.eventLoopFlag = eventLoopFlag;
+//    }
+
+    //执行跟辛
+    public void excuteUpdate(IUpdate iUpdate){
+        startThread();
     }
 
-    public void setEventLoopFlag(boolean eventLoopFlag) {
-        this.eventLoopFlag = eventLoopFlag;
+    private void startThread() {
+        if (STATE_UPDATER.get(this) == ST_NOT_STARTED) {
+            if (STATE_UPDATER.compareAndSet(this, ST_NOT_STARTED, ST_STARTED)) {
+                doStartThread();
+            }
+        }
     }
 
-    public void doStartThread(Runnable runnable){
-        execute(runnable);
+    //启动执行线程
+    public void doStartThread(){
+//        execute(runnable);
     }
+
+
+
 }
