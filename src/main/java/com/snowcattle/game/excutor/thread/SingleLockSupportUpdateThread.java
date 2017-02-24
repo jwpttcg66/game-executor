@@ -1,6 +1,5 @@
 package com.snowcattle.game.excutor.thread;
 
-import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.UpdateEvent;
 import com.snowcattle.game.excutor.update.IUpdate;
@@ -14,10 +13,13 @@ import java.util.concurrent.locks.LockSupport;
 
 /**
  * Created by jwp on 2017/2/23.
+ * 线程一旦启动不会停止,使用arrayblockqueue进行阻塞fetchUpdates，
+ * 并且通过加入一个null update来进行wakeup
  */
 public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
 
     private Queue<IUpdate> iUpdates;
+    //这里会用来阻塞
     private Queue<IUpdate> fetchUpdates;
     private List<IUpdate> updateFinishList;
     private boolean runningFlag;
@@ -43,16 +45,6 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
                 } else {
                     break;
                 }
-
-            }
-            //执行结束，进入等待状态，等待唤醒
-            try {
-                sendFinish();
-                synchronized (this) {
-                    this.wait();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         } while (runningFlag);
 
