@@ -8,6 +8,7 @@ import com.snowcattle.game.excutor.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.LockSupport;
 
@@ -20,15 +21,13 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
 
     private Queue<IUpdate> iUpdates;
     //这里会用来阻塞
-    private Queue<IUpdate> fetchUpdates;
-    private List<IUpdate> updateFinishList;
+    private ArrayBlockingQueue<IUpdate> fetchUpdates;
     private boolean runningFlag;
 
     public SingleLockSupportUpdateThread(DispatchThread dispatchThread) {
         super(dispatchThread, dispatchThread.getEventBus());
         iUpdates = new ConcurrentLinkedQueue<IUpdate>();
-        fetchUpdates = new ConcurrentLinkedQueue<IUpdate>();
-        updateFinishList = new ArrayList<IUpdate>();
+        fetchUpdates = new ArrayBlockingQueue<IUpdate>(Short.MAX_VALUE);
         runningFlag = true;
     }
 
@@ -36,15 +35,24 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
     public void run() {
 
         do {
-            fetchUpdates();
             for (; ; ) {
-                IUpdate excutorUpdate = fetchUpdates.poll();
-                if (excutorUpdate != null) {
-                    excutorUpdate.update();
-                    updateFinishList.add(excutorUpdate);
-                } else {
-                    break;
+                fetchUpdates();
+                for (; ; ) {
+                    IUpdate excutorUpdate = null;
+                    try {
+                        excutorUpdate = fetchUpdates.take();
+                        if (excutorUpdate != null) {
+                            excutorUpdate.update();
+                            sendFinish(excutorUpdate);
+                        } else {
+                            break;
+                        }
+                    } catch (Exception e) {
+                        break;
+                    }
+
                 }
+
             }
         } while (runningFlag);
 
@@ -54,14 +62,11 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
         fetchUpdates.addAll(iUpdates);
     }
 
-    public void sendFinish() {
-        for (IUpdate excutorUpdate : updateFinishList) {
-            //事件总线增加更新完成通知
-            EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
-            UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
-            getEventBus().addEvent(event);
-        }
-        updateFinishList.clear();
+    public void sendFinish(IUpdate excutorUpdate) {
+        //事件总线增加更新完成通知
+        EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
+        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
+        getEventBus().addEvent(event);
         LockSupport.unpark(getDispatchThread());
     }
 
