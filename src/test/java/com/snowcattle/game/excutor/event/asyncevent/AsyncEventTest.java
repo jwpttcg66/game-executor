@@ -28,14 +28,14 @@ public class AsyncEventTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 1;
-        int corePoolSize = 1;
+        int maxSize = 2;
+        int corePoolSize = 2;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
         UpdateEventExcutorService updateEventExcutorService = new UpdateEventExcutorService(corePoolSize);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
         LockSupportEventDisptachThread dispatchThread = new LockSupportEventDisptachThread(updateEventBus, updateEventExcutorService
-                , cycleSleepTime, cycleSleepTime*1000000);
+                , cycleSleepTime, cycleSleepTime*1000);
         updateEventExcutorService.setDispatchThread(dispatchThread);
         UpdateService updateService = new UpdateService(dispatchThread, updateEventExcutorService);
         updateEventBus.addEventListener(new DispatchCreateEventListener(dispatchThread, updateService));

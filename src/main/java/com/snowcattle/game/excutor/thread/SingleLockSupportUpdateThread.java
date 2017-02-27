@@ -7,6 +7,7 @@ import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.Loggers;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.locks.LockSupport;
+import java.util.logging.Logger;
 
 /**
  * Created by jwp on 2017/2/23.
@@ -57,6 +59,8 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
                         excutorUpdate.update();
                         updateSize++;
                         finishList.add(excutorUpdate);
+                    }else{
+                        break;
                     }
                 } catch (Exception e) {
                     Loggers.errorLogger.error(e.toString(), e);
@@ -70,6 +74,13 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
 
             }
             cleanFetch();
+
+            //这里会运行的太快，需要阻塞
+            try {
+                fetchUpdates.take();
+            } catch (InterruptedException e) {
+                Loggers.errorLogger.error(e.toString(), e);
+            }
         }
 
     }
@@ -102,9 +113,12 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
     }
 
     public void sendFinishList(){
+
         //事件总线增加更新完成通知
         for(IUpdate excutorUpdate : finishList){
-//            System.out.println(excutorUpdate.getId() + "存活" + excutorUpdate.isActive());
+//            if(Loggers.utilLogger.isDebugEnabled()) {
+//                Loggers.utilLogger.debug(excutorUpdate.getId() + "发送存活" + excutorUpdate.isActive());
+//            }
             sendFinish(excutorUpdate);
         }
         finishList.clear();

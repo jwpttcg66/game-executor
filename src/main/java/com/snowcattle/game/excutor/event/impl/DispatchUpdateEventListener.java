@@ -12,6 +12,7 @@ import com.snowcattle.game.excutor.thread.LockSupportUpdateFutureThread;
 import com.snowcattle.game.excutor.thread.listener.LockSupportUpdateFutureListener;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
+import com.snowcattle.game.excutor.utils.Loggers;
 
 /**
  * Created by jiangwenping on 17/1/11.
@@ -26,6 +27,9 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
 
 
     public void fireEvent(IEvent event) {
+//        if(Loggers.utilLogger.isDebugEnabled()){
+//            Loggers.utilLogger.debug("处理update");
+//        }
         super.fireEvent(event);
 
         //提交执行线程
