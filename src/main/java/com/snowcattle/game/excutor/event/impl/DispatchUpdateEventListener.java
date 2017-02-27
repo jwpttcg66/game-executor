@@ -12,6 +12,7 @@ import com.snowcattle.game.excutor.thread.LockSupportUpdateFutureThread;
 import com.snowcattle.game.excutor.thread.listener.LockSupportUpdateFutureListener;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
+import com.snowcattle.game.excutor.utils.Loggers;
 
 /**
  * Created by jiangwenping on 17/1/11.
@@ -26,17 +27,25 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
 
 
     public void fireEvent(IEvent event) {
+//        if(Loggers.utilLogger.isDebugEnabled()){
+//            Loggers.utilLogger.debug("处理update");
+//        }
         super.fireEvent(event);
 
         //提交执行线程
+        UpdateEvent updateEvent = (UpdateEvent) event;
         EventParam[] eventParams = event.getParams();
-        IUpdate iUpdate = (IUpdate) eventParams[0].getT();
-        if(iUpdate.isActive()) {
-            IUpdateExcutor iUpdateExcutor = dispatchThread.getiUpdateExcutor();
-            iUpdateExcutor.excutorUpdate(dispatchThread, iUpdate);
-        }else{
-            FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
-            dispatchThread.addFinishEvent(finishEvent);
+        for(EventParam eventParam: eventParams) {
+            IUpdate iUpdate = (IUpdate) eventParam.getT();
+            boolean aliveFlag = updateEvent.isUpdateAliveFlag();
+            if (aliveFlag) {
+                IUpdateExcutor iUpdateExcutor = dispatchThread.getiUpdateExcutor();
+                iUpdateExcutor.excutorUpdate(dispatchThread, iUpdate, updateEvent.isInitFlag(), updateEvent.getUpdateExcutorIndex());
+            } else {
+                FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
+                dispatchThread.addFinishEvent(finishEvent);
+            }
         }
+
     }
 }

@@ -4,6 +4,7 @@ import com.snowcattle.game.excutor.pool.excutor.SingleThreadEventExecutor;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 import com.snowcattle.game.excutor.thread.SingleLockSupportUpdateThread;
 import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.update.NullWeakUpUpdate;
 import com.snowcattle.game.excutor.utils.ExecutorUtil;
 
 import java.util.concurrent.TimeUnit;
@@ -29,7 +30,7 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
     public void start() {
         singleThreadEventExecutors = new SingleThreadEventExecutor[excutorSize];
         for (int i = 0; i < excutorSize; i++) {
-            singleThreadEventExecutors[i] = new SingleThreadEventExecutor();
+            singleThreadEventExecutors[i] = new SingleThreadEventExecutor(i, dispatchThread);
         }
     }
 
@@ -42,21 +43,18 @@ public class UpdateEventExcutorService implements IUpdateExcutor {
     }
 
     public SingleThreadEventExecutor getNext() {
-        return singleThreadEventExecutors[idx.getAndIncrement() & singleThreadEventExecutors.length - 1];
+        return singleThreadEventExecutors[idx.getAndIncrement() % excutorSize];
     }
 
     @Override
-    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate) {
-        SingleThreadEventExecutor singleThreadEventExecutor = getNext();
-        if(singleThreadEventExecutor.inEventLoop()){
-            //启动新线程
+    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean initFlag, int updateExcutorIndex) {
+        if(initFlag) {
+            SingleThreadEventExecutor singleThreadEventExecutor = getNext();
+            singleThreadEventExecutor.excuteUpdate(iUpdate, initFlag);
         }else{
-            //将自己放入队列
-            //启动新线程，
-//            singleThreadEventExecutor.setEventLoopFlag(true);
-            SingleLockSupportUpdateThread singleLockSupportUpdateThread = new SingleLockSupportUpdateThread(dispatchThread);
-            singleLockSupportUpdateThread.addUpdate(iUpdate);
-            singleThreadEventExecutor.doStartThread(singleLockSupportUpdateThread);
+            //查找老的更新器
+            SingleThreadEventExecutor singleThreadEventExecutor = singleThreadEventExecutors[updateExcutorIndex];
+            singleThreadEventExecutor.excuteUpdate(iUpdate, false);
         }
     }
 
