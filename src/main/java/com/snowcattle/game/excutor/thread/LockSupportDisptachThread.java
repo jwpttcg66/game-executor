@@ -41,9 +41,8 @@ public class LockSupportDisptachThread extends DispatchThread{
         long time = System.nanoTime();
         int cycleSize = getEventBus().getEventsSize();
         int size = getEventBus().cycle(cycleSize);
-        park();
-
         if(sleepFlag) {
+            park();
             long notifyTime = System.nanoTime();
             long diff = (int) (notifyTime - time);
             if (diff < minCycleTime && diff > 0) {
