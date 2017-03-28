@@ -50,18 +50,19 @@ public class AsyncNotifyEventTest {
             updateService.addReadyCreateEvent(cycleEvent);
         }
 
-//        while (true){
+        while (true){
+            Thread.currentThread().sleep(1000);
+            dispatchThread.unpark();
+            updateService.notifyRun();
+        }
+//        updateService.shutDown();
+//        Timer timer = new Timer();
+//
+//        timer.schedule(new NotifyTask(updateService), 0, 1);
+//        while (true) {
 //            Thread.currentThread().sleep(100);
 //            updateService.toString();
 //        }
-//        updateService.shutDown();
-        Timer timer = new Timer();
-
-        timer.schedule(new NotifyTask(updateService), 0, 1);
-        while (true) {
-            Thread.currentThread().sleep(100);
-            updateService.toString();
-        }
 
     }
 }
