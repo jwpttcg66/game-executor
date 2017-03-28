@@ -66,16 +66,3 @@ public class AsyncNotifyEventTest {
     }
 }
 
-class NotifyTask extends  TimerTask{
-
-    private UpdateService updateService;
-
-    public NotifyTask(UpdateService updateService) {
-        this.updateService = updateService;
-    }
-
-    @Override
-    public void run() {
-        updateService.notifyRun();
-    }
-}

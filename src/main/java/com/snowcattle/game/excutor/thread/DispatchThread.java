@@ -53,4 +53,7 @@ public class DispatchThread extends Thread{
     public void unpark(){
         LockSupport.unpark(this);
     }
+    public void park(){
+        LockSupport.park(this);
+    }
 }

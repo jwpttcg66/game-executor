@@ -35,13 +35,6 @@ public class UpdateService {
     //记录当前循环的更新接口
     private Map<Long, IUpdate> updateMap = new ConcurrentHashMap<Long, IUpdate>();
 
-//    public UpdateService(DispatchThread dispatchThread, EventBus eventBus, IUpdateExcutor iUpdateExcutor) {
-//        this.dispatchThread = dispatchThread;
-//        this.eventBus = eventBus;
-//        this.iUpdateExcutor = iUpdateExcutor;
-//    }
-
-
     public UpdateService(DispatchThread dispatchThread, IUpdateExcutor iUpdateExcutor) {
         this.dispatchThread = dispatchThread;
         this.iUpdateExcutor = iUpdateExcutor;
@@ -57,7 +50,7 @@ public class UpdateService {
         }
         CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, eventParams);
         dispatchThread.addCreateEvent(createEvent);
-        LockSupport.unpark(dispatchThread);
+        dispatchThread.unpark();
     }
 
     public void addReadyFinishEvent(CycleEvent event){
