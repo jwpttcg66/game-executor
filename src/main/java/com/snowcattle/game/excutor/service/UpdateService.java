@@ -103,6 +103,11 @@ public class UpdateService {
         this.updateMap.clear();
     }
 
+    public void notifyStart(){
+        iUpdateExcutor.start();
+        this.updateMap.clear();
+    }
+
     public UpdateService(IUpdateExcutor iUpdateExcutor) {
         this.iUpdateExcutor = iUpdateExcutor;
     }

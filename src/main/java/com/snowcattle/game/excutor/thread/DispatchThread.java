@@ -21,6 +21,10 @@ public class DispatchThread extends Thread{
         eventBus.handleEvent();
     }
 
+    public void notifyRun(){
+        eventBus.handleEvent();
+    }
+
     public EventBus getEventBus() {
         return eventBus;
     }

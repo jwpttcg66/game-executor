@@ -30,24 +30,32 @@ public class LockSupportDisptachThread extends DispatchThread{
         this.minCycleTime = minCycleTime;
     }
 
+    @Override
     public void run() {
         while (runningFlag) {
-            long time = System.nanoTime();
-            int cycleSize = getEventBus().getEventsSize();
-            int size = getEventBus().cycle(cycleSize);
-            LockSupport.park();
-
-            long notifyTime = System.nanoTime();
-            long diff = (int) (notifyTime - time);
-            if(diff < minCycleTime &&  diff > 0){
-                try {
-                    Thread.currentThread().sleep(cycleSleepTime, (int) (diff%999999));
-                } catch (Throwable e) {
-                    Loggers.utilLogger.error(e.toString(), e);
-                }
-            }
-
+           singleCycle();
         }
+    }
+
+    private void singleCycle(){
+        long time = System.nanoTime();
+        int cycleSize = getEventBus().getEventsSize();
+        int size = getEventBus().cycle(cycleSize);
+        LockSupport.park();
+
+        long notifyTime = System.nanoTime();
+        long diff = (int) (notifyTime - time);
+        if(diff < minCycleTime &&  diff > 0){
+            try {
+                Thread.currentThread().sleep(cycleSleepTime, (int) (diff%999999));
+            } catch (Throwable e) {
+                Loggers.utilLogger.error(e.toString(), e);
+            }
+        }
+    }
+    @Override
+    public void notifyRun() {
+       singleCycle();
     }
 
     public void unpark(){
