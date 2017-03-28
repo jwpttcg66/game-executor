@@ -42,7 +42,7 @@ public class LockSupportDisptachThread extends DispatchThread{
             if(diff < minCycleTime &&  diff > 0){
                 try {
                     Thread.currentThread().sleep(cycleSleepTime, (int) (diff%999999));
-                } catch (Exception e) {
+                } catch (Throwable e) {
                     Loggers.utilLogger.error(e.toString(), e);
                 }
             }
