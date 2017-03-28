@@ -111,4 +111,8 @@ public class UpdateService {
     public UpdateService(IUpdateExcutor iUpdateExcutor) {
         this.iUpdateExcutor = iUpdateExcutor;
     }
+
+    public void notifyRun(){
+        dispatchThread.notifyRun();
+    }
 }

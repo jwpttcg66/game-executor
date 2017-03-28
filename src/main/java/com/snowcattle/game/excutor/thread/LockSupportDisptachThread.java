@@ -33,33 +33,31 @@ public class LockSupportDisptachThread extends DispatchThread{
     @Override
     public void run() {
         while (runningFlag) {
-           singleCycle();
+           singleCycle(true);
         }
     }
 
-    private void singleCycle(){
+    private void singleCycle(boolean sleepFlag){
         long time = System.nanoTime();
         int cycleSize = getEventBus().getEventsSize();
         int size = getEventBus().cycle(cycleSize);
-        LockSupport.park();
+        LockSupport.park(this);
 
-        long notifyTime = System.nanoTime();
-        long diff = (int) (notifyTime - time);
-        if(diff < minCycleTime &&  diff > 0){
-            try {
-                Thread.currentThread().sleep(cycleSleepTime, (int) (diff%999999));
-            } catch (Throwable e) {
-                Loggers.utilLogger.error(e.toString(), e);
+        if(sleepFlag) {
+            long notifyTime = System.nanoTime();
+            long diff = (int) (notifyTime - time);
+            if (diff < minCycleTime && diff > 0) {
+                try {
+                    Thread.currentThread().sleep(cycleSleepTime, (int) (diff % 999999));
+                } catch (Throwable e) {
+                    Loggers.utilLogger.error(e.toString(), e);
+                }
             }
         }
     }
     @Override
     public void notifyRun() {
-       singleCycle();
-    }
-
-    public void unpark(){
-        LockSupport.unpark(this);
+       singleCycle(false);
     }
 
     public EventBus getUpdateServiceEventBus() {

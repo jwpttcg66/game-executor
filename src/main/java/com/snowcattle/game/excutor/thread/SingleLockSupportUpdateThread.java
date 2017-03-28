@@ -122,7 +122,7 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
             sendFinish(excutorUpdate);
         }
         finishList.clear();
-        LockSupport.unpark(getDispatchThread());
+        getDispatchThread().unpark();
 
     }
 
