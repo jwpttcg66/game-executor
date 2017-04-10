@@ -1,13 +1,14 @@
 package com.snowcattle.game.excutor.update;
 
+import java.io.Serializable;
+
 /**
  * Created by jiangwenping on 17/1/9.
  * 基础循环接口
  */
-public interface IUpdate {
+public interface IUpdate <ID extends Serializable> extends Serializable {
     public void update();
-    public long getId();
+    public ID getId();
     public boolean isActive();
     public void setActive(boolean activeFlag);
-//    public void setId(long id);
 }

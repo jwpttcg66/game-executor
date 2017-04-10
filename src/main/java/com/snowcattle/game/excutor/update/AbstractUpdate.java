@@ -1,20 +1,17 @@
 package com.snowcattle.game.excutor.update;
 
+import java.io.Serializable;
+
 /**
  * Created by jwp on 2017/1/19.
  * 基本的抽象
  */
-public abstract class AbstractUpdate implements IUpdate {
+public abstract class AbstractUpdate<ID extends Serializable> implements IUpdate<ID> {
 
     //是否存放标志
     private boolean activeFlag = true;
     //标示id
-    private long id;
-
-    @Override
-    public long getId() {
-        return id;
-    }
+    private ID id;
 
     @Override
     public boolean isActive() {
@@ -26,7 +23,12 @@ public abstract class AbstractUpdate implements IUpdate {
         this.activeFlag = activeFlag;
     }
 
-    public void setId(long id) {
+    @Override
+    public ID getId() {
+        return id;
+    }
+
+    public void setId(ID id) {
         this.id = id;
     }
 }

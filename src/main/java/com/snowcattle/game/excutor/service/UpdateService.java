@@ -1,19 +1,18 @@
 package com.snowcattle.game.excutor.service;
 
 import com.snowcattle.game.excutor.event.CycleEvent;
-import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.CreateEvent;
 import com.snowcattle.game.excutor.event.impl.FinishEvent;
 import com.snowcattle.game.excutor.event.impl.FinishedEvent;
 import com.snowcattle.game.excutor.event.impl.ReadFinishEvent;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
-import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.thread.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.Loggers;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.LockSupport;
@@ -26,14 +25,14 @@ import java.util.concurrent.locks.LockSupport;
  *
  *  分配事件到分配线程
  */
-public class UpdateService {
+public class UpdateService <ID extends Serializable> {
 
     private DispatchThread dispatchThread;
 //    //处理创建，销毁的eventBus
 //    private EventBus eventBus;
     private IUpdateExcutor iUpdateExcutor;
     //记录当前循环的更新接口
-    private Map<Long, IUpdate> updateMap = new ConcurrentHashMap<Long, IUpdate>();
+    private Map<ID, IUpdate> updateMap = new ConcurrentHashMap<ID, IUpdate>();
 
 //    public UpdateService(DispatchThread dispatchThread, EventBus eventBus, IUpdateExcutor iUpdateExcutor) {
 //        this.dispatchThread = dispatchThread;
@@ -50,7 +49,7 @@ public class UpdateService {
     public void addReadyCreateEvent(CycleEvent event){
         EventParam[] eventParams = event.getParams();
         IUpdate  iUpdate = (IUpdate) eventParams[0].getT();
-        updateMap.put(event.getId(), iUpdate);
+        updateMap.put((ID) event.getId(), iUpdate);
         //通知dispatchThread
         if(Loggers.utilLogger.isDebugEnabled()) {
             Loggers.utilLogger.debug("readycreate " + iUpdate.getId() + " dispatch");

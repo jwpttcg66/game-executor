@@ -1,13 +1,15 @@
 package com.snowcattle.game.excutor.event;
 
+import java.io.Serializable;
+
 /**
  * Created by jiangwenping on 17/1/16.
  */
-public class CycleEvent extends Event {
+public class CycleEvent <ID extends Serializable> extends Event {
 
-    private long id;
+    private ID id;
 
-    public CycleEvent(EventType eventType, long eventId, EventParam... parms){
+    public CycleEvent(EventType eventType, ID eventId, EventParam... parms){
         setEventType(eventType);
         setParams(parms);
         this.id = eventId;
@@ -18,7 +20,7 @@ public class CycleEvent extends Event {
 
     }
 
-    public long getId() {
+    public ID getId() {
         return id;
     }
 }
