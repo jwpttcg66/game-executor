@@ -32,9 +32,7 @@ public class LockSupportUpdateThread extends UpdateThread{
             UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
             event.setUpdateAliveFlag(getiUpdate().isActive());
             getEventBus().addEvent(event);
-
-            LockSupport.unpark(getDispatchThread());
-
+            getDispatchThread().unpark();
         }
     }
 

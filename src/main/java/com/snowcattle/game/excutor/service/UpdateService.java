@@ -34,13 +34,6 @@ public class UpdateService <ID extends Serializable> {
     //记录当前循环的更新接口
     private Map<ID, IUpdate> updateMap = new ConcurrentHashMap<ID, IUpdate>();
 
-//    public UpdateService(DispatchThread dispatchThread, EventBus eventBus, IUpdateExcutor iUpdateExcutor) {
-//        this.dispatchThread = dispatchThread;
-//        this.eventBus = eventBus;
-//        this.iUpdateExcutor = iUpdateExcutor;
-//    }
-
-
     public UpdateService(DispatchThread dispatchThread, IUpdateExcutor iUpdateExcutor) {
         this.dispatchThread = dispatchThread;
         this.iUpdateExcutor = iUpdateExcutor;
@@ -56,7 +49,7 @@ public class UpdateService <ID extends Serializable> {
         }
         CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, eventParams);
         dispatchThread.addCreateEvent(createEvent);
-        LockSupport.unpark(dispatchThread);
+        dispatchThread.unpark();
     }
 
     public void addReadyFinishEvent(CycleEvent event){
@@ -102,7 +95,16 @@ public class UpdateService <ID extends Serializable> {
         this.updateMap.clear();
     }
 
+    public void notifyStart(){
+        iUpdateExcutor.start();
+        this.updateMap.clear();
+    }
+
     public UpdateService(IUpdateExcutor iUpdateExcutor) {
         this.iUpdateExcutor = iUpdateExcutor;
+    }
+
+    public void notifyRun(){
+        dispatchThread.notifyRun();
     }
 }
