@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.event.asyncevent;
+package com.snowcattle.game.excutor.event.asyncnotify;
 
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventBus;
@@ -8,18 +8,17 @@ import com.snowcattle.game.excutor.event.impl.DispatchCreateEventListener;
 import com.snowcattle.game.excutor.event.impl.DispatchFinishEventListener;
 import com.snowcattle.game.excutor.event.impl.DispatchUpdateEventListener;
 import com.snowcattle.game.excutor.pool.UpdateEventExcutorService;
-import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.service.UpdateService;
-import com.snowcattle.game.excutor.thread.LockSupportDisptachThread;
 import com.snowcattle.game.excutor.thread.LockSupportEventDisptachThread;
 import com.snowcattle.game.excutor.utils.Constants;
 
+import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by jwp on 2017/2/23.
+ * Created by jwp on 2017/3/28.
  */
-public class AsyncEventTest {
+public class AsyncNotifyEventTest {
     public static void main(String[] args) throws Exception {
         testEvent();
     }
@@ -42,7 +41,17 @@ public class AsyncEventTest {
         updateEventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread, updateService));
         updateEventBus.addEventListener(new DispatchFinishEventListener(dispatchThread, updateService));
 
-        updateService.start();
+        updateService.notifyStart();
+//        while (true) {
+//            Thread.currentThread().sleep(100);
+//            LockSupport.unpark(dispatchThread);
+//
+//            LockSupport.park(dispatchThread);
+//            updateService.notifyRun();
+//            break;
+//        }
+
+
         for (long i = 0; i < maxSize; i++) {
             IntegerUpdate integerUpdate = new IntegerUpdate(i);
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);
@@ -50,15 +59,14 @@ public class AsyncEventTest {
             updateService.addReadyCreateEvent(cycleEvent);
         }
 
-//        while (true){
-//            Thread.currentThread().sleep(100);
-//            updateService.toString();
-//        }
+
 //        updateService.shutDown();
+        Timer timer = new Timer();
+        timer.schedule(new NotifyTask(updateService), 0, 10);
         while (true) {
             Thread.currentThread().sleep(100);
             updateService.toString();
         }
-
     }
 }
+

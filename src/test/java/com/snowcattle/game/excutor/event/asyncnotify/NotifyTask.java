@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.event.asyncevent;
+package com.snowcattle.game.excutor.event.asyncnotify;
 
 import com.snowcattle.game.excutor.service.UpdateService;
 
