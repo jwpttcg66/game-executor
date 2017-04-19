@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.event.async;
+package com.snowcattle.game.excutor.update.async;
 
 /**
  * Created by jiangwenping on 17/1/12.

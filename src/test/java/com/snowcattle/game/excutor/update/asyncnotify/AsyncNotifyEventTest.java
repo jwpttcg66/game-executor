@@ -1,9 +1,9 @@
-package com.snowcattle.game.excutor.event.asyncnotify;
+package com.snowcattle.game.excutor.update.asyncnotify;
 
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
-import com.snowcattle.game.excutor.event.async.IntegerUpdate;
+import com.snowcattle.game.excutor.update.async.IntegerUpdate;
 import com.snowcattle.game.excutor.event.impl.DispatchCreateEventListener;
 import com.snowcattle.game.excutor.event.impl.DispatchFinishEventListener;
 import com.snowcattle.game.excutor.event.impl.DispatchUpdateEventListener;
