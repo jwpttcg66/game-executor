@@ -12,10 +12,4 @@ public class BindLockSupportDisptachThread extends LockSupportDisptachThread{
             , int cycleSleepTime, long minCycleTime) {
         super(eventBus, updateBindExcutorService, cycleSleepTime, minCycleTime);
     }
-
-    @Override
-    public void finishSingleUpdate(){
-
-    }
-
 }

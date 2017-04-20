@@ -23,12 +23,6 @@ public class LockSupportDisptachThread extends DispatchThread {
 
     private int cycleSleepTime;
     private long minCycleTime;
-    private long maxCycleCount;
-
-    /**
-     * 当前执行的update数量, 调度数量过大的时候，会创建过多的线程导致内存溢出
-     */
-    private AtomicLong updateCount = new AtomicLong();
 
     public LockSupportDisptachThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor
             , int cycleSleepTime , long minCycleTime) {
@@ -36,16 +30,6 @@ public class LockSupportDisptachThread extends DispatchThread {
         this.iUpdateExcutor = iUpdateExcutor;
         this.cycleSleepTime = cycleSleepTime;
         this.minCycleTime = minCycleTime;
-        this.maxCycleCount = Long.MAX_VALUE;
-    }
-
-    public LockSupportDisptachThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor
-            , int cycleSleepTime , long minCycleTime, long maxCycleCount) {
-        super(eventBus);
-        this.iUpdateExcutor = iUpdateExcutor;
-        this.cycleSleepTime = cycleSleepTime;
-        this.minCycleTime = minCycleTime;
-        this.maxCycleCount = maxCycleCount;
     }
 
     @Override
@@ -59,27 +43,7 @@ public class LockSupportDisptachThread extends DispatchThread {
         long startTime = System.nanoTime();
         int cycleSize = getEventBus().getEventsSize();
         if(sleepFlag) {
-//            int size = getEventBus().cycle(cycleSize);
-            for (int i = 0; i < cycleSize; i++){
-                IEvent event  = getEventBus().pollEvent();
-                if(event == null || updateCount.get() > maxCycleCount) {
-                    checkSleep(startTime);
-                    return;
-                }else{
-                    if (event.getEventType().getIndex() == EventTypeEnum.UPDATE.ordinal()) {
-                        updateCount.getAndIncrement();
-                    }
-
-                    getEventBus().handleSingleEvent(event);
-//                    try {
-//                        getEventBus().handleSingleEvent(event);
-//                    }catch (Throwable e){
-//                        System.out.println(updateCount.get());
-//                    }
-
-
-                }
-            }
+            int size = getEventBus().cycle(cycleSize);
             //调度计算
             park();
             checkSleep(startTime);
@@ -133,10 +97,5 @@ public class LockSupportDisptachThread extends DispatchThread {
     public void shutDown(){
         this.runningFlag = false;
         super.shutDown();
-    }
-
-    @Override
-    public void finishSingleUpdate(){
-        this.updateCount.decrementAndGet();
     }
 }
