@@ -6,7 +6,7 @@
 
     <groupId>com.snowcattle.game.excutor</groupId>
     <artifactId>game-executor</artifactId>
-    <version>1.6.9-SNAPSHOT</version>
+    <version>1.7.0-SNAPSHOT</version>
 
 
     <repositories>
