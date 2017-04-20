@@ -15,7 +15,6 @@ import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.dispatch.LockSupportDisptachThread;
 import com.snowcattle.game.excutor.utils.Constants;
 
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,13 +30,13 @@ public class AsyncUpdateBusTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 10000;
+        int maxSize = 2000;
         int corePoolSize = 50;
-        long keepAliveTime = 0;
-        TimeUnit timeUnit = TimeUnit.MILLISECONDS;
-        UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize, corePoolSize, keepAliveTime, timeUnit, new ThreadPoolExecutor.CallerRunsPolicy());
+        long keepAliveTime = 60;
+        TimeUnit timeUnit = TimeUnit.SECONDS;
+        UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize, keepAliveTime, timeUnit);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
-        int macCycleSize = 1000;
+        int macCycleSize = 100;
         LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(updateEventBus, updateExecutorService
                 , cycleSleepTime, cycleSleepTime * 1000000, macCycleSize);
         UpdateService updateService = new UpdateService(dispatchThread, updateExecutorService);
@@ -50,7 +49,7 @@ public class AsyncUpdateBusTest {
 
 //        dispatchThread.start();
         updateService.start();
-        long updateMaxSize = 20;
+        long updateMaxSize = 10;
         for (long i = 0; i < maxSize; i++) {
             IntegerUpdate integerUpdate = new IntegerUpdate(i, updateMaxSize);
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);

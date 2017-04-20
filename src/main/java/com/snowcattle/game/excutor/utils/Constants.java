@@ -36,6 +36,6 @@ public class Constants {
          * 每秒循环次数
          */
 
-        public static final int cycleSize = 10;
+        public static final int cycleSize = 1000;
     }
 }
