@@ -1,7 +1,7 @@
 package com.snowcattle.game.excutor.pool.excutor;
 
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
-import com.snowcattle.game.excutor.thread.update.bind.SingleBindingLockSupportUpdateThread;
+import com.snowcattle.game.excutor.thread.update.bind.SingleAbstractBindingLockSupportUpdateThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.update.NullWeakUpUpdate;
 import com.snowcattle.game.excutor.utils.Loggers;
@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  *
  * 当线程执行完所有update的时候，退出eventloop
  */
-public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorService implements OrderedEventExecutor{
+public class BindThreadEventExecutorService extends  FinalizableDelegatedExecutorService implements OrderedEventExecutor{
 
 
     //当前线程执行器 执行状态
@@ -26,11 +26,8 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
     private static final int ST_SHUTDOWN = 4;
     private static final int ST_TERMINATED = 5;
 
-    private final AtomicIntegerFieldUpdater<SingleThreadEventExecutor> STATE_UPDATER =  AtomicIntegerFieldUpdater.newUpdater(SingleThreadEventExecutor.class, "state");;
-//
-//    //是否处于事件循环中
-//    private boolean eventLoopFlag;
-    @SuppressWarnings({ "FieldMayBeFinal", "unused" })
+    private final AtomicIntegerFieldUpdater<BindThreadEventExecutorService> STATE_UPDATER =  AtomicIntegerFieldUpdater.newUpdater(BindThreadEventExecutorService.class, "state");;
+
     private volatile int state = ST_NOT_STARTED;
 
     private Queue<IUpdate> updateQueue;
@@ -42,7 +39,7 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
 
 
     private int updateExcutorIndex;
-    public SingleThreadEventExecutor(int updateExcutorIndex, DispatchThread dispatchThread) {
+    public BindThreadEventExecutorService(int updateExcutorIndex, DispatchThread dispatchThread) {
         super(new ThreadPoolExecutor(1, 1,
                 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingQueue<Runnable>()));
@@ -51,15 +48,6 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
         fetchUpdates = new LinkedBlockingQueue<IUpdate>(Short.MAX_VALUE);
         this.dispatchThread = dispatchThread;
     }
-
-//    @Override
-//    public boolean inEventLoop() {
-//        return eventLoopFlag;
-//    }
-
-//    public void setEventLoopFlag(boolean eventLoopFlag) {
-//        this.eventLoopFlag = eventLoopFlag;
-//    }
 
     //执行跟辛
     public void excuteUpdate(IUpdate iUpdate, boolean initFlag){
@@ -88,7 +76,7 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
 
     //启动执行线程
     public void doStartThread(){
-        SingleBindingLockSupportUpdateThread singleLockSupportUpdateThread = new SingleBindingLockSupportUpdateThread(this,dispatchThread, updateQueue, fetchUpdates);
+        SingleAbstractBindingLockSupportUpdateThread singleLockSupportUpdateThread = new SingleAbstractBindingLockSupportUpdateThread(this,dispatchThread, updateQueue, fetchUpdates);
 //        submit(singleLockSupportUpdateThread);
         execute(singleLockSupportUpdateThread);
     }

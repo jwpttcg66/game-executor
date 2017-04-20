@@ -7,7 +7,7 @@ import com.snowcattle.game.excutor.update.async.IntegerUpdate;
 import com.snowcattle.game.excutor.event.impl.DispatchCreateEventListener;
 import com.snowcattle.game.excutor.event.impl.DispatchFinishEventListener;
 import com.snowcattle.game.excutor.event.impl.DispatchUpdateEventListener;
-import com.snowcattle.game.excutor.pool.UpdateEventExcutorService;
+import com.snowcattle.game.excutor.pool.UpdateBindExcutorService;
 import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.dispatch.LockSupportEventDisptachThread;
 import com.snowcattle.game.excutor.utils.Constants;
@@ -31,12 +31,12 @@ public class AsyncNotifyUpdateTest {
         int corePoolSize = 2;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
-        UpdateEventExcutorService updateEventExcutorService = new UpdateEventExcutorService(corePoolSize);
+        UpdateBindExcutorService updateBindExcutorService = new UpdateBindExcutorService(corePoolSize);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
-        LockSupportEventDisptachThread dispatchThread = new LockSupportEventDisptachThread(updateEventBus, updateEventExcutorService
+        LockSupportEventDisptachThread dispatchThread = new LockSupportEventDisptachThread(updateEventBus, updateBindExcutorService
                 , cycleSleepTime, cycleSleepTime*1000);
-        updateEventExcutorService.setDispatchThread(dispatchThread);
-        UpdateService updateService = new UpdateService(dispatchThread, updateEventExcutorService);
+        updateBindExcutorService.setDispatchThread(dispatchThread);
+        UpdateService updateService = new UpdateService(dispatchThread, updateBindExcutorService);
         updateEventBus.addEventListener(new DispatchCreateEventListener(dispatchThread, updateService));
         updateEventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread, updateService));
         updateEventBus.addEventListener(new DispatchFinishEventListener(dispatchThread, updateService));

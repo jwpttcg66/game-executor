@@ -12,11 +12,11 @@ import com.snowcattle.game.excutor.utils.Constants;
  * Created by jiangwenping on 17/1/9.
  * 带预置锁的执行器
  */
-public abstract class BindingLockSupportUpdateThread extends UpdateThread {
+public abstract class AbstractBindingLockSupportUpdateThread extends UpdateThread {
 
     private DispatchThread dispatchThread;
 
-    public BindingLockSupportUpdateThread(DispatchThread dispatchThread, EventBus eventBus) {
+    public AbstractBindingLockSupportUpdateThread(DispatchThread dispatchThread, EventBus eventBus) {
         super(eventBus);
         this.dispatchThread = dispatchThread;
     }

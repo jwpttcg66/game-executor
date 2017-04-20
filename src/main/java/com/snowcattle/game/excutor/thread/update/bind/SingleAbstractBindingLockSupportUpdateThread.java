@@ -2,7 +2,7 @@ package com.snowcattle.game.excutor.thread.update.bind;
 
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.UpdateEvent;
-import com.snowcattle.game.excutor.pool.excutor.SingleThreadEventExecutor;
+import com.snowcattle.game.excutor.pool.excutor.BindThreadEventExecutorService;
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
@@ -19,7 +19,7 @@ import java.util.concurrent.BlockingQueue;
  * 线程一旦启动不会停止,使用arrayblockqueue进行阻塞fetchUpdates，
  * 并且通过加入一个null update来进行wakeup
  */
-public class SingleBindingLockSupportUpdateThread extends BindingLockSupportUpdateThread {
+public class SingleAbstractBindingLockSupportUpdateThread extends AbstractBindingLockSupportUpdateThread {
 
     private Queue<IUpdate> iUpdates;
     //这里会用来阻塞
@@ -30,10 +30,10 @@ public class SingleBindingLockSupportUpdateThread extends BindingLockSupportUpda
 
     private List<IUpdate> finishList;
 
-    private SingleThreadEventExecutor singleThreadEventExecutor;
-    public SingleBindingLockSupportUpdateThread(SingleThreadEventExecutor singleThreadEventExecutor, DispatchThread dispatchThread, Queue<IUpdate> iUpdates, BlockingQueue<IUpdate> fetchUpdates) {
+    private BindThreadEventExecutorService bindThreadEventExecutorService;
+    public SingleAbstractBindingLockSupportUpdateThread(BindThreadEventExecutorService bindThreadEventExecutorService, DispatchThread dispatchThread, Queue<IUpdate> iUpdates, BlockingQueue<IUpdate> fetchUpdates) {
         super(dispatchThread, dispatchThread.getEventBus());
-        this.singleThreadEventExecutor = singleThreadEventExecutor;
+        this.bindThreadEventExecutorService = bindThreadEventExecutorService;
         this.iUpdates = iUpdates;
         this.fetchUpdates = fetchUpdates;
         this.finishList = new ArrayList<IUpdate>();
@@ -49,7 +49,7 @@ public class SingleBindingLockSupportUpdateThread extends BindingLockSupportUpda
                 try {
                     IUpdate excutorUpdate = fetchUpdates.take();
                     if (excutorUpdate != null) {
-                        if(excutorUpdate == SingleThreadEventExecutor.nullWeakUpUpdate){
+                        if(excutorUpdate == BindThreadEventExecutorService.nullWeakUpUpdate){
                             continue;
                         }
                         excutorUpdate.update();
@@ -97,12 +97,12 @@ public class SingleBindingLockSupportUpdateThread extends BindingLockSupportUpda
     public void sendFinish(IUpdate excutorUpdate) {
         //如果生命周期结束了，直接进行销毁
         if(!excutorUpdate.isActive()){
-            singleThreadEventExecutor.removeTaskQueue(excutorUpdate);
+            bindThreadEventExecutorService.removeTaskQueue(excutorUpdate);
         }
         //事件总线增加更新完成通知
         EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
         UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
-        event.setUpdateExcutorIndex(singleThreadEventExecutor.getUpdateExcutorIndex());
+        event.setUpdateExcutorIndex(bindThreadEventExecutorService.getUpdateExcutorIndex());
         event.setUpdateAliveFlag(excutorUpdate.isActive());
         getEventBus().addEvent(event);
 
