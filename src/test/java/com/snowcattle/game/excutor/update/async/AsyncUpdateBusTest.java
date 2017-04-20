@@ -15,6 +15,7 @@ import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.dispatch.LockSupportDisptachThread;
 import com.snowcattle.game.excutor.utils.Constants;
 
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -30,11 +31,11 @@ public class AsyncUpdateBusTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 2000;
+        int maxSize = 20000;
         int corePoolSize = 50;
-        long keepAliveTime = 60;
-        TimeUnit timeUnit = TimeUnit.SECONDS;
-        UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize, keepAliveTime, timeUnit);
+        long keepAliveTime = 0;
+        TimeUnit timeUnit = TimeUnit.MILLISECONDS;
+        UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize,corePoolSize,  keepAliveTime, timeUnit, new ThreadPoolExecutor.CallerRunsPolicy());
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
         int macCycleSize = 100;
         LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(updateEventBus, updateExecutorService
