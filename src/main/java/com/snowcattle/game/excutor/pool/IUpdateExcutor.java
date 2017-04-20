@@ -8,7 +8,7 @@ import com.snowcattle.game.excutor.entity.IUpdate;
  * 执行一个update
  */
 public interface IUpdateExcutor {
-    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean initFlag, int updateExcutorIndex);
+    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex);
     public void start();
     public void stop();
 }

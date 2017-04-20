@@ -45,10 +45,10 @@ public class UpdateBindExcutorService implements IUpdateExcutor {
     }
 
     @Override
-    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean initFlag, int updateExcutorIndex) {
-        if(initFlag) {
+    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
+        if(firstFlag) {
             BindThreadEventExecutorService bindThreadEventExecutorService = getNext();
-            bindThreadEventExecutorService.excuteUpdate(iUpdate, initFlag);
+            bindThreadEventExecutorService.excuteUpdate(iUpdate, firstFlag);
         }else{
             //查找老的更新器
             BindThreadEventExecutorService bindThreadEventExecutorService = bindThreadEventExecutorServices[updateExcutorIndex];
