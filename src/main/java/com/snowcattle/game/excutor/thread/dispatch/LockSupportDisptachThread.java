@@ -1,8 +1,12 @@
 package com.snowcattle.game.excutor.thread.dispatch;
 
 import com.snowcattle.game.excutor.event.EventBus;
+import com.snowcattle.game.excutor.event.common.IEvent;
+import com.snowcattle.game.excutor.event.common.constant.EventTypeEnum;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 import com.snowcattle.game.excutor.utils.Loggers;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -19,12 +23,29 @@ public class LockSupportDisptachThread extends DispatchThread {
 
     private int cycleSleepTime;
     private long minCycleTime;
+    private long maxCycleCount;
+
+    /**
+     * 当前执行的update数量, 调度数量过大的时候，会创建过多的线程导致内存溢出
+     */
+    private AtomicLong updateCount = new AtomicLong();
+
     public LockSupportDisptachThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor
             , int cycleSleepTime , long minCycleTime) {
         super(eventBus);
         this.iUpdateExcutor = iUpdateExcutor;
         this.cycleSleepTime = cycleSleepTime;
         this.minCycleTime = minCycleTime;
+        this.maxCycleCount = Long.MAX_VALUE;
+    }
+
+    public LockSupportDisptachThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor
+            , int cycleSleepTime , long minCycleTime, long maxCycleCount) {
+        super(eventBus);
+        this.iUpdateExcutor = iUpdateExcutor;
+        this.cycleSleepTime = cycleSleepTime;
+        this.minCycleTime = minCycleTime;
+        this.maxCycleCount = maxCycleCount;
     }
 
     @Override
@@ -37,8 +58,19 @@ public class LockSupportDisptachThread extends DispatchThread {
     private void singleCycle(boolean sleepFlag){
         long time = System.nanoTime();
         int cycleSize = getEventBus().getEventsSize();
-        int size = getEventBus().cycle(cycleSize);
         if(sleepFlag) {
+            int size = getEventBus().cycle(cycleSize);
+            while (updateCount.get() < maxCycleCount) {
+                IEvent event  = getEventBus().pollEvent();
+                if(event != null) {
+                    if (event.getEventType().equals(EventTypeEnum.UPDATE.ordinal())) {
+                        updateCount.getAndIncrement();
+                    }
+                }else{
+                    break;
+                }
+            }
+            //调度计算
             park();
             long notifyTime = System.nanoTime();
             long diff = (int) (notifyTime - time);
@@ -49,8 +81,12 @@ public class LockSupportDisptachThread extends DispatchThread {
                     Loggers.utilLogger.error(e.toString(), e);
                 }
             }
+        }else{
+            int size = getEventBus().cycle(cycleSize);
         }
     }
+
+
     @Override
     public void notifyRun() {
        singleCycle(false);
@@ -83,5 +119,10 @@ public class LockSupportDisptachThread extends DispatchThread {
     public void shutDown(){
         this.runningFlag = false;
         super.shutDown();
+    }
+
+    @Override
+    public void finishSingleUpdate(){
+        this.updateCount.decrementAndGet();
     }
 }

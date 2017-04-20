@@ -56,4 +56,6 @@ public class DispatchThread extends Thread{
     public void park(){
         LockSupport.park(this);
     }
+
+    public void finishSingleUpdate(){}
 }
