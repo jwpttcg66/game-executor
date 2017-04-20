@@ -9,7 +9,7 @@ dispatchThread消息分配模型需要的create, update, finish的事件进行�
 
 ## 异步使用例子
 
-> 可参考test下的AsyncEventBusTest.
+> 可参考test目录下的AsyncUpdateBusTest.
 
 1. 生成eventbus，注册react事件模型。
 3. 生成异步线程服务UpdateExecutorService。
@@ -21,7 +21,7 @@ dispatchThread消息分配模型需要的create, update, finish的事件进行�
 
 ## 异步绑定更新线程使用例子
 
-> 可参考asyncevent下的AsyncEventTest.
+> 可参考test目录下的AsyncNotifyUpdateTest.
 
 1. 生成eventbus，注册react事件模型。
 3. 生成异步线程服务UpdateEventExcutorService。

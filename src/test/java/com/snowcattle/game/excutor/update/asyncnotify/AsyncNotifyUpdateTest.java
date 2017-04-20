@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by jwp on 2017/3/28.
  */
-public class AsyncNotifyEventTest {
+public class AsyncNotifyUpdateTest {
     public static void main(String[] args) throws Exception {
         testEvent();
     }
