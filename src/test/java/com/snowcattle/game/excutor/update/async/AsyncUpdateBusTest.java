@@ -30,7 +30,7 @@ public class AsyncUpdateBusTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 200;
+        int maxSize = 2000;
         int corePoolSize = 50;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;

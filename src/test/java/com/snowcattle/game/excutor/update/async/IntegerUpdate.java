@@ -26,7 +26,7 @@ public class IntegerUpdate extends AbstractUpdate<Long> {
             setActive(false);
             long endTime = System.currentTimeMillis();
             long useTime = endTime - startTime;
-            System.out.println("耗时" + useTime);
+            System.out.println("耗时" + useTime + "id" + getId());
         }
         if (Loggers.utilLogger.isDebugEnabled()) {
             Loggers.utilLogger.debug("update id " + getId() + " incrId:" + incrId);

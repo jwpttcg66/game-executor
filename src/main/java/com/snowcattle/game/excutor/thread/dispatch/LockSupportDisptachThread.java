@@ -64,7 +64,7 @@ public class LockSupportDisptachThread extends DispatchThread {
                 IEvent event  = getEventBus().pollEvent();
                 if(event == null || updateCount.get() > maxCycleCount) {
                     checkSleep(startTime);
-                    break;
+                    return;
                 }else{
                     if (event.getEventType().getIndex() == EventTypeEnum.UPDATE.ordinal()) {
                         updateCount.getAndIncrement();
