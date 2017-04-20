@@ -29,8 +29,6 @@ public class LockSupportUpdateFutureListener implements ITaskFutureListener {
         UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
         event.setUpdateAliveFlag(iUpdate.isActive());
         lockSupportUpdateFuture.getDispatchThread().addUpdateEvent(event);
-
-        lockSupportUpdateFuture.getDispatchThread().finishSingleUpdate();
         //解锁
         LockSupport.unpark(lockSupportUpdateFuture.getDispatchThread());
     }

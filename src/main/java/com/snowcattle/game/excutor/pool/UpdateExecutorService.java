@@ -8,6 +8,7 @@ import com.snowcattle.game.excutor.thread.listener.LockSupportUpdateFutureListen
 import com.snowcattle.game.excutor.entity.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.ExecutorUtil;
+import com.snowcattle.game.thread.executor.NonOrderedQueuePoolExecutor;
 
 import java.util.concurrent.*;
 
@@ -15,25 +16,28 @@ import java.util.concurrent.*;
  * Created by jiangwenping on 17/1/11.
  * 更新执行器
  */
-public class UpdateExecutorService extends ThreadPoolExecutor implements IUpdateExcutor{
+public class UpdateExecutorService implements IUpdateExcutor{
+
+    private NonOrderedQueuePoolExecutor nonOrderedQueuePoolExecutor;
 
 
     public UpdateExecutorService(int corePoolSize, long keepAliveTime, TimeUnit unit) {
-        super(corePoolSize, Integer.MAX_VALUE, keepAliveTime, unit, new LinkedBlockingDeque<Runnable>(),
-                new ThreadNameFactory(Constants.Thread.UPDATE));
+//        super(corePoolSize, Integer.MAX_VALUE, keepAliveTime, unit, new LinkedBlockingDeque<Runnable>(),
+//                new ThreadNameFactory(Constants.Thread.UPDATE));
+        nonOrderedQueuePoolExecutor = new NonOrderedQueuePoolExecutor(corePoolSize);
     }
 
-    public UpdateExecutorService(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, RejectedExecutionHandler rejectedExecutionHandler) {
-        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new LinkedBlockingDeque<Runnable>(),
-                new ThreadNameFactory(Constants.Thread.UPDATE),rejectedExecutionHandler);
-    }
+//    public UpdateExecutorService(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, RejectedExecutionHandler rejectedExecutionHandler) {
+//        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new LinkedBlockingDeque<Runnable>(),
+//                new ThreadNameFactory(Constants.Thread.UPDATE),rejectedExecutionHandler);
+//    }
 
     @Override
     public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
         LockSupportUpdateFuture lockSupportUpdateFuture = new LockSupportUpdateFuture(dispatchThread);
         lockSupportUpdateFuture.addListener(new LockSupportUpdateFutureListener());
         LockSupportUpdateFutureThread lockSupportUpdateFutureThread = new LockSupportUpdateFutureThread(dispatchThread, iUpdate, lockSupportUpdateFuture);
-        submit(lockSupportUpdateFutureThread);
+        nonOrderedQueuePoolExecutor.execute(lockSupportUpdateFutureThread);
     }
 
     @Override
@@ -43,7 +47,7 @@ public class UpdateExecutorService extends ThreadPoolExecutor implements IUpdate
 
     @Override
     public void stop() {
-        ExecutorUtil.shutdownAndAwaitTermination(this, 60,
+        ExecutorUtil.shutdownAndAwaitTermination(nonOrderedQueuePoolExecutor, 60,
                 TimeUnit.MILLISECONDS);
     }
 }

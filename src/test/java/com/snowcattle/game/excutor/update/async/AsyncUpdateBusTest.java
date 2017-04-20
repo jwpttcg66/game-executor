@@ -31,11 +31,11 @@ public class AsyncUpdateBusTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 2000;
+        int maxSize = 20000;
         int corePoolSize = 50;
         long keepAliveTime = 0;
         TimeUnit timeUnit = TimeUnit.MILLISECONDS;
-        UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize,corePoolSize,  keepAliveTime, timeUnit, new ThreadPoolExecutor.CallerRunsPolicy());
+        UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize,  keepAliveTime, timeUnit);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
         LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(updateEventBus, updateExecutorService
                 , cycleSleepTime, cycleSleepTime * 1000000);
@@ -49,7 +49,7 @@ public class AsyncUpdateBusTest {
 
 //        dispatchThread.start();
         updateService.start();
-        long updateMaxSize = 10;
+        long updateMaxSize = 100;
         for (long i = 0; i < maxSize; i++) {
             IntegerUpdate integerUpdate = new IntegerUpdate(i, updateMaxSize);
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);

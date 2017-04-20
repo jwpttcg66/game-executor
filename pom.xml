@@ -24,6 +24,7 @@
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
         <version.template.file>version.txt.template</version.template.file>
         <version.file>version.txt</version.file>
+        <GameThreadPool.version>1.0</GameThreadPool.version>
     </properties>
 
     <dependencies>
@@ -64,6 +65,12 @@
             <groupId>com.github.jwpttcg66</groupId>
             <artifactId>future-listener</artifactId>
             <version>1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.jwpttcg66</groupId>
+            <artifactId>GameThreadPool</artifactId>
+            <version>${GameThreadPool.version}</version>
         </dependency>
     </dependencies>
 
