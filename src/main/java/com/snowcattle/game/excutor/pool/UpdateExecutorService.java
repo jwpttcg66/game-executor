@@ -19,14 +19,14 @@ public class UpdateExecutorService extends ThreadPoolExecutor implements IUpdate
 
 
     public UpdateExecutorService(int corePoolSize, long keepAliveTime, TimeUnit unit) {
-        super(corePoolSize, Integer.MAX_VALUE, keepAliveTime, unit, new SynchronousQueue<Runnable>(),
-                new ThreadNameFactory(Constants.Thread.UPDATE), new AbortPolicy());
+        super(corePoolSize, Integer.MAX_VALUE, keepAliveTime, unit, new LinkedBlockingDeque<Runnable>(),
+                new ThreadNameFactory(Constants.Thread.UPDATE));
     }
 
     public UpdateExecutorService(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit,
                                  ThreadFactory threadFactory, RejectedExecutionHandler rejectedExecutionHandler) {
-        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new SynchronousQueue<Runnable>(),
-                threadFactory, new AbortPolicy());
+        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new LinkedBlockingDeque<Runnable>(),
+                threadFactory);
     }
 
     @Override
