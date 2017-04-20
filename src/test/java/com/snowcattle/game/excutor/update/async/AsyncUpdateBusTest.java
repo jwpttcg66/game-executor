@@ -48,8 +48,9 @@ public class AsyncUpdateBusTest {
 
 //        dispatchThread.start();
         updateService.start();
+        long updateMaxSize = 2000;
         for (long i = 0; i < maxSize; i++) {
-            IntegerUpdate integerUpdate = new IntegerUpdate(i);
+            IntegerUpdate integerUpdate = new IntegerUpdate(i, updateMaxSize);
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);
             CycleEvent cycleEvent = new CycleEvent(Constants.EventTypeConstans.readyCreateEventType, integerUpdate.getId(), param);
             updateService.addReadyCreateEvent(cycleEvent);

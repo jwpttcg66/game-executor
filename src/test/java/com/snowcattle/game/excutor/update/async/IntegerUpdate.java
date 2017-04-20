@@ -6,19 +6,26 @@ import com.snowcattle.game.excutor.utils.Loggers;
 /**
  * Created by jiangwenping on 17/1/16.
  */
-public class IntegerUpdate extends AbstractUpdate {
+public class IntegerUpdate extends AbstractUpdate<Long> {
 
     private long incrId;
 
-    public IntegerUpdate(long id) {
+    private  long maxSize;
+    private  long startTime;
+    public IntegerUpdate(long id, long maxSize) {
         setId(id);
+        this.maxSize = maxSize;
+        this.startTime = System.currentTimeMillis();
     }
 
     @Override
     public void update() {
         incrId++;
-        if (incrId == 2000) {
+        long difference  = incrId - getId();
+        if (difference == maxSize) {
             setActive(false);
+            long endTime = System.currentTimeMillis();
+            System.out.println("耗时" + endTime);
         }
         if (Loggers.utilLogger.isDebugEnabled()) {
             Loggers.utilLogger.debug("update id " + getId() + " incrId:" + incrId);
