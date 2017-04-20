@@ -59,17 +59,24 @@ public class LockSupportDisptachThread extends DispatchThread {
         long startTime = System.nanoTime();
         int cycleSize = getEventBus().getEventsSize();
         if(sleepFlag) {
-            int size = getEventBus().cycle(cycleSize);
-            for (int i = 0; i < size; i++){
+//            int size = getEventBus().cycle(cycleSize);
+            for (int i = 0; i < cycleSize; i++){
                 IEvent event  = getEventBus().pollEvent();
                 if(event == null || updateCount.get() > maxCycleCount) {
                     checkSleep(startTime);
                     break;
                 }else{
-                    if (event.getEventType().equals(EventTypeEnum.UPDATE.ordinal())) {
+                    if (event.getEventType().getIndex() == EventTypeEnum.UPDATE.ordinal()) {
                         updateCount.getAndIncrement();
                     }
+
                     getEventBus().handleSingleEvent(event);
+//                    try {
+//                        getEventBus().handleSingleEvent(event);
+//                    }catch (Throwable e){
+//                        System.out.println(updateCount.get());
+//                    }
+
 
                 }
             }
