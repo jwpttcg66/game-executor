@@ -66,9 +66,11 @@ public class LockSupportDisptachThread extends DispatchThread {
                     if (event.getEventType().equals(EventTypeEnum.UPDATE.ordinal())) {
                         updateCount.getAndIncrement();
                     }
+                    getEventBus().handleSingleEvent(event);
                 }else{
                     break;
                 }
+
             }
             //调度计算
             park();
