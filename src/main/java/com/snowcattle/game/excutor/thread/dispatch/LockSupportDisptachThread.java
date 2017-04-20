@@ -56,36 +56,43 @@ public class LockSupportDisptachThread extends DispatchThread {
     }
 
     private void singleCycle(boolean sleepFlag){
-        long time = System.nanoTime();
+        long startTime = System.nanoTime();
         int cycleSize = getEventBus().getEventsSize();
         if(sleepFlag) {
             int size = getEventBus().cycle(cycleSize);
-            while (updateCount.get() < maxCycleCount) {
+            for (int i = 0; i < size; i++){
                 IEvent event  = getEventBus().pollEvent();
-                if(event != null) {
+                if(event == null || updateCount.get() > maxCycleCount) {
+                    checkSleep(startTime);
+                    break;
+                }else{
                     if (event.getEventType().equals(EventTypeEnum.UPDATE.ordinal())) {
                         updateCount.getAndIncrement();
                     }
-                }else{
-                    break;
+                    getEventBus().handleSingleEvent(event);
+
                 }
             }
             //调度计算
             park();
-            long notifyTime = System.nanoTime();
-            long diff = (int) (notifyTime - time);
-            if (diff < minCycleTime && diff > 0) {
-                try {
-                    Thread.currentThread().sleep(cycleSleepTime, (int) (diff % 999999));
-                } catch (Throwable e) {
-                    Loggers.utilLogger.error(e.toString(), e);
-                }
-            }
+            checkSleep(startTime);
         }else{
             int size = getEventBus().cycle(cycleSize);
         }
     }
 
+    public void checkSleep(long startTime){
+
+        long notifyTime = System.nanoTime();
+        long diff = (int) (notifyTime - startTime);
+        if (diff < minCycleTime && diff > 0) {
+            try {
+                Thread.currentThread().sleep(cycleSleepTime, (int) (diff % 999999));
+            } catch (Throwable e) {
+                Loggers.utilLogger.error(e.toString(), e);
+            }
+        }
+    }
 
     @Override
     public void notifyRun() {
