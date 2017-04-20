@@ -18,19 +18,24 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by jiangwenping on 17/1/12.
- * 负责循环更新服务
+ *  负责循环更新服务
  *  记录更新器缓存
- *  启动分配线程还有更新服务
- *
  *  分配事件到分配线程
+ *  启动分配线程还有更新线程服务器
  */
 public class UpdateService <ID extends Serializable> {
 
+    /**
+     * 负责所有update接口的调用
+     */
     private DispatchThread dispatchThread;
-//    //处理创建，销毁的eventBus
-//    private EventBus eventBus;
+
+    /**
+     * 负责update的执行器
+     */
     private IUpdateExcutor iUpdateExcutor;
-    //记录当前循环的更新接口
+
+    /*记录当前循环的更新接口*/
     private Map<ID, IUpdate> updateMap = new ConcurrentHashMap<ID, IUpdate>();
 
     public UpdateService(DispatchThread dispatchThread, IUpdateExcutor iUpdateExcutor) {
@@ -65,22 +70,6 @@ public class UpdateService <ID extends Serializable> {
         //只有distpatch转发结束后，才会才缓存池里销毁
         updateMap.remove(event.getId());
     }
-
-    public DispatchThread getDispatchThread() {
-        return dispatchThread;
-    }
-
-    public void setDispatchThread(DispatchThread dispatchThread) {
-        this.dispatchThread = dispatchThread;
-    }
-
-//    public EventBus getEventBus() {
-//        return eventBus;
-//    }
-//
-//    public void setEventBus(EventBus eventBus) {
-//        this.eventBus = eventBus;
-//    }
 
     public void stop(){
         iUpdateExcutor.stop();
