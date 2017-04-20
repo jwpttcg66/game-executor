@@ -23,8 +23,9 @@ public class SynsEventBusTest {
         eventBus.addEventListener(new CreateEventListener());
         eventBus.addEventListener(new UpdateEventListener());
         eventBus.addEventListener(new FinishEventListener());
-        int maxSize = 1000;
-        for(int i = 0; i < 10000; i++) {
+
+        int maxSize = 10000;
+        for(int i = 0; i < maxSize; i++) {
             EventParam<Integer> intParam = new EventParam<Integer>(1);
             EventParam<Float> floatEventParam = new EventParam<Float>(2.0f);
 //            CreateEvent event = new CreateEvent(Constants.EventTypeConstans.createEventType, intParam, floatEventParam);
@@ -32,7 +33,10 @@ public class SynsEventBusTest {
             FinishEvent event = new FinishEvent(Constants.EventTypeConstans.finishEventType, intParam, floatEventParam);
             eventBus.addEvent(event);
         }
-
+        long startTime = System.currentTimeMillis();
         eventBus.handleEvent();
+        long endTime = System.currentTimeMillis();
+        long useTime = endTime - startTime;
+        System.out.println("完成个数" + maxSize + "耗时" + useTime);
     }
 }
