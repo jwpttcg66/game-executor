@@ -1,6 +1,6 @@
-package com.snowcattle.game.excutor.event.impl;
+package com.snowcattle.game.excutor.event.impl.event;
 
-import com.snowcattle.game.excutor.event.Event;
+import com.snowcattle.game.excutor.event.AbstractEvent;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.EventType;
 
@@ -8,7 +8,7 @@ import com.snowcattle.game.excutor.event.EventType;
  * Created by jiangwenping on 17/1/11.
  * dispatch 使用
  */
-public class FinishEvent extends Event {
+public class FinishEvent extends AbstractEvent {
     public FinishEvent(EventType eventType, EventParam... parms){
         setEventType(eventType);
         setParams(parms);

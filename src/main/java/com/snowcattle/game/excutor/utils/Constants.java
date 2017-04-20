@@ -1,7 +1,7 @@
 package com.snowcattle.game.excutor.utils;
 
 import com.snowcattle.game.excutor.event.EventType;
-import com.snowcattle.game.excutor.event.EventTypeEnum;
+import com.snowcattle.game.excutor.event.common.constant.EventTypeEnum;
 
 /**
  * Created by jiangwenping on 17/1/9.

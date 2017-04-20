@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.event.impl;
+package com.snowcattle.game.excutor.event.impl.event;
 
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventParam;

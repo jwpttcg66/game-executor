@@ -1,6 +1,6 @@
 package com.snowcattle.game.excutor.thread.update;
 
-import com.snowcattle.game.excutor.event.impl.EventBus;
+import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.entity.IUpdate;
 
 /**

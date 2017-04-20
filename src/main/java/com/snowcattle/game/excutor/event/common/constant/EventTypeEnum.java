@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.event;
+package com.snowcattle.game.excutor.event.common.constant;
 
 /**
  * Created by jiangwenping on 17/1/9.

@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.event.impl;
+package com.snowcattle.game.excutor.event.impl.event;
 
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventParam;
@@ -10,9 +10,9 @@ import java.io.Serializable;
  * Created by jiangwenping on 17/2/21.
  * updateService使用
  */
-public class FinishedEvent <ID extends Serializable> extends CycleEvent{
+public class FinishedEvent<ID extends Serializable> extends CycleEvent {
 
-    public FinishedEvent(EventType eventType,ID eventId, EventParam... parms){
+    public FinishedEvent(EventType eventType, ID eventId, EventParam... parms){
         super(eventType, eventId, parms);
     }
 

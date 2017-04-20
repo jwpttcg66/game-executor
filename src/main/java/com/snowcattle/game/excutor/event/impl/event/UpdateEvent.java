@@ -1,6 +1,6 @@
-package com.snowcattle.game.excutor.event.impl;
+package com.snowcattle.game.excutor.event.impl.event;
 
-import com.snowcattle.game.excutor.event.Event;
+import com.snowcattle.game.excutor.event.AbstractEvent;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.EventType;
 
@@ -8,7 +8,7 @@ import com.snowcattle.game.excutor.event.EventType;
  * Created by jiangwenping on 17/1/11.
  *  disptach线程使用
  */
-public class UpdateEvent extends Event {
+public class UpdateEvent extends AbstractEvent {
     //是否进行过初始化
     private boolean initFlag;
 

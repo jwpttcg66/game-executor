@@ -1,10 +1,10 @@
-package com.snowcattle.game.excutor.event.impl;
+package com.snowcattle.game.excutor.event;
 
 import com.snowcattle.game.excutor.entity.IUpdate;
-import com.snowcattle.game.excutor.event.*;
 import com.snowcattle.game.excutor.event.common.IEvent;
 import com.snowcattle.game.excutor.event.common.IEventBus;
 import com.snowcattle.game.excutor.event.common.IEventListener;
+import com.snowcattle.game.excutor.event.common.constant.EventTypeEnum;
 import com.snowcattle.game.excutor.utils.Loggers;
 
 import java.util.HashSet;
@@ -20,31 +20,31 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class EventBus implements IEventBus {
 
-    private Map<EventType, Set<EventListener>> listenerMap;
+    private Map<EventType, Set<AbstractEventListener>> listenerMap;
 
     private Queue<IEvent> events;
 
     //调用线程size比较费性能，这里采用原子的更新器
     private AtomicInteger size = new AtomicInteger();
     public EventBus() {
-        this.listenerMap = new ConcurrentHashMap<EventType, Set<EventListener>>();
+        this.listenerMap = new ConcurrentHashMap<EventType, Set<AbstractEventListener>>();
         this.events = new ConcurrentLinkedQueue<IEvent>();
     }
 
-    public void addEventListener(EventListener listener) {
+    public void addEventListener(AbstractEventListener listener) {
         Set<EventType> sets = listener.getSet();
         for (EventType eventType: sets){
             if(!listenerMap.containsKey(eventType)){
-                listenerMap.put(eventType, new HashSet<EventListener>());
+                listenerMap.put(eventType, new HashSet<AbstractEventListener>());
             }
             listenerMap.get(eventType).add(listener);
         }
     }
 
-    public void removeEventListener(EventListener eventListener)   {
-        Set<EventType> sets = eventListener.getSet();
+    public void removeEventListener(AbstractEventListener abstractEventListener)   {
+        Set<EventType> sets = abstractEventListener.getSet();
         for (EventType eventType: sets){
-            listenerMap.get(eventType).remove(eventListener);
+            listenerMap.get(eventType).remove(abstractEventListener);
         }
     }
 
@@ -108,7 +108,7 @@ public class EventBus implements IEventBus {
 
         EventType eventType = event.getEventType();
         if(listenerMap.containsKey(eventType)){
-            Set<EventListener> listenerSet = listenerMap.get(eventType);
+            Set<AbstractEventListener> listenerSet = listenerMap.get(eventType);
             for(IEventListener eventListener:listenerSet){
                 if(eventListener.containEventType(event.getEventType())) {
                     eventListener.fireEvent(event);

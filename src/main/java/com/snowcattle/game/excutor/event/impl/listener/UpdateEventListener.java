@@ -1,13 +1,13 @@
-package com.snowcattle.game.excutor.event.impl;
+package com.snowcattle.game.excutor.event.impl.listener;
 
 import com.snowcattle.game.excutor.utils.Constants;
-import com.snowcattle.game.excutor.event.EventListener;
+import com.snowcattle.game.excutor.event.AbstractEventListener;
 
 /**
  * Created by jiangwenping on 17/1/11.
  * 更新监听器
  */
-public class UpdateEventListener extends EventListener{
+public class UpdateEventListener extends AbstractEventListener {
 
     @Override
     public void initEventType() {
