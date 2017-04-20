@@ -3,7 +3,7 @@ package com.snowcattle.game.excutor.pool;
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.thread.update.LockSupportUpdateFuture;
 import com.snowcattle.game.excutor.thread.update.LockSupportUpdateFutureThread;
-import com.snowcattle.game.excutor.thread.ThreadNameFactory;
+import com.snowcattle.game.excutor.common.ThreadNameFactory;
 import com.snowcattle.game.excutor.thread.listener.LockSupportUpdateFutureListener;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;

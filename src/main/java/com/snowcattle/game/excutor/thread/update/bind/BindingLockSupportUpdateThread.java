@@ -19,7 +19,7 @@ import java.util.concurrent.BlockingQueue;
  * 线程一旦启动不会停止,使用arrayblockqueue进行阻塞fetchUpdates，
  * 并且通过加入一个null update来进行wakeup
  */
-public class SingleAbstractBindingLockSupportUpdateThread extends AbstractBindingLockSupportUpdateThread {
+public class BindingLockSupportUpdateThread extends AbstractBindingLockSupportUpdateThread {
 
     private Queue<IUpdate> iUpdates;
     //这里会用来阻塞
@@ -31,7 +31,7 @@ public class SingleAbstractBindingLockSupportUpdateThread extends AbstractBindin
     private List<IUpdate> finishList;
 
     private BindThreadEventExecutorService bindThreadEventExecutorService;
-    public SingleAbstractBindingLockSupportUpdateThread(BindThreadEventExecutorService bindThreadEventExecutorService, DispatchThread dispatchThread, Queue<IUpdate> iUpdates, BlockingQueue<IUpdate> fetchUpdates) {
+    public BindingLockSupportUpdateThread(BindThreadEventExecutorService bindThreadEventExecutorService, DispatchThread dispatchThread, Queue<IUpdate> iUpdates, BlockingQueue<IUpdate> fetchUpdates) {
         super(dispatchThread, dispatchThread.getEventBus());
         this.bindThreadEventExecutorService = bindThreadEventExecutorService;
         this.iUpdates = iUpdates;

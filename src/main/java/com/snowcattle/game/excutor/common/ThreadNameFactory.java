@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.thread;
+package com.snowcattle.game.excutor.common;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
