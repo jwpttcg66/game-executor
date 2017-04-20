@@ -16,3 +16,4 @@ buildNumber.properties
 .gitignore
 .idea/workspace.xml
 logs/
+*.xml
