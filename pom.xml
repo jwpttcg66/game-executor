@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.snowcattle.game.excutor</groupId>
-    <artifactId>game-excutor</artifactId>
+    <artifactId>game-executor</artifactId>
     <version>1.6.9-SNAPSHOT</version>
 
 
