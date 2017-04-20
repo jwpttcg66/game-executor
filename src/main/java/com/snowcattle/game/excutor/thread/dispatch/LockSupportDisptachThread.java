@@ -60,14 +60,14 @@ public class LockSupportDisptachThread extends DispatchThread {
         int cycleSize = getEventBus().getEventsSize();
         if(sleepFlag) {
             int size = getEventBus().cycle(cycleSize);
-            for (int i = 0; i < size; i++) {
-                IEvent event = getEventBus().pollEvent();
-                if(event  == null || updateCount.get() > maxCycleCount) {
-                    break;
-                }else{
+            while (updateCount.get() < maxCycleCount) {
+                IEvent event  = getEventBus().pollEvent();
+                if(event != null) {
                     if (event.getEventType().equals(EventTypeEnum.UPDATE.ordinal())) {
                         updateCount.getAndIncrement();
                     }
+                }else{
+                    break;
                 }
             }
             //调度计算
