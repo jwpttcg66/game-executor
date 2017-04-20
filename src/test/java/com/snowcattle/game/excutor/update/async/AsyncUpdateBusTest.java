@@ -33,9 +33,7 @@ public class AsyncUpdateBusTest {
 //        int corePoolSize = 100;
         int maxSize = 20000;
         int corePoolSize = 50;
-        long keepAliveTime = 0;
-        TimeUnit timeUnit = TimeUnit.MILLISECONDS;
-        UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize,  keepAliveTime, timeUnit);
+        UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
         LockSupportDisptachThread dispatchThread = new LockSupportDisptachThread(updateEventBus, updateExecutorService
                 , cycleSleepTime, cycleSleepTime * 1000000);

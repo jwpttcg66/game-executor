@@ -21,16 +21,9 @@ public class UpdateExecutorService implements IUpdateExcutor{
     private NonOrderedQueuePoolExecutor nonOrderedQueuePoolExecutor;
 
 
-    public UpdateExecutorService(int corePoolSize, long keepAliveTime, TimeUnit unit) {
-//        super(corePoolSize, Integer.MAX_VALUE, keepAliveTime, unit, new LinkedBlockingDeque<Runnable>(),
-//                new ThreadNameFactory(Constants.Thread.UPDATE));
+    public UpdateExecutorService(int corePoolSize) {
         nonOrderedQueuePoolExecutor = new NonOrderedQueuePoolExecutor(corePoolSize);
     }
-
-//    public UpdateExecutorService(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, RejectedExecutionHandler rejectedExecutionHandler) {
-//        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new LinkedBlockingDeque<Runnable>(),
-//                new ThreadNameFactory(Constants.Thread.UPDATE),rejectedExecutionHandler);
-//    }
 
     @Override
     public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
