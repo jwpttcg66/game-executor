@@ -20,7 +20,7 @@ public class LockSupportUpdateFutureListener implements ITaskFutureListener {
     public void operationComplete(ITaskFuture iTaskFuture) throws Exception {
         if(Loggers.utilLogger.isDebugEnabled()){
             IUpdate iUpdate = (IUpdate) iTaskFuture.get();
-            Loggers.utilLogger.debug("update complete event " + iUpdate.getId());
+            Loggers.utilLogger.debug("update complete event id " + iUpdate.getId());
         }
         LockSupportUpdateFuture lockSupportUpdateFuture = (LockSupportUpdateFuture) iTaskFuture;
         IUpdate iUpdate = (IUpdate) iTaskFuture.get();

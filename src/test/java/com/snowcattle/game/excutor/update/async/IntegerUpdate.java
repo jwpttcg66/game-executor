@@ -21,11 +21,12 @@ public class IntegerUpdate extends AbstractUpdate<Long> {
     @Override
     public void update() {
         incrId++;
-        long difference  = incrId - getId();
+        long difference  = incrId;
         if (difference == maxSize) {
             setActive(false);
             long endTime = System.currentTimeMillis();
-            System.out.println("耗时" + endTime);
+            long useTime = endTime - startTime;
+            System.out.println("耗时" + useTime);
         }
         if (Loggers.utilLogger.isDebugEnabled()) {
             Loggers.utilLogger.debug("update id " + getId() + " incrId:" + incrId);
