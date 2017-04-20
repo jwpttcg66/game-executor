@@ -1,29 +1,25 @@
-package com.snowcattle.game.excutor.thread;
+package com.snowcattle.game.excutor.thread.update.bind;
 
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.UpdateEvent;
 import com.snowcattle.game.excutor.pool.excutor.SingleThreadEventExecutor;
+import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.Loggers;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.locks.LockSupport;
-import java.util.logging.Logger;
 
 /**
  * Created by jwp on 2017/2/23.
  * 线程一旦启动不会停止,使用arrayblockqueue进行阻塞fetchUpdates，
  * 并且通过加入一个null update来进行wakeup
  */
-public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
+public class SingleBindingLockSupportUpdateThread extends BindingLockSupportUpdateThread {
 
     private Queue<IUpdate> iUpdates;
     //这里会用来阻塞
@@ -35,7 +31,7 @@ public class SingleLockSupportUpdateThread extends LockSupportUpdateThread {
     private List<IUpdate> finishList;
 
     private SingleThreadEventExecutor singleThreadEventExecutor;
-    public SingleLockSupportUpdateThread(SingleThreadEventExecutor singleThreadEventExecutor, DispatchThread dispatchThread, Queue<IUpdate> iUpdates, BlockingQueue<IUpdate> fetchUpdates) {
+    public SingleBindingLockSupportUpdateThread(SingleThreadEventExecutor singleThreadEventExecutor, DispatchThread dispatchThread, Queue<IUpdate> iUpdates, BlockingQueue<IUpdate> fetchUpdates) {
         super(dispatchThread, dispatchThread.getEventBus());
         this.singleThreadEventExecutor = singleThreadEventExecutor;
         this.iUpdates = iUpdates;

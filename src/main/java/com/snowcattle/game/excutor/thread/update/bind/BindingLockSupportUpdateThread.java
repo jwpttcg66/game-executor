@@ -1,22 +1,22 @@
-package com.snowcattle.game.excutor.thread;
+package com.snowcattle.game.excutor.thread.update.bind;
 
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.UpdateEvent;
+import com.snowcattle.game.excutor.thread.UpdateThread;
+import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
-
-import java.util.concurrent.locks.LockSupport;
 
 /**
  * Created by jiangwenping on 17/1/9.
  * 带预置锁的执行器
  */
-public class LockSupportUpdateThread extends UpdateThread{
+public abstract class BindingLockSupportUpdateThread extends UpdateThread {
 
     private DispatchThread dispatchThread;
 
-    public LockSupportUpdateThread(DispatchThread dispatchThread, EventBus eventBus) {
+    public BindingLockSupportUpdateThread(DispatchThread dispatchThread, EventBus eventBus) {
         super(eventBus);
         this.dispatchThread = dispatchThread;
     }

@@ -1,11 +1,7 @@
 package com.snowcattle.game.excutor.pool.excutor;
 
-import com.snowcattle.game.excutor.pool.UpdateEventExcutorService;
-import com.snowcattle.game.excutor.thread.DispatchThread;
-import com.snowcattle.game.excutor.thread.LockSupportUpdateFuture;
-import com.snowcattle.game.excutor.thread.LockSupportUpdateFutureThread;
-import com.snowcattle.game.excutor.thread.SingleLockSupportUpdateThread;
-import com.snowcattle.game.excutor.thread.listener.LockSupportUpdateFutureListener;
+import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
+import com.snowcattle.game.excutor.thread.update.bind.SingleBindingLockSupportUpdateThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.update.NullWeakUpUpdate;
 import com.snowcattle.game.excutor.utils.Loggers;
@@ -92,7 +88,7 @@ public class SingleThreadEventExecutor extends  FinalizableDelegatedExecutorServ
 
     //启动执行线程
     public void doStartThread(){
-        SingleLockSupportUpdateThread singleLockSupportUpdateThread = new SingleLockSupportUpdateThread(this,dispatchThread, updateQueue, fetchUpdates);
+        SingleBindingLockSupportUpdateThread singleLockSupportUpdateThread = new SingleBindingLockSupportUpdateThread(this,dispatchThread, updateQueue, fetchUpdates);
 //        submit(singleLockSupportUpdateThread);
         execute(singleLockSupportUpdateThread);
     }

@@ -7,7 +7,7 @@ import com.snowcattle.game.excutor.event.impl.FinishEvent;
 import com.snowcattle.game.excutor.event.impl.FinishedEvent;
 import com.snowcattle.game.excutor.event.impl.ReadFinishEvent;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
-import com.snowcattle.game.excutor.thread.DispatchThread;
+import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.Loggers;
@@ -15,7 +15,6 @@ import com.snowcattle.game.excutor.utils.Loggers;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.LockSupport;
 
 /**
  * Created by jiangwenping on 17/1/12.

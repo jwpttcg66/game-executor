@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.thread;
+package com.snowcattle.game.excutor.thread.dispatch;
 
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.IEvent;

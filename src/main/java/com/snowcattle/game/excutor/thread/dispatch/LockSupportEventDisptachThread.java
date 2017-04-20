@@ -1,11 +1,7 @@
-package com.snowcattle.game.excutor.thread;
+package com.snowcattle.game.excutor.thread.dispatch;
 
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.pool.UpdateEventExcutorService;
-import com.snowcattle.game.excutor.pool.UpdateExecutorService;
-import com.snowcattle.game.excutor.utils.Loggers;
-
-import java.util.concurrent.locks.LockSupport;
 
 /**
  * Created by jwp on 2017/2/23.

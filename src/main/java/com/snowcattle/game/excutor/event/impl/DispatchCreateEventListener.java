@@ -1,10 +1,9 @@
 package com.snowcattle.game.excutor.event.impl;
 
-import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.IEvent;
 import com.snowcattle.game.excutor.service.UpdateService;
-import com.snowcattle.game.excutor.thread.DispatchThread;
+import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.update.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 

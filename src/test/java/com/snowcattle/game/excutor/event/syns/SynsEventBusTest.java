@@ -6,7 +6,7 @@ import com.snowcattle.game.excutor.event.impl.CreateEventListener;
 import com.snowcattle.game.excutor.event.impl.FinishEvent;
 import com.snowcattle.game.excutor.event.impl.FinishEventListener;
 import com.snowcattle.game.excutor.event.impl.UpdateEventListener;
-import com.snowcattle.game.excutor.thread.DispatchThread;
+import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.utils.Constants;
 
 /**

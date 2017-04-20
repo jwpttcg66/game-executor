@@ -9,7 +9,7 @@ import com.snowcattle.game.excutor.event.impl.DispatchFinishEventListener;
 import com.snowcattle.game.excutor.event.impl.DispatchUpdateEventListener;
 import com.snowcattle.game.excutor.pool.UpdateEventExcutorService;
 import com.snowcattle.game.excutor.service.UpdateService;
-import com.snowcattle.game.excutor.thread.LockSupportEventDisptachThread;
+import com.snowcattle.game.excutor.thread.dispatch.LockSupportEventDisptachThread;
 import com.snowcattle.game.excutor.utils.Constants;
 
 import java.util.Timer;

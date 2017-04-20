@@ -1,11 +1,8 @@
-package com.snowcattle.game.excutor.thread;
+package com.snowcattle.game.excutor.thread.dispatch;
 
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
-import com.snowcattle.game.excutor.pool.UpdateExecutorService;
 import com.snowcattle.game.excutor.utils.Loggers;
-
-import java.util.concurrent.locks.LockSupport;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -13,7 +10,7 @@ import java.util.concurrent.locks.LockSupport;
  *  接受create, update, finish事件
  *   负责整个调度器的调度 ,按照bus里面的大小来确定每次循环多少个
  */
-public class LockSupportDisptachThread extends DispatchThread{
+public class LockSupportDisptachThread extends DispatchThread {
 
     private EventBus updateServiceEventBus;
 
