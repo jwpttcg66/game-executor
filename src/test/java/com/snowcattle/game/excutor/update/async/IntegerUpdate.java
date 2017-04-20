@@ -1,6 +1,6 @@
 package com.snowcattle.game.excutor.update.async;
 
-import com.snowcattle.game.excutor.update.AbstractUpdate;
+import com.snowcattle.game.excutor.entity.AbstractUpdate;
 import com.snowcattle.game.excutor.utils.Loggers;
 
 /**

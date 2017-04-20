@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.update;
+package com.snowcattle.game.excutor.entity;
 
 /**
  * Created by jwp on 2017/2/24.

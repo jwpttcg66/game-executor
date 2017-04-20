@@ -3,7 +3,7 @@ package com.snowcattle.game.excutor.thread.update;
 import com.snowcattle.future.AbstractFuture;
 import com.snowcattle.future.ITaskFuture;
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
-import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.entity.IUpdate;
 
 /**
  * Created by jiangwenping on 17/1/18.

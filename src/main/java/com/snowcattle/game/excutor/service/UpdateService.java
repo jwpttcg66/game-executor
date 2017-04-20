@@ -8,7 +8,7 @@ import com.snowcattle.game.excutor.event.impl.FinishedEvent;
 import com.snowcattle.game.excutor.event.impl.ReadFinishEvent;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
-import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.entity.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.Loggers;
 

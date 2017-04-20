@@ -5,7 +5,7 @@ package com.snowcattle.game.excutor.update.async;
  */
 
 import com.snowcattle.game.excutor.event.CycleEvent;
-import com.snowcattle.game.excutor.event.EventBus;
+import com.snowcattle.game.excutor.event.impl.EventBus;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.*;
 import com.snowcattle.game.excutor.pool.UpdateExecutorService;

@@ -1,4 +1,4 @@
-package com.snowcattle.game.excutor.update;
+package com.snowcattle.game.excutor.entity;
 
 import java.io.Serializable;
 

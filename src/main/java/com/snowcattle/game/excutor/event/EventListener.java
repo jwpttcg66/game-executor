@@ -1,12 +1,15 @@
 package com.snowcattle.game.excutor.event;
 
+import com.snowcattle.game.excutor.event.common.IEvent;
+import com.snowcattle.game.excutor.event.common.IEventListener;
+
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * Created by jiangwenping on 17/1/6.
  */
-public abstract class EventListener implements  IEventListener{
+public abstract class EventListener implements IEventListener {
 
     private Set<EventType> set;
 

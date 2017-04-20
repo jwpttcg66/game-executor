@@ -2,8 +2,8 @@ package com.snowcattle.game.excutor.pool.excutor;
 
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.thread.update.bind.BindingLockSupportUpdateThread;
-import com.snowcattle.game.excutor.update.IUpdate;
-import com.snowcattle.game.excutor.update.NullWeakUpUpdate;
+import com.snowcattle.game.excutor.entity.IUpdate;
+import com.snowcattle.game.excutor.entity.NullWeakUpUpdate;
 import com.snowcattle.game.excutor.utils.Loggers;
 
 import java.util.Queue;

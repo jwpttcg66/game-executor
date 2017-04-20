@@ -1,9 +1,11 @@
 package com.snowcattle.game.excutor.event;
 
+import com.snowcattle.game.excutor.event.common.IEvent;
+
 /**
  * Created by jiangwenping on 17/1/9.
  */
-public abstract  class Event implements IEvent{
+public abstract  class Event implements IEvent {
 
     private EventType eventType;
     private EventParam[] eventParamps;

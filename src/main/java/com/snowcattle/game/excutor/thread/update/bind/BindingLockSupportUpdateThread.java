@@ -4,7 +4,7 @@ import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.UpdateEvent;
 import com.snowcattle.game.excutor.pool.excutor.BindThreadEventExecutorService;
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
-import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.entity.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.Loggers;
 

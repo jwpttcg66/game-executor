@@ -5,7 +5,7 @@ import com.snowcattle.game.excutor.thread.update.LockSupportUpdateFuture;
 import com.snowcattle.game.excutor.thread.update.LockSupportUpdateFutureThread;
 import com.snowcattle.game.excutor.common.ThreadNameFactory;
 import com.snowcattle.game.excutor.thread.listener.LockSupportUpdateFutureListener;
-import com.snowcattle.game.excutor.update.IUpdate;
+import com.snowcattle.game.excutor.entity.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.ExecutorUtil;
 

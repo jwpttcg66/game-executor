@@ -1,4 +1,7 @@
-package com.snowcattle.game.excutor.event;
+package com.snowcattle.game.excutor.event.common;
+
+import com.snowcattle.game.excutor.event.EventParam;
+import com.snowcattle.game.excutor.event.EventType;
 
 /**
  * Created by jiangwenping on 17/1/6.
