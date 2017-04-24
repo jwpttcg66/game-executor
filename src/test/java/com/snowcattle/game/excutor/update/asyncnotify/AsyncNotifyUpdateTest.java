@@ -9,7 +9,7 @@ import com.snowcattle.game.excutor.event.impl.listener.DispatchFinishEventListen
 import com.snowcattle.game.excutor.event.impl.listener.DispatchUpdateEventListener;
 import com.snowcattle.game.excutor.pool.UpdateBindExcutorService;
 import com.snowcattle.game.excutor.service.UpdateService;
-import com.snowcattle.game.excutor.thread.dispatch.BindLockSupportDisptachThread;
+import com.snowcattle.game.excutor.thread.dispatch.BindDisptachThread;
 import com.snowcattle.game.excutor.utils.Constants;
 
 import java.util.Timer;
@@ -33,7 +33,7 @@ public class AsyncNotifyUpdateTest {
         TimeUnit timeUnit = TimeUnit.SECONDS;
         UpdateBindExcutorService updateBindExcutorService = new UpdateBindExcutorService(corePoolSize);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
-        BindLockSupportDisptachThread dispatchThread = new BindLockSupportDisptachThread(updateEventBus, updateBindExcutorService
+        BindDisptachThread dispatchThread = new BindDisptachThread(updateEventBus, updateBindExcutorService
                 , cycleSleepTime, cycleSleepTime*1000);
         updateBindExcutorService.setDispatchThread(dispatchThread);
         UpdateService updateService = new UpdateService(dispatchThread, updateBindExcutorService);

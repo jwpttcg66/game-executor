@@ -1,7 +1,7 @@
 package com.snowcattle.game.excutor.pool.excutor;
 
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
-import com.snowcattle.game.excutor.thread.update.bind.BindingLockSupportUpdateThread;
+import com.snowcattle.game.excutor.thread.update.bind.BindingUpdateThread;
 import com.snowcattle.game.excutor.entity.IUpdate;
 import com.snowcattle.game.excutor.entity.NullWeakUpUpdate;
 import com.snowcattle.game.excutor.utils.Loggers;
@@ -76,7 +76,7 @@ public class BindThreadEventExecutorService extends  FinalizableDelegatedExecuto
 
     //启动执行线程
     public void doStartThread(){
-        BindingLockSupportUpdateThread singleLockSupportUpdateThread = new BindingLockSupportUpdateThread(this,dispatchThread, updateQueue, fetchUpdates);
+        BindingUpdateThread singleLockSupportUpdateThread = new BindingUpdateThread(this,dispatchThread, updateQueue, fetchUpdates);
         execute(singleLockSupportUpdateThread);
     }
 

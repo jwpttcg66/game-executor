@@ -6,9 +6,9 @@ import com.snowcattle.game.excutor.pool.UpdateBindExcutorService;
 /**
  * Created by jwp on 2017/2/23.
  */
-public class BindLockSupportDisptachThread extends LockSupportDisptachThread{
+public class BindDisptachThread extends LockSupportDisptachThread{
 
-    public BindLockSupportDisptachThread(EventBus eventBus, UpdateBindExcutorService updateBindExcutorService
+    public BindDisptachThread(EventBus eventBus, UpdateBindExcutorService updateBindExcutorService
             , int cycleSleepTime, long minCycleTime) {
         super(eventBus, updateBindExcutorService, cycleSleepTime, minCycleTime);
     }
