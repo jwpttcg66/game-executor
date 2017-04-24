@@ -1,12 +1,10 @@
 package com.snowcattle.game.excutor.thread.dispatch;
 
 import com.snowcattle.game.excutor.event.EventBus;
-import com.snowcattle.game.excutor.event.common.IEvent;
-import com.snowcattle.game.excutor.event.common.constant.EventTypeEnum;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 import com.snowcattle.game.excutor.utils.Loggers;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.locks.LockSupport;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -97,5 +95,15 @@ public class LockSupportDisptachThread extends DispatchThread {
     public void shutDown(){
         this.runningFlag = false;
         super.shutDown();
+    }
+
+    @Override
+    public void unpark(){
+        LockSupport.unpark(this);
+    }
+
+    @Override
+    public void park(){
+        LockSupport.park(this);
     }
 }

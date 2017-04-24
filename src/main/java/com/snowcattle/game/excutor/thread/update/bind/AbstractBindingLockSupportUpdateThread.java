@@ -32,7 +32,7 @@ public abstract class AbstractBindingLockSupportUpdateThread extends UpdateThrea
             UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
             event.setUpdateAliveFlag(getiUpdate().isActive());
             getEventBus().addEvent(event);
-            getDispatchThread().unpark();
+//            getDispatchThread().unpark();
         }
     }
 

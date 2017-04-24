@@ -4,13 +4,11 @@ import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.common.IEvent;
 import com.snowcattle.game.excutor.utils.Constants;
 
-import java.util.concurrent.locks.LockSupport;
-
 /**
  * Created by jiangwenping on 17/1/9.
  * ⌚事件分配器
  */
-public class DispatchThread extends Thread{
+public abstract class DispatchThread extends Thread{
 
     private EventBus eventBus;
 
@@ -49,12 +47,8 @@ public class DispatchThread extends Thread{
     public void addFinishEvent(IEvent event){
         getEventBus().addEvent(event);
     }
-
     public void unpark(){
-        LockSupport.unpark(this);
     }
     public void park(){
-        LockSupport.park(this);
     }
-
 }

@@ -6,7 +6,6 @@ import com.snowcattle.game.excutor.event.impl.event.FinishEvent;
 import com.snowcattle.game.excutor.event.impl.listener.CreateEventListener;
 import com.snowcattle.game.excutor.event.impl.listener.FinishEventListener;
 import com.snowcattle.game.excutor.event.impl.listener.UpdateEventListener;
-import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.utils.Constants;
 
 /**
@@ -19,7 +18,6 @@ public class SynsEventBusTest {
 
     public static void testSynsEvent(){
         EventBus eventBus = new EventBus();
-        DispatchThread dispatchThread = new DispatchThread(eventBus);
         eventBus.addEventListener(new CreateEventListener());
         eventBus.addEventListener(new UpdateEventListener());
         eventBus.addEventListener(new FinishEventListener());

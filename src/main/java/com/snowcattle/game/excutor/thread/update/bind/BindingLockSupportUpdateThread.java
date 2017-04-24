@@ -118,7 +118,6 @@ public class BindingLockSupportUpdateThread extends AbstractBindingLockSupportUp
             sendFinish(excutorUpdate);
         }
         finishList.clear();
-        getDispatchThread().unpark();
 
     }
 

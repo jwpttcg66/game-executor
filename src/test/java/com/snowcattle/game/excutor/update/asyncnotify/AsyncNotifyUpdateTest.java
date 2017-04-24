@@ -42,14 +42,6 @@ public class AsyncNotifyUpdateTest {
         updateEventBus.addEventListener(new DispatchFinishEventListener(dispatchThread, updateService));
 
         updateService.notifyStart();
-//        while (true) {
-//            Thread.currentThread().sleep(100);
-//            LockSupport.unpark(dispatchThread);
-//
-//            LockSupport.park(dispatchThread);
-//            updateService.notifyRun();
-//            break;
-//        }
 
         long updateMaxSize = 1;
         for (long i = 0; i < maxSize; i++) {
