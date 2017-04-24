@@ -27,7 +27,7 @@ public class DispatchFinishEventListener extends FinishEventListener {
         EventParam[] eventParams = event.getParams();
         IUpdate iUpdate = (IUpdate) eventParams[0].getT();
         FinishedEvent finishedEvent = new FinishedEvent(Constants.EventTypeConstans.finishedEventType, iUpdate.getId(), event.getParams());
-        this.updateService.notifyFinishedEvent(finishedEvent);
+        this.updateService.addFinishedEvent(finishedEvent);
     }
 
 }

@@ -27,7 +27,7 @@ public class AsyncNotifyUpdateTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 2;
+        int maxSize = 1;
         int corePoolSize = 2;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
@@ -51,7 +51,7 @@ public class AsyncNotifyUpdateTest {
 //            break;
 //        }
 
-        long updateMaxSize = 2000;
+        long updateMaxSize = 1;
         for (long i = 0; i < maxSize; i++) {
             IntegerUpdate integerUpdate = new IntegerUpdate(i, updateMaxSize);
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);

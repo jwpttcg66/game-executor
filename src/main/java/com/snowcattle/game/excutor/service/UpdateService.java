@@ -1,5 +1,6 @@
 package com.snowcattle.game.excutor.service;
 
+import com.snowcattle.game.excutor.entity.IUpdate;
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.impl.event.CreateEvent;
@@ -8,12 +9,10 @@ import com.snowcattle.game.excutor.event.impl.event.FinishedEvent;
 import com.snowcattle.game.excutor.event.impl.event.ReadFinishEvent;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
-import com.snowcattle.game.excutor.entity.IUpdate;
 import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.excutor.utils.Loggers;
 
 import java.io.Serializable;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -36,7 +35,7 @@ public class UpdateService <ID extends Serializable> {
     private IUpdateExcutor iUpdateExcutor;
 
     /*记录当前循环的更新接口*/
-    private Map<ID, IUpdate> updateMap = new ConcurrentHashMap<ID, IUpdate>();
+    private ConcurrentHashMap<ID, IUpdate> updateMap = new ConcurrentHashMap<ID, IUpdate>();
 
     public UpdateService(DispatchThread dispatchThread, IUpdateExcutor iUpdateExcutor) {
         this.dispatchThread = dispatchThread;
@@ -64,11 +63,12 @@ public class UpdateService <ID extends Serializable> {
         dispatchThread.addFinishEvent(finishEvent);
     }
 
-    public void notifyFinishedEvent(CycleEvent event){
+    public void addFinishedEvent(CycleEvent event){
         FinishedEvent readFinishEvent = (FinishedEvent) event;
         EventParam[] eventParams = event.getParams();
+        IUpdate  iUpdate = (IUpdate) eventParams[0].getT();
         //只有distpatch转发结束后，才会才缓存池里销毁
-        updateMap.remove(event.getId());
+        updateMap.remove(event.getId(),iUpdate);
     }
 
     public void stop(){
