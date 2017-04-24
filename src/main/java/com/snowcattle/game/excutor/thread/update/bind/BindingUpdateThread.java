@@ -101,7 +101,7 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
         }
         //事件总线增加更新完成通知
         EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
-        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, params);
+        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, excutorUpdate.getId(), params);
         event.setUpdateExcutorIndex(bindThreadEventExecutorService.getUpdateExcutorIndex());
         event.setUpdateAliveFlag(excutorUpdate.isActive());
         getEventBus().addEvent(event);

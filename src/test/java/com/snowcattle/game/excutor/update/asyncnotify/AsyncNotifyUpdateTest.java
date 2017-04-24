@@ -43,7 +43,7 @@ public class AsyncNotifyUpdateTest {
 
         updateService.notifyStart();
 
-        long updateMaxSize = 1;
+        long updateMaxSize = 100;
         for (long i = 0; i < maxSize; i++) {
             IntegerUpdate integerUpdate = new IntegerUpdate(i, updateMaxSize);
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);

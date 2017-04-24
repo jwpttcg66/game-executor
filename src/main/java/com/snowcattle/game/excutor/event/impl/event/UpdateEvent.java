@@ -1,14 +1,16 @@
 package com.snowcattle.game.excutor.event.impl.event;
 
-import com.snowcattle.game.excutor.event.AbstractEvent;
+import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.EventType;
+
+import java.io.Serializable;
 
 /**
  * Created by jiangwenping on 17/1/11.
  *  disptach线程使用
  */
-public class UpdateEvent extends AbstractEvent {
+public class UpdateEvent <ID extends Serializable> extends CycleEvent {
     //是否进行过初始化
     private boolean initFlag;
 
@@ -18,9 +20,10 @@ public class UpdateEvent extends AbstractEvent {
     //对象是否存活
     private boolean updateAliveFlag;
 
-    public UpdateEvent(EventType eventType, EventParam... parms){
-        setEventType(eventType);
-        setParams(parms);
+    public UpdateEvent(EventType eventType, ID eventId, EventParam... parms){
+//        setEventType(eventType);
+//        setParams(parms);
+        super(eventType, eventId, parms);
         updateAliveFlag = true;
     }
 

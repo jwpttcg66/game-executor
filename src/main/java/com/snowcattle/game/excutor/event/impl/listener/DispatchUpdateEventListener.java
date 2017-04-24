@@ -38,7 +38,7 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
                 IUpdateExcutor iUpdateExcutor = dispatchThread.getiUpdateExcutor();
                 iUpdateExcutor.excutorUpdate(dispatchThread, iUpdate, updateEvent.isInitFlag(), updateEvent.getUpdateExcutorIndex());
             } else {
-                FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
+                FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, iUpdate.getId(), eventParams);
                 dispatchThread.addFinishEvent(finishEvent);
             }
         }

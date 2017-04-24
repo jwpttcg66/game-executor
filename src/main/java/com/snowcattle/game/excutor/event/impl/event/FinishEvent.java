@@ -1,17 +1,20 @@
 package com.snowcattle.game.excutor.event.impl.event;
 
-import com.snowcattle.game.excutor.event.AbstractEvent;
+import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.EventType;
+
+import java.io.Serializable;
 
 /**
  * Created by jiangwenping on 17/1/11.
  * dispatch 使用
  */
-public class FinishEvent extends AbstractEvent {
-    public FinishEvent(EventType eventType, EventParam... parms){
-        setEventType(eventType);
-        setParams(parms);
+public class FinishEvent <ID extends Serializable> extends CycleEvent {
+    public FinishEvent(EventType eventType, ID eventId,EventParam... parms){
+//        setEventType(eventType);
+//        setParams(parms);
+        super(eventType, eventId, parms);
     }
 
     public void call() {

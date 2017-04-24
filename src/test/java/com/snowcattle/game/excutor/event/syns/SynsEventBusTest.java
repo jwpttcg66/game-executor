@@ -28,7 +28,8 @@ public class SynsEventBusTest {
             EventParam<Float> floatEventParam = new EventParam<Float>(2.0f);
 //            CreateEvent event = new CreateEvent(Constants.EventTypeConstans.createEventType, intParam, floatEventParam);
 //            UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, intParam, floatEventParam);
-            FinishEvent event = new FinishEvent(Constants.EventTypeConstans.finishEventType, intParam, floatEventParam);
+            long id = i;
+            FinishEvent event = new FinishEvent(Constants.EventTypeConstans.finishEventType, id,  intParam, floatEventParam);
             eventBus.addEvent(event);
         }
         long startTime = System.currentTimeMillis();

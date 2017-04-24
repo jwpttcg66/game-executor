@@ -28,11 +28,11 @@ public class DispatchCreateEventListener extends CreateEventListener {
         EventParam[] eventParams = event.getParams();
         IUpdate iUpdate = (IUpdate) eventParams[0].getT();
         if(iUpdate.isActive()) {
-            UpdateEvent updateEvent = new UpdateEvent(Constants.EventTypeConstans.updateEventType, event.getParams());
+            UpdateEvent updateEvent = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getId(), event.getParams());
             updateEvent.setInitFlag(true);
             this.dispatchThread.addUpdateEvent(updateEvent);
         }else{
-            FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
+            FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, iUpdate.getId(), eventParams);
             dispatchThread.addFinishEvent(finishEvent);
         }
     }

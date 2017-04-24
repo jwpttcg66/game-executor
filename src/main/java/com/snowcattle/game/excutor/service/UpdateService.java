@@ -50,7 +50,7 @@ public class UpdateService <ID extends Serializable> {
         if(Loggers.utilLogger.isDebugEnabled()) {
             Loggers.utilLogger.debug("readycreate " + iUpdate.getId() + " dispatch");
         }
-        CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, eventParams);
+        CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, event.getId(), eventParams);
         dispatchThread.addCreateEvent(createEvent);
         dispatchThread.unpark();
     }
@@ -59,7 +59,7 @@ public class UpdateService <ID extends Serializable> {
         ReadFinishEvent readFinishEvent = (ReadFinishEvent) event;
         EventParam[] eventParams = event.getParams();
         //通知dispatchThread
-        FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, eventParams);
+        FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, event.getId(), eventParams);
         dispatchThread.addFinishEvent(finishEvent);
     }
 
