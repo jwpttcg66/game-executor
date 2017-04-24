@@ -6,6 +6,8 @@ import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.common.IEvent;
 import com.snowcattle.game.excutor.event.common.constant.EventTypeEnum;
 import com.snowcattle.game.excutor.event.factory.CycleDisruptorEventFactory;
+import com.snowcattle.game.excutor.pool.DisruptorExcutorService;
+import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 
 /**
  * Created by jiangwenping on 17/4/24.
@@ -17,9 +19,11 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     private int bufferSize = Short.MAX_VALUE * EventTypeEnum.values().length;
 
-    public DisruptorDispatchThread() {
-        super(null);
+    private DisruptorExcutorService disruptorExcutorService;
 
+    public DisruptorDispatchThread(IUpdateExcutor iUpdateExcutor) {
+        super(null);
+        this.disruptorExcutorService = (DisruptorExcutorService) iUpdateExcutor;
     }
 
     public void initRingBuffer(){
@@ -30,14 +34,14 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     }
     public void addUpdateEvent(IEvent event){
-        dispatch();
+        dispatch(event);
     }
     public void addCreateEvent(IEvent event){
-        dispatch();
+        dispatch(event);
     }
 
     public void addFinishEvent(IEvent event){
-        dispatch();
+        dispatch(event);
     }
 
     public void shutDown(){
@@ -45,7 +49,8 @@ public class DisruptorDispatchThread extends DispatchThread{
     }
 
 
-    public void dispatch(){
+    public void dispatch(IEvent event){
+        ringBuffer = disruptorExcutorService.getDispatchRingBuffer();
         long next = ringBuffer.next();
         ringBuffer.publish(next);
     }
@@ -57,5 +62,15 @@ public class DisruptorDispatchThread extends DispatchThread{
     public void setRingBuffer(RingBuffer<CycleEvent> ringBuffer) {
         this.ringBuffer = ringBuffer;
     }
+
+    public DisruptorExcutorService getDisruptorExcutorService() {
+        return disruptorExcutorService;
+    }
+
+    public void setDisruptorExcutorService(DisruptorExcutorService disruptorExcutorService) {
+        this.disruptorExcutorService = disruptorExcutorService;
+    }
+
+
 }
 
