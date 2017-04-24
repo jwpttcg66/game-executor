@@ -50,4 +50,12 @@ public class DisruptorDispatchThread extends DispatchThread{
         ringBuffer.publish(next);
     }
 
+    public RingBuffer<CycleEvent> getRingBuffer() {
+        return ringBuffer;
+    }
+
+    public void setRingBuffer(RingBuffer<CycleEvent> ringBuffer) {
+        this.ringBuffer = ringBuffer;
+    }
 }
+
