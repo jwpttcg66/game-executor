@@ -9,6 +9,10 @@ public class CycleEvent<ID extends Serializable> extends AbstractEvent {
 
     private ID id;
 
+    public CycleEvent(){
+
+    }
+
     public CycleEvent(EventType eventType, ID eventId, EventParam... parms){
         setEventType(eventType);
         setParams(parms);
@@ -23,4 +27,9 @@ public class CycleEvent<ID extends Serializable> extends AbstractEvent {
     public ID getId() {
         return id;
     }
+
+    public void setId(ID id) {
+        this.id = id;
+    }
+
 }
