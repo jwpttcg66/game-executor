@@ -25,6 +25,7 @@
         <version.template.file>version.txt.template</version.template.file>
         <version.file>version.txt</version.file>
         <GameThreadPool.version>1.0</GameThreadPool.version>
+        <disruptor.version>3.3.6</disruptor.version>
     </properties>
 
     <dependencies>
@@ -72,6 +73,14 @@
             <artifactId>GameThreadPool</artifactId>
             <version>${GameThreadPool.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.lmax/disruptor -->
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>${disruptor.version}</version>
+        </dependency>
+
+
     </dependencies>
 
 
