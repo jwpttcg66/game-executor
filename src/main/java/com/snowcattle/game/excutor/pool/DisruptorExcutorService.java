@@ -40,6 +40,9 @@ public class DisruptorExcutorService implements IUpdateExcutor {
     public void startup() {
         executorService = new NonOrderedQueuePoolExecutor(excutorSize);
         cycleEventHandler = new CycleEventHandler[excutorSize];
+        for(int i = 0; i < excutorSize; i++){
+            cycleEventHandler[i] = new CycleEventHandler();
+        }
         RingBuffer ringBuffer = disruptorDispatchThread.getRingBuffer();
         workerPool = new WorkerPool(ringBuffer, ringBuffer.newBarrier(), new FatalExceptionHandler(), cycleEventHandler);
         ringBuffer.addGatingSequences(workerPool.getWorkerSequences());
