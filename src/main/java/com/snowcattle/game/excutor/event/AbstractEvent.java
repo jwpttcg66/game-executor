@@ -2,10 +2,12 @@ package com.snowcattle.game.excutor.event;
 
 import com.snowcattle.game.excutor.event.common.IEvent;
 
+import java.io.Serializable;
+
 /**
  * Created by jiangwenping on 17/1/9.
  */
-public abstract  class AbstractEvent implements IEvent {
+public abstract  class AbstractEvent<ID extends Serializable> implements IEvent {
 
     private EventType eventType;
     private EventParam[] eventParamps;
@@ -25,5 +27,4 @@ public abstract  class AbstractEvent implements IEvent {
     public void setParams(EventParam... eventParams) {
         this.eventParamps = eventParams;
     }
-
 }

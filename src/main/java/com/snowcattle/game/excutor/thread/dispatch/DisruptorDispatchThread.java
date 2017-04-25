@@ -68,6 +68,10 @@ public class DisruptorDispatchThread extends DispatchThread{
     public void dispatch(IEvent event){
         ringBuffer = disruptorExcutorService.getDispatchRingBuffer();
         long next = ringBuffer.next();
+        CycleEvent cycleEvent = (CycleEvent) event;
+        ringBuffer.get(next).setId(cycleEvent.getId());
+        ringBuffer.get(next).setEventType(event.getEventType());
+        ringBuffer.get(next).setParams(event.getParams());
         ringBuffer.publish(next);
     }
 

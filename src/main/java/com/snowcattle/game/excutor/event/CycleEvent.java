@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by jiangwenping on 17/1/16.
  */
-public class CycleEvent<ID extends Serializable> extends AbstractEvent {
+public class CycleEvent<ID extends Serializable>  extends AbstractEvent{
 
     private ID id;
 
