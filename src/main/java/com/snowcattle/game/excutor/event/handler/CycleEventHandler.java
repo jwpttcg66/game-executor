@@ -1,24 +1,18 @@
 package com.snowcattle.game.excutor.event.handler;
 
-import com.lmax.disruptor.EventReleaseAware;
+import com.lmax.disruptor.EventHandler;
 import com.lmax.disruptor.EventReleaser;
-import com.lmax.disruptor.WorkHandler;
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventBus;
 
 /**
  * Created by jiangwenping on 17/4/24.
  */
-public class CycleEventHandler implements WorkHandler<CycleEvent>, EventReleaseAware{
+public class CycleEventHandler implements EventHandler<CycleEvent>{
 
     private EventReleaser eventReleaser;
 
     private EventBus eventBus;
-
-    @Override
-    public void setEventReleaser(EventReleaser eventReleaser) {
-        this.eventReleaser = eventReleaser;
-    }
 
     public CycleEventHandler(EventBus eventBus) {
         this.eventBus = eventBus;
@@ -33,15 +27,9 @@ public class CycleEventHandler implements WorkHandler<CycleEvent>, EventReleaseA
     }
 
     @Override
-    public void onEvent(final CycleEvent cycleEvent) throws Exception {
-        eventReleaser.release();
-        eventBus.handleSingleEvent(cycleEvent);
-//        if(cycleEvent.getEventType().getIndex() == EventTypeEnum.CREATE.ordinal()){
-//
-//        }else if(cycleEvent.getEventType().getIndex() == EventTypeEnum.UPDATE.ordinal()){
-//
-//        }else if(cycleEvent.getEventType().getIndex() == EventTypeEnum.FINISH.ordinal()){
-//
-//        }
+    public void onEvent(final CycleEvent cycleEvent, final long sequence, boolean endOfbatch) throws Exception {
+        System.out.println("dd");
+//        eventReleaser.release();
+//        eventBus.handleSingleEvent(cycleEvent);
     }
 }

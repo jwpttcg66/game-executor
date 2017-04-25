@@ -1,9 +1,8 @@
 package com.snowcattle.game.excutor.pool;
 
-import com.lmax.disruptor.FatalExceptionHandler;
-import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.WorkerPool;
+import com.lmax.disruptor.*;
 import com.snowcattle.game.excutor.entity.IUpdate;
+import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.common.IEvent;
 import com.snowcattle.game.excutor.event.handler.CycleEventHandler;
@@ -47,8 +46,13 @@ public class DisruptorExcutorService implements IUpdateExcutor {
         }
 
         RingBuffer ringBuffer = disruptorDispatchThread.getRingBuffer();
-        workerPool = new WorkerPool(ringBuffer, ringBuffer.newBarrier(), new FatalExceptionHandler(), cycleEventHandler);
-        ringBuffer.addGatingSequences(workerPool.getWorkerSequences());
+        SequenceBarrier sequenceBarrier = ringBuffer.newBarrier();
+        BatchEventProcessor<CycleEvent>[] batchEventProcessors = new BatchEventProcessor[excutorSize];
+        for(int i = 0; i < excutorSize; i++){
+            batchEventProcessors[i] = new BatchEventProcessor<>(ringBuffer, sequenceBarrier, cycleEventHandler[i]);
+            ringBuffer.addGatingSequences(batchEventProcessors[i].getSequence());
+            executorService.submit(batchEventProcessors[i]);
+        }
     }
 
     @Override
@@ -73,7 +77,7 @@ public class DisruptorExcutorService implements IUpdateExcutor {
     }
 
     public RingBuffer getDispatchRingBuffer(){
-        return workerPool.start(executorService);
+        return disruptorDispatchThread.getRingBuffer();
     }
 
     public void dispatch(IEvent event){
