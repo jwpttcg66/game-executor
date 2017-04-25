@@ -4,6 +4,7 @@ import com.lmax.disruptor.FatalExceptionHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.WorkerPool;
 import com.snowcattle.game.excutor.entity.IUpdate;
+import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.common.IEvent;
 import com.snowcattle.game.excutor.event.handler.CycleEventHandler;
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
@@ -38,11 +39,13 @@ public class DisruptorExcutorService implements IUpdateExcutor {
 
     @Override
     public void startup() {
+        EventBus eventBus = disruptorDispatchThread.getEventBus();
         executorService = new NonOrderedQueuePoolExecutor(excutorSize);
         cycleEventHandler = new CycleEventHandler[excutorSize];
         for(int i = 0; i < excutorSize; i++){
-            cycleEventHandler[i] = new CycleEventHandler();
+            cycleEventHandler[i] = new CycleEventHandler(eventBus);
         }
+
         RingBuffer ringBuffer = disruptorDispatchThread.getRingBuffer();
         workerPool = new WorkerPool(ringBuffer, ringBuffer.newBarrier(), new FatalExceptionHandler(), cycleEventHandler);
         ringBuffer.addGatingSequences(workerPool.getWorkerSequences());

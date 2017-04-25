@@ -14,8 +14,6 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class LockSupportDisptachThread extends DispatchThread {
 
-    private EventBus updateServiceEventBus;
-
     private boolean runningFlag = true;
     private IUpdateExcutor iUpdateExcutor;
 
@@ -66,14 +64,6 @@ public class LockSupportDisptachThread extends DispatchThread {
     @Override
     public void notifyRun() {
        singleCycle(false);
-    }
-
-    public EventBus getUpdateServiceEventBus() {
-        return updateServiceEventBus;
-    }
-
-    public void setUpdateServiceEventBus(EventBus updateServiceEventBus) {
-        this.updateServiceEventBus = updateServiceEventBus;
     }
 
     public boolean isRunningFlag() {

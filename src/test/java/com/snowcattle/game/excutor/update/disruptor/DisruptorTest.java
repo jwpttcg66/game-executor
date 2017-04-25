@@ -34,9 +34,10 @@ public class DisruptorTest {
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
 //        DisruptorDispatchThread dispatchThread = new DisruptorDispatchThread(updateEventBus, disruptorExcutorService
 //                , cycleSleepTime, cycleSleepTime*1000);
-        DisruptorDispatchThread dispatchThread = new DisruptorDispatchThread(disruptorExcutorService);
+        DisruptorDispatchThread dispatchThread = new DisruptorDispatchThread(updateEventBus, disruptorExcutorService);
         disruptorExcutorService.setDisruptorDispatchThread(dispatchThread);
         UpdateService updateService = new UpdateService(dispatchThread, disruptorExcutorService);
+
         updateEventBus.addEventListener(new DispatchCreateEventListener(dispatchThread, updateService));
         updateEventBus.addEventListener(new DispatchUpdateEventListener(dispatchThread, updateService));
         updateEventBus.addEventListener(new DispatchFinishEventListener(dispatchThread, updateService));

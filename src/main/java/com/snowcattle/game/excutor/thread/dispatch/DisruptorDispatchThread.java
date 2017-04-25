@@ -3,6 +3,7 @@ package com.snowcattle.game.excutor.thread.dispatch;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.YieldingWaitStrategy;
 import com.snowcattle.game.excutor.event.CycleEvent;
+import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.common.IEvent;
 import com.snowcattle.game.excutor.event.factory.CycleDisruptorEventFactory;
 import com.snowcattle.game.excutor.pool.DisruptorExcutorService;
@@ -20,8 +21,8 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     private DisruptorExcutorService disruptorExcutorService;
 
-    public DisruptorDispatchThread(IUpdateExcutor iUpdateExcutor) {
-        super(null);
+    public DisruptorDispatchThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor) {
+        super(eventBus);
         this.disruptorExcutorService = (DisruptorExcutorService) iUpdateExcutor;
     }
 
