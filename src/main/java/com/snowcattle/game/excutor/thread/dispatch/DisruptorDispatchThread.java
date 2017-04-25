@@ -8,6 +8,9 @@ import com.snowcattle.game.excutor.event.common.IEvent;
 import com.snowcattle.game.excutor.event.factory.CycleDisruptorEventFactory;
 import com.snowcattle.game.excutor.pool.DisruptorExcutorService;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
+import com.snowcattle.game.excutor.utils.Loggers;
+
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Created by jiangwenping on 17/4/24.
@@ -21,9 +24,12 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     private DisruptorExcutorService disruptorExcutorService;
 
+    private ArrayBlockingQueue<IEvent> blockingQueue;
+
     public DisruptorDispatchThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor) {
         super(eventBus);
         this.disruptorExcutorService = (DisruptorExcutorService) iUpdateExcutor;
+        blockingQueue = new ArrayBlockingQueue<IEvent>(bufferSize);
     }
 
     public void initRingBuffer(){
@@ -32,16 +38,23 @@ public class DisruptorDispatchThread extends DispatchThread{
     }
 
     public void addUpdateEvent(IEvent event){
-        dispatch(event);
+        putEvent(event);
     }
     public void addCreateEvent(IEvent event){
-        dispatch(event);
+        putEvent(event);
     }
 
     public void addFinishEvent(IEvent event){
-        dispatch(event);
+        putEvent(event);
     }
 
+    public void putEvent(IEvent event){
+        try {
+            blockingQueue.put(event);
+        } catch (InterruptedException e) {
+            Loggers.errorLogger.error(e.toString(), e);
+        }
+    }
     @Override
     public void unpark() {
 
@@ -66,6 +79,19 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     }
 
+    @Override
+    public void run(){
+        while (true){
+            CycleEvent cycleEvent = null;
+            try {
+                cycleEvent = (CycleEvent) blockingQueue.take();
+                dispatch(cycleEvent);
+            } catch (InterruptedException e) {
+                Loggers.errorLogger.error(e.toString(), e);
+            }
+
+        }
+    }
 
     public void dispatch(IEvent event) {
         ringBuffer = disruptorExcutorService.getDispatchRingBuffer();

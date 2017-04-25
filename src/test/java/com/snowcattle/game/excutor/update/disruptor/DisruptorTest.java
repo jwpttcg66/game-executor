@@ -26,7 +26,7 @@ public class DisruptorTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 20;
+        int maxSize = 200;
         int corePoolSize = 20;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
