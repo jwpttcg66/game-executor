@@ -1,5 +1,6 @@
 package com.snowcattle.game.excutor.thread.dispatch;
 
+import com.lmax.disruptor.BlockingWaitStrategy;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.YieldingWaitStrategy;
 import com.snowcattle.game.excutor.event.CycleEvent;
@@ -45,7 +46,7 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     public void initRingBuffer(){
 
-        ringBuffer = RingBuffer.createSingleProducer(new CycleDisruptorEventFactory(), bufferSize, new YieldingWaitStrategy());
+        ringBuffer = RingBuffer.createSingleProducer(new CycleDisruptorEventFactory(), bufferSize, new BlockingWaitStrategy());
     }
 
     public void addUpdateEvent(IEvent event){
