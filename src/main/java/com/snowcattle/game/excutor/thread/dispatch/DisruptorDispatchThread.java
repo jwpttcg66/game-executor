@@ -26,6 +26,7 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     private ArrayBlockingQueue<IEvent> blockingQueue;
 
+    private boolean runningFlag = true;
     public DisruptorDispatchThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor) {
         super(eventBus);
         this.disruptorExcutorService = (DisruptorExcutorService) iUpdateExcutor;
@@ -76,12 +77,12 @@ public class DisruptorDispatchThread extends DispatchThread{
     }
 
     public void shutDown(){
-
+        runningFlag = false;
     }
 
     @Override
     public void run(){
-        while (true){
+        while (runningFlag){
             CycleEvent cycleEvent = null;
             try {
                 cycleEvent = (CycleEvent) blockingQueue.take();
