@@ -11,6 +11,7 @@ import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 import com.snowcattle.game.excutor.utils.Loggers;
 
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created by jiangwenping on 17/4/24.
@@ -27,10 +28,19 @@ public class DisruptorDispatchThread extends DispatchThread{
     private ArrayBlockingQueue<IEvent> blockingQueue;
 
     private boolean runningFlag = true;
-    public DisruptorDispatchThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor) {
+
+    private AtomicLong total;
+
+    private int cycleSleepTime;
+    private long minCycleTime;
+
+    public DisruptorDispatchThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor,  int cycleSleepTime , long minCycleTime) {
         super(eventBus);
         this.disruptorExcutorService = (DisruptorExcutorService) iUpdateExcutor;
-        blockingQueue = new ArrayBlockingQueue<IEvent>(bufferSize);
+        this.blockingQueue = new ArrayBlockingQueue<IEvent>(bufferSize);
+        this.cycleSleepTime = cycleSleepTime;
+        this.minCycleTime = minCycleTime;
+        this.total = new AtomicLong();
     }
 
     public void initRingBuffer(){
@@ -52,6 +62,7 @@ public class DisruptorDispatchThread extends DispatchThread{
     public void putEvent(IEvent event){
         try {
             blockingQueue.put(event);
+            total.getAndIncrement();
         } catch (InterruptedException e) {
             Loggers.errorLogger.error(e.toString(), e);
         }
@@ -83,14 +94,35 @@ public class DisruptorDispatchThread extends DispatchThread{
     @Override
     public void run(){
         while (runningFlag){
-            CycleEvent cycleEvent = null;
-            try {
-                cycleEvent = (CycleEvent) blockingQueue.take();
-                dispatch(cycleEvent);
-            } catch (InterruptedException e) {
-                Loggers.errorLogger.error(e.toString(), e);
+            long  cycleSize = total.get();
+
+            int i = 0;
+            long startTime = System.nanoTime();
+            while (i < cycleSize) {
+                CycleEvent cycleEvent = null;
+                try {
+                    cycleEvent = (CycleEvent) blockingQueue.take();
+                    dispatch(cycleEvent);
+                } catch (InterruptedException e) {
+                    Loggers.errorLogger.error(e.toString(), e);
+                }
             }
 
+            //准备睡眠
+            checkSleep(startTime);
+        }
+    }
+
+    public void checkSleep(long startTime){
+
+        long notifyTime = System.nanoTime();
+        long diff = (int) (notifyTime - startTime);
+        if (diff < minCycleTime && diff > 0) {
+            try {
+                Thread.currentThread().sleep(cycleSleepTime, (int) (diff % 999999));
+            } catch (Throwable e) {
+                Loggers.utilLogger.error(e.toString(), e);
+            }
         }
     }
 
@@ -106,6 +138,7 @@ public class DisruptorDispatchThread extends DispatchThread{
         destEvent.setUpdateAliveFlag(cycleEvent.isUpdateAliveFlag());
         destEvent.setUpdateExcutorIndex(cycleEvent.getUpdateExcutorIndex());
         ringBuffer.publish(next);
+        total.getAndDecrement();
     }
 
     public RingBuffer<CycleEvent> getRingBuffer() {
