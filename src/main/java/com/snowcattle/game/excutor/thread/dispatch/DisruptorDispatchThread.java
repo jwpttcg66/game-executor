@@ -106,6 +106,7 @@ public class DisruptorDispatchThread extends DispatchThread{
                 } catch (InterruptedException e) {
                     Loggers.errorLogger.error(e.toString(), e);
                 }
+                i++;
             }
 
             //准备睡眠
