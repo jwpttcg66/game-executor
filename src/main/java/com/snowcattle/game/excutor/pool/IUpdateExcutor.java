@@ -9,6 +9,6 @@ import com.snowcattle.game.excutor.entity.IUpdate;
  */
 public interface IUpdateExcutor {
     public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex);
-    public void start();
-    public void stop();
+    public void startup();
+    public void shutdown();
 }

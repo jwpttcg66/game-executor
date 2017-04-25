@@ -4,7 +4,6 @@ import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.YieldingWaitStrategy;
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.common.IEvent;
-import com.snowcattle.game.excutor.event.common.constant.EventTypeEnum;
 import com.snowcattle.game.excutor.event.factory.CycleDisruptorEventFactory;
 import com.snowcattle.game.excutor.pool.DisruptorExcutorService;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
@@ -17,7 +16,7 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     private RingBuffer<CycleEvent> ringBuffer;
 
-    private int bufferSize = Short.MAX_VALUE * EventTypeEnum.values().length;
+    private int bufferSize = 1024 * 256;
 
     private DisruptorExcutorService disruptorExcutorService;
 
@@ -30,9 +29,6 @@ public class DisruptorDispatchThread extends DispatchThread{
         ringBuffer = RingBuffer.createSingleProducer(new CycleDisruptorEventFactory(), bufferSize, new YieldingWaitStrategy());
     }
 
-    public void initWorkerPool(){
-
-    }
     public void addUpdateEvent(IEvent event){
         dispatch(event);
     }
@@ -42,6 +38,26 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     public void addFinishEvent(IEvent event){
         dispatch(event);
+    }
+
+    @Override
+    public void unpark() {
+
+    }
+
+    @Override
+    void park() {
+
+    }
+
+    @Override
+    public IUpdateExcutor getiUpdateExcutor() {
+        return null;
+    }
+
+    @Override
+    public void startup() {
+        initRingBuffer();
     }
 
     public void shutDown(){

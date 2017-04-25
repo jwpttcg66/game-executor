@@ -20,10 +20,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class AsyncNotifyUpdateTest {
     public static void main(String[] args) throws Exception {
-        testEvent();
+        testUpdate();
     }
 
-    public static void testEvent() throws Exception {
+    public static void testUpdate() throws Exception {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;

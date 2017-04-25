@@ -25,7 +25,7 @@ public class UpdateBindExcutorService implements IUpdateExcutor {
         this.excutorSize = excutorSize;
     }
 
-    public void start() {
+    public void startup() {
         bindThreadEventExecutorServices = new BindThreadEventExecutorService[excutorSize];
         for (int i = 0; i < excutorSize; i++) {
             bindThreadEventExecutorServices[i] = new BindThreadEventExecutorService(i, dispatchThread);
@@ -33,7 +33,7 @@ public class UpdateBindExcutorService implements IUpdateExcutor {
     }
 
     @Override
-    public void stop() {
+    public void shutdown() {
         for (int i = 0; i < excutorSize; i++) {
             ExecutorUtil.shutdownAndAwaitTermination(bindThreadEventExecutorServices[i], 60,
                     TimeUnit.MILLISECONDS);

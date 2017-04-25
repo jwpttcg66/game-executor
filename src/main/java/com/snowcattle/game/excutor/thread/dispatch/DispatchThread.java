@@ -2,6 +2,7 @@ package com.snowcattle.game.excutor.thread.dispatch;
 
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.common.IEvent;
+import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 
 /**
  * Created by jiangwenping on 17/1/9.
@@ -41,9 +42,9 @@ public abstract class DispatchThread extends Thread{
     public void addFinishEvent(IEvent event){
         getEventBus().addEvent(event);
     }
-    public void unpark(){
-    }
-    public void park(){
-    }
+    abstract  public void unpark();
+    abstract void park();
+    abstract public IUpdateExcutor getiUpdateExcutor();
+    abstract public void startup();
 
 }

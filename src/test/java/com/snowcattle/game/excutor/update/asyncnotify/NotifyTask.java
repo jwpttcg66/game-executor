@@ -7,7 +7,7 @@ import java.util.TimerTask;
 /**
  * Created by jwp on 2017/3/28.
  */
-class NotifyTask extends TimerTask {
+public class NotifyTask extends TimerTask {
 
     private UpdateService updateService;
 

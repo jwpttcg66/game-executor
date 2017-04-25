@@ -72,19 +72,20 @@ public class UpdateService <ID extends Serializable> {
     }
 
     public void stop(){
-        iUpdateExcutor.stop();
+        iUpdateExcutor.shutdown();
         dispatchThread.shutDown();
         this.updateMap.clear();
     }
 
     public void start(){
-        iUpdateExcutor.start();
+        dispatchThread.startup();
+        iUpdateExcutor.startup();
         dispatchThread.start();
         this.updateMap.clear();
     }
 
     public void notifyStart(){
-        iUpdateExcutor.start();
+        iUpdateExcutor.startup();
         this.updateMap.clear();
     }
 

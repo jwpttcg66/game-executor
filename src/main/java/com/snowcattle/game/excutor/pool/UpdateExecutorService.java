@@ -34,12 +34,12 @@ public class UpdateExecutorService implements IUpdateExcutor{
     }
 
     @Override
-    public void start() {
+    public void startup() {
 
     }
 
     @Override
-    public void stop() {
+    public void shutdown() {
         ExecutorUtil.shutdownAndAwaitTermination(nonOrderedQueuePoolExecutor, 60,
                 TimeUnit.MILLISECONDS);
     }

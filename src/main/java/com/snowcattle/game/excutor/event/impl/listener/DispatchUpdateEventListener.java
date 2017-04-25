@@ -1,22 +1,22 @@
 package com.snowcattle.game.excutor.event.impl.listener;
 
+import com.snowcattle.game.excutor.entity.IUpdate;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.common.IEvent;
 import com.snowcattle.game.excutor.event.impl.event.FinishEvent;
 import com.snowcattle.game.excutor.event.impl.event.UpdateEvent;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 import com.snowcattle.game.excutor.service.UpdateService;
-import com.snowcattle.game.excutor.thread.dispatch.LockSupportDisptachThread;
-import com.snowcattle.game.excutor.entity.IUpdate;
+import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.utils.Constants;
 
 /**
  * Created by jiangwenping on 17/1/11.
  */
 public class DispatchUpdateEventListener extends UpdateEventListener {
-    private LockSupportDisptachThread dispatchThread;
+    private DispatchThread dispatchThread;
     private UpdateService updateService;
-    public DispatchUpdateEventListener(LockSupportDisptachThread dispatchThread, UpdateService updateService) {
+    public DispatchUpdateEventListener(DispatchThread dispatchThread, UpdateService updateService) {
         this.dispatchThread = dispatchThread;
         this.updateService = updateService;
     }

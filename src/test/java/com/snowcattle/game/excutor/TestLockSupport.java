@@ -30,7 +30,7 @@ public class TestLockSupport {
     }
 
     public static void  test(){
-        System.out.println("unpark start");
+        System.out.println("unpark startup");
         LockSupport.unpark(Thread.currentThread());
 //        LockSupport.unpark(Thread.currentThread());
         System.out.println("park1");

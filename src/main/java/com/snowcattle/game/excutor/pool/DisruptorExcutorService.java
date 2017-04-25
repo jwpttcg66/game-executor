@@ -37,7 +37,7 @@ public class DisruptorExcutorService implements IUpdateExcutor {
     }
 
     @Override
-    public void start() {
+    public void startup() {
         executorService = new NonOrderedQueuePoolExecutor(excutorSize);
         cycleEventHandler = new CycleEventHandler[excutorSize];
         RingBuffer ringBuffer = disruptorDispatchThread.getRingBuffer();
@@ -46,7 +46,7 @@ public class DisruptorExcutorService implements IUpdateExcutor {
     }
 
     @Override
-    public void stop() {
+    public void shutdown() {
         workerPool.drainAndHalt();
     }
 

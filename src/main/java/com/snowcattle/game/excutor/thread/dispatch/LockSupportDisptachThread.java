@@ -88,6 +88,11 @@ public class LockSupportDisptachThread extends DispatchThread {
         return iUpdateExcutor;
     }
 
+    @Override
+    public void startup() {
+
+    }
+
     public void setiUpdateExcutor(IUpdateExcutor iUpdateExcutor) {
         this.iUpdateExcutor = iUpdateExcutor;
     }
