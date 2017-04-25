@@ -27,6 +27,7 @@ public class DisruptorDispatchThread extends DispatchThread{
     }
 
     public void initRingBuffer(){
+
         ringBuffer = RingBuffer.createSingleProducer(new CycleDisruptorEventFactory(), bufferSize, new YieldingWaitStrategy());
     }
 

@@ -24,7 +24,6 @@ public class AsyncUpdateBusTest {
     }
 
     public static void testUpdate() throws Exception {
-//        EventBus eventBus = new EventBus();
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;

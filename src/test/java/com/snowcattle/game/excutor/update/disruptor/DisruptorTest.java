@@ -26,8 +26,8 @@ public class DisruptorTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 1;
-        int corePoolSize = 1;
+        int maxSize = 1000;
+        int corePoolSize = 3;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
         DisruptorExcutorService disruptorExcutorService = new DisruptorExcutorService(corePoolSize);
