@@ -30,8 +30,10 @@ public class DisruptorExcutorService implements IUpdateExcutor {
 
     private ExecutorService executorService;
 
-    public DisruptorExcutorService(int excutorSize) {
+    private String poolName;
+    public DisruptorExcutorService(String poolName, int excutorSize) {
         this.excutorSize = excutorSize;
+        this.poolName = poolName;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class DisruptorExcutorService implements IUpdateExcutor {
     @Override
     public void startup() {
         EventBus eventBus = disruptorDispatchThread.getEventBus();
-        executorService = new NonOrderedQueuePoolExecutor(excutorSize);
+        executorService = new NonOrderedQueuePoolExecutor(poolName, excutorSize);
         cycleEventHandler = new CycleEventHandler[excutorSize];
         for(int i = 0; i < excutorSize; i++){
             cycleEventHandler[i] = new CycleEventHandler(eventBus);

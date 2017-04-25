@@ -30,7 +30,8 @@ public class DisruptorTest {
         int corePoolSize = 20;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
-        DisruptorExcutorService disruptorExcutorService = new DisruptorExcutorService(corePoolSize);
+        String poolName = "update";
+        DisruptorExcutorService disruptorExcutorService = new DisruptorExcutorService(poolName, corePoolSize);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
         DisruptorDispatchThread dispatchThread = new DisruptorDispatchThread(updateEventBus, disruptorExcutorService
                 , cycleSleepTime, cycleSleepTime*1000);
