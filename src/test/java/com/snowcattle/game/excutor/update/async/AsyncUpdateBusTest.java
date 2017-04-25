@@ -28,7 +28,7 @@ public class AsyncUpdateBusTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 2;
+        int maxSize = 1;
         int corePoolSize = 50;
         UpdateExecutorService updateExecutorService = new UpdateExecutorService(corePoolSize);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;

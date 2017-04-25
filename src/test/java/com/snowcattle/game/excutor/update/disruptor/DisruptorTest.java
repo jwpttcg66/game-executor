@@ -27,7 +27,7 @@ public class DisruptorTest {
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
         int maxSize = 1;
-        int corePoolSize = 2;
+        int corePoolSize = 1;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
         DisruptorExcutorService disruptorExcutorService = new DisruptorExcutorService(corePoolSize);

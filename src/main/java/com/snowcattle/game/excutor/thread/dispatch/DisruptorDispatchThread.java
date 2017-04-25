@@ -53,7 +53,7 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     @Override
     public IUpdateExcutor getiUpdateExcutor() {
-        return null;
+        return disruptorExcutorService;
     }
 
     @Override
@@ -70,9 +70,13 @@ public class DisruptorDispatchThread extends DispatchThread{
         ringBuffer = disruptorExcutorService.getDispatchRingBuffer();
         long next = ringBuffer.next();
         CycleEvent cycleEvent = (CycleEvent) event;
-        ringBuffer.get(next).setId(cycleEvent.getId());
-        ringBuffer.get(next).setEventType(event.getEventType());
-        ringBuffer.get(next).setParams(event.getParams());
+        CycleEvent destEvent = ringBuffer.get(next);
+        destEvent.setId(cycleEvent.getId());
+        destEvent.setEventType(event.getEventType());
+        destEvent.setParams(event.getParams());
+        destEvent.setInitFlag(cycleEvent.isInitFlag());
+        destEvent.setUpdateAliveFlag(cycleEvent.isUpdateAliveFlag());
+        destEvent.setUpdateExcutorIndex(cycleEvent.getUpdateExcutorIndex());
         ringBuffer.publish(next);
     }
 

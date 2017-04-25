@@ -1,13 +1,18 @@
 package com.snowcattle.game.excutor.pool;
 
-import com.lmax.disruptor.*;
+import com.lmax.disruptor.BatchEventProcessor;
+import com.lmax.disruptor.RingBuffer;
+import com.lmax.disruptor.SequenceBarrier;
+import com.lmax.disruptor.WorkerPool;
 import com.snowcattle.game.excutor.entity.IUpdate;
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventBus;
-import com.snowcattle.game.excutor.event.common.IEvent;
+import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.handler.CycleEventHandler;
+import com.snowcattle.game.excutor.event.impl.event.UpdateEvent;
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
 import com.snowcattle.game.excutor.thread.dispatch.DisruptorDispatchThread;
+import com.snowcattle.game.excutor.utils.Constants;
 import com.snowcattle.game.thread.executor.NonOrderedQueuePoolExecutor;
 
 import java.util.concurrent.ExecutorService;
@@ -33,7 +38,13 @@ public class DisruptorExcutorService implements IUpdateExcutor {
 
     @Override
     public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
+        iUpdate.update();
 
+        //事件总线增加更新完成通知
+        EventParam<IUpdate> params = new EventParam<IUpdate>(iUpdate);
+        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getId(), params);
+        event.setUpdateAliveFlag(iUpdate.isActive());
+        disruptorDispatchThread.addUpdateEvent(event);
     }
 
     @Override
@@ -78,11 +89,5 @@ public class DisruptorExcutorService implements IUpdateExcutor {
 
     public RingBuffer getDispatchRingBuffer(){
         return disruptorDispatchThread.getRingBuffer();
-    }
-
-    public void dispatch(IEvent event){
-        RingBuffer ringBuffer = getDispatchRingBuffer();
-        long next = ringBuffer.next();
-        ringBuffer.publish(next);
     }
 }

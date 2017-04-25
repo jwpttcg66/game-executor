@@ -1,10 +1,10 @@
 package com.snowcattle.game.excutor.event.impl.listener;
 
 import com.snowcattle.game.excutor.entity.IUpdate;
+import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventParam;
 import com.snowcattle.game.excutor.event.common.IEvent;
 import com.snowcattle.game.excutor.event.impl.event.FinishEvent;
-import com.snowcattle.game.excutor.event.impl.event.UpdateEvent;
 import com.snowcattle.game.excutor.pool.IUpdateExcutor;
 import com.snowcattle.game.excutor.service.UpdateService;
 import com.snowcattle.game.excutor.thread.dispatch.DispatchThread;
@@ -29,7 +29,7 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
         super.fireEvent(event);
 
         //提交执行线程
-        UpdateEvent updateEvent = (UpdateEvent) event;
+        CycleEvent updateEvent = (CycleEvent) event;
         EventParam[] eventParams = event.getParams();
         for(EventParam eventParam: eventParams) {
             IUpdate iUpdate = (IUpdate) eventParam.getT();

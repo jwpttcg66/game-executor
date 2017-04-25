@@ -28,8 +28,6 @@ public class CycleEventHandler implements EventHandler<CycleEvent>{
 
     @Override
     public void onEvent(final CycleEvent cycleEvent, final long sequence, boolean endOfbatch) throws Exception {
-        System.out.println("dd");
-//        eventReleaser.release();
-//        eventBus.handleSingleEvent(cycleEvent);
+        eventBus.handleSingleEvent(cycleEvent);
     }
 }
