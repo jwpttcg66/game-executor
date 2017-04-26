@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by jwp on 2017/2/23.
  */
-public class UpdateBindExcutorService implements IUpdateExcutor {
+public class UpdateBindExecutorService implements IUpdateExecutor {
 
     private int excutorSize;
 
@@ -21,7 +21,7 @@ public class UpdateBindExcutorService implements IUpdateExcutor {
 
     private DispatchThread dispatchThread;
 
-    public UpdateBindExcutorService(int excutorSize) {
+    public UpdateBindExecutorService(int excutorSize) {
         this.excutorSize = excutorSize;
     }
 
@@ -45,7 +45,7 @@ public class UpdateBindExcutorService implements IUpdateExcutor {
     }
 
     @Override
-    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
+    public void executorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
         if(firstFlag) {
             BindThreadEventExecutorService bindThreadEventExecutorService = getNext();
             bindThreadEventExecutorService.excuteUpdate(iUpdate, firstFlag);

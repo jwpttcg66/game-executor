@@ -6,8 +6,8 @@ import com.snowcattle.game.executor.event.CycleEvent;
 import com.snowcattle.game.executor.event.EventBus;
 import com.snowcattle.game.executor.event.common.IEvent;
 import com.snowcattle.game.executor.event.factory.CycleDisruptorEventFactory;
-import com.snowcattle.game.executor.update.pool.DisruptorExcutorService;
-import com.snowcattle.game.executor.update.pool.IUpdateExcutor;
+import com.snowcattle.game.executor.update.pool.DisruptorExecutorService;
+import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
 import com.snowcattle.game.executor.common.utils.Loggers;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -23,7 +23,7 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     private int bufferSize = 1024 * 32;
 
-    private DisruptorExcutorService disruptorExcutorService;
+    private DisruptorExecutorService disruptorExcutorService;
 
     private ArrayBlockingQueue<IEvent> blockingQueue;
 
@@ -34,9 +34,9 @@ public class DisruptorDispatchThread extends DispatchThread{
     private int cycleSleepTime;
     private long minCycleTime;
 
-    public DisruptorDispatchThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor,  int cycleSleepTime , long minCycleTime) {
+    public DisruptorDispatchThread(EventBus eventBus, IUpdateExecutor iUpdateExecutor,  int cycleSleepTime , long minCycleTime) {
         super(eventBus);
-        this.disruptorExcutorService = (DisruptorExcutorService) iUpdateExcutor;
+        this.disruptorExcutorService = (DisruptorExecutorService) iUpdateExecutor;
         this.blockingQueue = new ArrayBlockingQueue<IEvent>(bufferSize);
         this.cycleSleepTime = cycleSleepTime;
         this.minCycleTime = minCycleTime;
@@ -78,7 +78,7 @@ public class DisruptorDispatchThread extends DispatchThread{
     }
 
     @Override
-    public IUpdateExcutor getiUpdateExcutor() {
+    public IUpdateExecutor getiUpdateExecutor() {
         return disruptorExcutorService;
     }
 
@@ -150,11 +150,11 @@ public class DisruptorDispatchThread extends DispatchThread{
         this.ringBuffer = ringBuffer;
     }
 
-    public DisruptorExcutorService getDisruptorExcutorService() {
+    public DisruptorExecutorService getDisruptorExcutorService() {
         return disruptorExcutorService;
     }
 
-    public void setDisruptorExcutorService(DisruptorExcutorService disruptorExcutorService) {
+    public void setDisruptorExcutorService(DisruptorExecutorService disruptorExcutorService) {
         this.disruptorExcutorService = disruptorExcutorService;
     }
 

@@ -5,7 +5,7 @@ import com.snowcattle.game.executor.event.CycleEvent;
 import com.snowcattle.game.executor.event.EventParam;
 import com.snowcattle.game.executor.event.common.IEvent;
 import com.snowcattle.game.executor.event.impl.event.FinishEvent;
-import com.snowcattle.game.executor.update.pool.IUpdateExcutor;
+import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
 import com.snowcattle.game.executor.update.service.UpdateService;
 import com.snowcattle.game.executor.update.thread.dispatch.DispatchThread;
 import com.snowcattle.game.executor.common.utils.Constants;
@@ -35,8 +35,8 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
             IUpdate iUpdate = (IUpdate) eventParam.getT();
             boolean aliveFlag = updateEvent.isUpdateAliveFlag();
             if (aliveFlag) {
-                IUpdateExcutor iUpdateExcutor = dispatchThread.getiUpdateExcutor();
-                iUpdateExcutor.excutorUpdate(dispatchThread, iUpdate, updateEvent.isInitFlag(), updateEvent.getUpdateExcutorIndex());
+                IUpdateExecutor iUpdateExecutor = dispatchThread.getiUpdateExecutor();
+                iUpdateExecutor.executorUpdate(dispatchThread, iUpdate, updateEvent.isInitFlag(), updateEvent.getUpdateExcutorIndex());
             } else {
                 FinishEvent finishEvent = new FinishEvent(Constants.EventTypeConstans.finishEventType, iUpdate.getId(), eventParams);
                 dispatchThread.addFinishEvent(finishEvent);

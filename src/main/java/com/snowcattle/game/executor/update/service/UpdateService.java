@@ -7,7 +7,7 @@ import com.snowcattle.game.executor.event.impl.event.CreateEvent;
 import com.snowcattle.game.executor.event.impl.event.FinishEvent;
 import com.snowcattle.game.executor.event.impl.event.FinishedEvent;
 import com.snowcattle.game.executor.event.impl.event.ReadFinishEvent;
-import com.snowcattle.game.executor.update.pool.IUpdateExcutor;
+import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
 import com.snowcattle.game.executor.update.thread.dispatch.DispatchThread;
 import com.snowcattle.game.executor.common.utils.Constants;
 import com.snowcattle.game.executor.common.utils.Loggers;
@@ -32,14 +32,14 @@ public class UpdateService <ID extends Serializable> {
     /**
      * 负责update的执行器
      */
-    private IUpdateExcutor iUpdateExcutor;
+    private IUpdateExecutor iUpdateExecutor;
 
     /*记录当前循环的更新接口*/
     private ConcurrentHashMap<ID, IUpdate> updateMap = new ConcurrentHashMap<ID, IUpdate>();
 
-    public UpdateService(DispatchThread dispatchThread, IUpdateExcutor iUpdateExcutor) {
+    public UpdateService(DispatchThread dispatchThread, IUpdateExecutor iUpdateExecutor) {
         this.dispatchThread = dispatchThread;
-        this.iUpdateExcutor = iUpdateExcutor;
+        this.iUpdateExecutor = iUpdateExecutor;
     }
 
     public void addReadyCreateEvent(CycleEvent event){
@@ -72,25 +72,25 @@ public class UpdateService <ID extends Serializable> {
     }
 
     public void stop(){
-        iUpdateExcutor.shutdown();
+        iUpdateExecutor.shutdown();
         dispatchThread.shutDown();
         this.updateMap.clear();
     }
 
     public void start(){
         dispatchThread.startup();
-        iUpdateExcutor.startup();
+        iUpdateExecutor.startup();
         dispatchThread.start();
         this.updateMap.clear();
     }
 
     public void notifyStart(){
-        iUpdateExcutor.startup();
+        iUpdateExecutor.startup();
         this.updateMap.clear();
     }
 
-    public UpdateService(IUpdateExcutor iUpdateExcutor) {
-        this.iUpdateExcutor = iUpdateExcutor;
+    public UpdateService(IUpdateExecutor iUpdateExecutor) {
+        this.iUpdateExecutor = iUpdateExecutor;
     }
 
     public void notifyRun(){

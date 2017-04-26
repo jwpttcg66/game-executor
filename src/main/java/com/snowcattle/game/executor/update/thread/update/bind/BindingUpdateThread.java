@@ -113,7 +113,7 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
         //事件总线增加更新完成通知
         for(IUpdate excutorUpdate : finishList){
 //            if(Loggers.utilLogger.isDebugEnabled()) {
-//                Loggers.utilLogger.debug(excutorUpdate.getId() + "发送存活" + excutorUpdate.isActive());
+//                Loggers.utilLogger.debug(executorUpdate.getId() + "发送存活" + executorUpdate.isActive());
 //            }
             sendFinish(excutorUpdate);
         }

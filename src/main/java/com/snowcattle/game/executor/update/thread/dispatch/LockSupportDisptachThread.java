@@ -1,7 +1,7 @@
 package com.snowcattle.game.executor.update.thread.dispatch;
 
 import com.snowcattle.game.executor.event.EventBus;
-import com.snowcattle.game.executor.update.pool.IUpdateExcutor;
+import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
 import com.snowcattle.game.executor.common.utils.Loggers;
 
 import java.util.concurrent.locks.LockSupport;
@@ -15,15 +15,15 @@ import java.util.concurrent.locks.LockSupport;
 public class LockSupportDisptachThread extends DispatchThread {
 
     private boolean runningFlag = true;
-    private IUpdateExcutor iUpdateExcutor;
+    private IUpdateExecutor iUpdateExecutor;
 
     private int cycleSleepTime;
     private long minCycleTime;
 
-    public LockSupportDisptachThread(EventBus eventBus, IUpdateExcutor iUpdateExcutor
+    public LockSupportDisptachThread(EventBus eventBus, IUpdateExecutor iUpdateExecutor
             , int cycleSleepTime , long minCycleTime) {
         super(eventBus);
-        this.iUpdateExcutor = iUpdateExcutor;
+        this.iUpdateExecutor = iUpdateExecutor;
         this.cycleSleepTime = cycleSleepTime;
         this.minCycleTime = minCycleTime;
     }
@@ -74,8 +74,8 @@ public class LockSupportDisptachThread extends DispatchThread {
         this.runningFlag = runningFlag;
     }
 
-    public IUpdateExcutor getiUpdateExcutor() {
-        return iUpdateExcutor;
+    public IUpdateExecutor getiUpdateExecutor() {
+        return iUpdateExecutor;
     }
 
     @Override
@@ -83,8 +83,8 @@ public class LockSupportDisptachThread extends DispatchThread {
 
     }
 
-    public void setiUpdateExcutor(IUpdateExcutor iUpdateExcutor) {
-        this.iUpdateExcutor = iUpdateExcutor;
+    public void setiUpdateExecutor(IUpdateExecutor iUpdateExecutor) {
+        this.iUpdateExecutor = iUpdateExecutor;
     }
 
     public void shutDown(){

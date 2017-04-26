@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutorService;
 /**
  * Created by jiangwenping on 17/4/24.
  */
-public class DisruptorExcutorService implements IUpdateExcutor {
+public class DisruptorExecutorService implements IUpdateExecutor {
 
     private WorkerPool workerPool;
 
@@ -31,13 +31,13 @@ public class DisruptorExcutorService implements IUpdateExcutor {
     private ExecutorService executorService;
 
     private String poolName;
-    public DisruptorExcutorService(String poolName, int excutorSize) {
+    public DisruptorExecutorService(String poolName, int excutorSize) {
         this.excutorSize = excutorSize;
         this.poolName = poolName;
     }
 
     @Override
-    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
+    public void executorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
         iUpdate.update();
 
         //事件总线增加更新完成通知

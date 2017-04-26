@@ -6,7 +6,7 @@ import com.snowcattle.game.executor.event.EventParam;
 import com.snowcattle.game.executor.event.impl.listener.DispatchCreateEventListener;
 import com.snowcattle.game.executor.event.impl.listener.DispatchFinishEventListener;
 import com.snowcattle.game.executor.event.impl.listener.DispatchUpdateEventListener;
-import com.snowcattle.game.executor.update.pool.DisruptorExcutorService;
+import com.snowcattle.game.executor.update.pool.DisruptorExecutorService;
 import com.snowcattle.game.executor.update.service.UpdateService;
 import com.snowcattle.game.executor.update.thread.dispatch.DisruptorDispatchThread;
 import com.snowcattle.game.executor.update.async.IntegerUpdate;
@@ -31,7 +31,7 @@ public class DisruptorTest {
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;
         String poolName = "update";
-        DisruptorExcutorService disruptorExcutorService = new DisruptorExcutorService(poolName, corePoolSize);
+        DisruptorExecutorService disruptorExcutorService = new DisruptorExecutorService(poolName, corePoolSize);
         int cycleSleepTime = 1000 / Constants.cycle.cycleSize;
         DisruptorDispatchThread dispatchThread = new DisruptorDispatchThread(updateEventBus, disruptorExcutorService
                 , cycleSleepTime, cycleSleepTime*1000);

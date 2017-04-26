@@ -14,7 +14,7 @@ import java.util.concurrent.*;
  * Created by jiangwenping on 17/1/11.
  * 更新执行器
  */
-public class UpdateExecutorService implements IUpdateExcutor{
+public class UpdateExecutorService implements IUpdateExecutor {
 
     private NonOrderedQueuePoolExecutor nonOrderedQueuePoolExecutor;
 
@@ -24,7 +24,7 @@ public class UpdateExecutorService implements IUpdateExcutor{
     }
 
     @Override
-    public void excutorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
+    public void executorUpdate(DispatchThread dispatchThread, IUpdate iUpdate, boolean firstFlag, int updateExcutorIndex) {
         LockSupportUpdateFuture lockSupportUpdateFuture = new LockSupportUpdateFuture(dispatchThread);
         lockSupportUpdateFuture.addListener(new LockSupportUpdateFutureListener());
         LockSupportUpdateFutureThread lockSupportUpdateFutureThread = new LockSupportUpdateFutureThread(dispatchThread, iUpdate, lockSupportUpdateFuture);
