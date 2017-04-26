@@ -19,7 +19,9 @@ public class StaticUpdateEventCacheFactory {
         genericObjectPoolConfig.setMaxTotal(size * max);
         genericObjectPoolConfig.setMaxIdle(size * max);
         genericObjectPoolConfig.setMinIdle(size);
-        genericObjectPoolConfig.setSoftMinEvictableIdleTimeMillis(1000L * 30);
+        long time = 1000 * 30;
+        genericObjectPoolConfig.setMaxWaitMillis(time);
+        genericObjectPoolConfig.setSoftMinEvictableIdleTimeMillis(time);
 
         updateEventCacheFactory = new UpdateEventCacheFactory(new UpdateEventPoolFactory(), genericObjectPoolConfig);
     }
