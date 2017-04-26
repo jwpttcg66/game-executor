@@ -20,6 +20,10 @@ public class UpdateEvent <ID extends Serializable> extends CycleEvent {
     //对象是否存活
     private boolean updateAliveFlag;
 
+    public UpdateEvent(){
+        
+    }
+
     public UpdateEvent(EventType eventType, ID eventId, EventParam... parms){
 //        setEventType(eventType);
 //        setParams(parms);

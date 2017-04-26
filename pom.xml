@@ -62,6 +62,14 @@
             <version>2.6</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.4.2</version>
+        </dependency>
+
+
         <dependency>
             <groupId>com.github.jwpttcg66</groupId>
             <artifactId>future-listener</artifactId>

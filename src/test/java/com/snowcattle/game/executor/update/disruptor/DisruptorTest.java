@@ -57,5 +57,7 @@ public class DisruptorTest {
             Thread.currentThread().sleep(100);
             updateService.toString();
         }
+
+//        updateService.stop();
     }
 }
