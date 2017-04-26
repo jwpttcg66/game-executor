@@ -2,7 +2,6 @@ package com.snowcattle.game.excutor.thread.dispatch;
 
 import com.lmax.disruptor.BlockingWaitStrategy;
 import com.lmax.disruptor.RingBuffer;
-import com.lmax.disruptor.YieldingWaitStrategy;
 import com.snowcattle.game.excutor.event.CycleEvent;
 import com.snowcattle.game.excutor.event.EventBus;
 import com.snowcattle.game.excutor.event.common.IEvent;
@@ -22,7 +21,7 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     private RingBuffer<CycleEvent> ringBuffer;
 
-    private int bufferSize = 1024 * 256;
+    private int bufferSize = 1024 * 32;
 
     private DisruptorExcutorService disruptorExcutorService;
 
