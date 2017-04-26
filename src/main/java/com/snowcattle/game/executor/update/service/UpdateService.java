@@ -8,12 +8,10 @@ import com.snowcattle.game.executor.event.impl.event.CreateEvent;
 import com.snowcattle.game.executor.event.impl.event.FinishEvent;
 import com.snowcattle.game.executor.event.impl.event.FinishedEvent;
 import com.snowcattle.game.executor.event.impl.event.ReadFinishEvent;
-import com.snowcattle.game.executor.update.cache.UpdateEventCacheFactory;
-import com.snowcattle.game.executor.update.cache.UpdateEventPoolFactory;
+import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
 import com.snowcattle.game.executor.update.entity.IUpdate;
 import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
 import com.snowcattle.game.executor.update.thread.dispatch.DispatchThread;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 import java.io.Serializable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -39,8 +37,6 @@ public class UpdateService <ID extends Serializable> {
 
     /*记录当前循环的更新接口*/
     private ConcurrentHashMap<ID, IUpdate> updateMap = new ConcurrentHashMap<ID, IUpdate>();
-
-    private UpdateEventCacheFactory updateEventCacheFactory;
 
     public UpdateService(DispatchThread dispatchThread, IUpdateExecutor iUpdateExecutor) {
         this.dispatchThread = dispatchThread;
@@ -80,17 +76,11 @@ public class UpdateService <ID extends Serializable> {
         iUpdateExecutor.shutdown();
         dispatchThread.shutDown();
         this.updateMap.clear();
-        updateEventCacheFactory.close();
+        StaticUpdateEventCacheFactory.stop();
     }
 
     public void start(){
-        GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
-        genericObjectPoolConfig.setMaxTotal(1024 * 32);
-        genericObjectPoolConfig.setMaxIdle(1024 * 32);
-        genericObjectPoolConfig.setMinIdle(1024);
-        genericObjectPoolConfig.setSoftMinEvictableIdleTimeMillis(1000L * 60);
-
-        updateEventCacheFactory = new UpdateEventCacheFactory(new UpdateEventPoolFactory(), genericObjectPoolConfig);
+        StaticUpdateEventCacheFactory.start();
         dispatchThread.startup();
         iUpdateExecutor.startup();
         dispatchThread.start();
@@ -110,11 +100,4 @@ public class UpdateService <ID extends Serializable> {
         dispatchThread.notifyRun();
     }
 
-    public UpdateEventCacheFactory getUpdateEventCacheFactory() {
-        return updateEventCacheFactory;
-    }
-
-    public void setUpdateEventCacheFactory(UpdateEventCacheFactory updateEventCacheFactory) {
-        this.updateEventCacheFactory = updateEventCacheFactory;
-    }
 }

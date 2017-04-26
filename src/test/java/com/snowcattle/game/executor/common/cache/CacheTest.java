@@ -6,7 +6,7 @@ import com.snowcattle.game.executor.event.impl.event.UpdateEvent;
 import com.snowcattle.game.executor.event.impl.listener.DispatchCreateEventListener;
 import com.snowcattle.game.executor.event.impl.listener.DispatchFinishEventListener;
 import com.snowcattle.game.executor.event.impl.listener.DispatchUpdateEventListener;
-import com.snowcattle.game.executor.update.cache.UpdateEventCacheFactory;
+import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
 import com.snowcattle.game.executor.update.pool.DisruptorExecutorService;
 import com.snowcattle.game.executor.update.service.UpdateService;
 import com.snowcattle.game.executor.update.thread.dispatch.DisruptorDispatchThread;
@@ -39,12 +39,11 @@ public class CacheTest {
         updateService.start();
 
         int size = 200000;
-        UpdateEventCacheFactory updateEventCacheFactory = updateService.getUpdateEventCacheFactory();
         for(int i = 0; i < size; i++){
             try {
-                UpdateEvent updateEvent = updateEventCacheFactory.borrowObject();
+                UpdateEvent updateEvent = StaticUpdateEventCacheFactory.createUpdateEvent();
                 System.out.println(i);
-                updateEventCacheFactory.returnObject(updateEvent);
+                StaticUpdateEventCacheFactory.releaseUpdateEvent(updateEvent);
 //            System.out.println(updateEvent);
             }catch (Exception e){
                 e.printStackTrace();
