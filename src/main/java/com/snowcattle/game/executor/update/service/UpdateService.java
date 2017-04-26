@@ -109,4 +109,12 @@ public class UpdateService <ID extends Serializable> {
     public void notifyRun(){
         dispatchThread.notifyRun();
     }
+
+    public UpdateEventCacheFactory getUpdateEventCacheFactory() {
+        return updateEventCacheFactory;
+    }
+
+    public void setUpdateEventCacheFactory(UpdateEventCacheFactory updateEventCacheFactory) {
+        this.updateEventCacheFactory = updateEventCacheFactory;
+    }
 }
