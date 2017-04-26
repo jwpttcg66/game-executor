@@ -3,6 +3,7 @@ package com.snowcattle.game.executor.update.pool;
 import com.lmax.disruptor.FatalExceptionHandler;
 import com.lmax.disruptor.RingBuffer;
 import com.lmax.disruptor.WorkerPool;
+import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
 import com.snowcattle.game.executor.update.entity.IUpdate;
 import com.snowcattle.game.executor.event.EventBus;
 import com.snowcattle.game.executor.event.EventParam;
@@ -42,9 +43,13 @@ public class DisruptorExecutorService implements IUpdateExecutor {
 
         //事件总线增加更新完成通知
         EventParam<IUpdate> params = new EventParam<IUpdate>(iUpdate);
-        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getId(), params);
-        event.setUpdateAliveFlag(iUpdate.isActive());
-        disruptorDispatchThread.addUpdateEvent(event);
+        UpdateEvent updateEvent = StaticUpdateEventCacheFactory.createUpdateEvent();
+        updateEvent.setEventType(Constants.EventTypeConstans.updateEventType);
+        updateEvent.setId(iUpdate.getId());
+        updateEvent.setParams(params);
+//        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getId(), params);
+        updateEvent.setUpdateAliveFlag(iUpdate.isActive());
+        disruptorDispatchThread.addUpdateEvent(updateEvent);
     }
 
     @Override

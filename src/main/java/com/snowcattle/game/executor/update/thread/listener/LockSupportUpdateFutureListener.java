@@ -4,6 +4,7 @@ import com.snowcattle.future.ITaskFuture;
 import com.snowcattle.future.ITaskFutureListener;
 import com.snowcattle.game.executor.event.EventParam;
 import com.snowcattle.game.executor.event.impl.event.UpdateEvent;
+import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
 import com.snowcattle.game.executor.update.thread.update.LockSupportUpdateFuture;
 import com.snowcattle.game.executor.update.entity.IUpdate;
 import com.snowcattle.game.executor.common.utils.Constants;
@@ -26,9 +27,13 @@ public class LockSupportUpdateFutureListener implements ITaskFutureListener {
         IUpdate iUpdate = (IUpdate) iTaskFuture.get();
         //事件总线增加更新完成通知
         EventParam<IUpdate> params = new EventParam<IUpdate>(iUpdate);
-        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getId(), params);
-        event.setUpdateAliveFlag(iUpdate.isActive());
-        lockSupportUpdateFuture.getDispatchThread().addUpdateEvent(event);
+//        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getId(), params);
+        UpdateEvent updateEvent = StaticUpdateEventCacheFactory.createUpdateEvent();
+        updateEvent.setEventType(Constants.EventTypeConstans.updateEventType);
+        updateEvent.setId(iUpdate.getId());
+        updateEvent.setParams(params);
+        updateEvent.setUpdateAliveFlag(iUpdate.isActive());
+        lockSupportUpdateFuture.getDispatchThread().addUpdateEvent(updateEvent);
         //解锁
         LockSupport.unpark(lockSupportUpdateFuture.getDispatchThread());
     }

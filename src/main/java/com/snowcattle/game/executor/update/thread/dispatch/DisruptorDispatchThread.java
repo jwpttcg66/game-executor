@@ -6,6 +6,8 @@ import com.snowcattle.game.executor.event.CycleEvent;
 import com.snowcattle.game.executor.event.EventBus;
 import com.snowcattle.game.executor.event.common.IEvent;
 import com.snowcattle.game.executor.event.factory.CycleDisruptorEventFactory;
+import com.snowcattle.game.executor.event.impl.event.UpdateEvent;
+import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
 import com.snowcattle.game.executor.update.pool.DisruptorExecutorService;
 import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
 import com.snowcattle.game.executor.common.utils.Loggers;
@@ -140,6 +142,10 @@ public class DisruptorDispatchThread extends DispatchThread{
         destEvent.setUpdateExcutorIndex(cycleEvent.getUpdateExcutorIndex());
         ringBuffer.publish(next);
         total.getAndDecrement();
+        if(event instanceof UpdateEvent){
+            UpdateEvent updateEvent = (UpdateEvent) event;
+            StaticUpdateEventCacheFactory.releaseUpdateEvent(updateEvent);
+        }
     }
 
     public RingBuffer<CycleEvent> getRingBuffer() {

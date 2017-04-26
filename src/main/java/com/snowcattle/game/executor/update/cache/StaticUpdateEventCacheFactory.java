@@ -12,10 +12,13 @@ public class StaticUpdateEventCacheFactory {
     public static UpdateEventCacheFactory updateEventCacheFactory;
 
     public static void start(){
+//        int size = 1024;
+        int size = 1024;
+        int max = 32;
         GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
-        genericObjectPoolConfig.setMaxTotal(1024 * 32);
-        genericObjectPoolConfig.setMaxIdle(1024 * 32);
-        genericObjectPoolConfig.setMinIdle(1024);
+        genericObjectPoolConfig.setMaxTotal(size * max);
+        genericObjectPoolConfig.setMaxIdle(size * max);
+        genericObjectPoolConfig.setMinIdle(size);
         genericObjectPoolConfig.setSoftMinEvictableIdleTimeMillis(1000L * 30);
 
         updateEventCacheFactory = new UpdateEventCacheFactory(new UpdateEventPoolFactory(), genericObjectPoolConfig);

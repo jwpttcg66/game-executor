@@ -69,7 +69,7 @@ public class UpdateService <ID extends Serializable> {
         EventParam[] eventParams = event.getParams();
         IUpdate  iUpdate = (IUpdate) eventParams[0].getT();
         //只有distpatch转发结束后，才会才缓存池里销毁
-        updateMap.remove(event.getId(),iUpdate);
+        updateMap.remove(event.getId(), iUpdate);
     }
 
     public void stop(){
@@ -88,6 +88,7 @@ public class UpdateService <ID extends Serializable> {
     }
 
     public void notifyStart(){
+        StaticUpdateEventCacheFactory.start();
         iUpdateExecutor.startup();
         this.updateMap.clear();
     }
