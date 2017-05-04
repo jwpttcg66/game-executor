@@ -26,6 +26,8 @@
         <version.file>version.txt</version.file>
         <GameThreadPool.version>1.1.2</GameThreadPool.version>
         <disruptor.version>3.3.6</disruptor.version>
+        <game-expression.version>1.1</game-expression.version>
+
     </properties>
 
     <dependencies>
@@ -88,6 +90,11 @@
             <version>${disruptor.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.jwpttcg66</groupId>
+            <artifactId>game-expression</artifactId>
+            <version>${game-expression.version}</version>
+        </dependency>
 
     </dependencies>
 
