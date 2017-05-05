@@ -100,9 +100,11 @@ public class EventBus implements IEventBus {
 
         if(Loggers.gameExcutorUtil.isDebugEnabled()) {
             EventParam[] eventParams = event.getParams();
-            if(eventParams[0].getT() instanceof  IUpdate) {
-                IUpdate iUpdate = (IUpdate) eventParams[0].getT();
-                Loggers.gameExcutorUtil.debug("handle " + EventTypeEnum.values()[event.getEventType().getIndex()] + " id " + iUpdate.getId() + " dispatch");
+            if(eventParams != null) {
+                if (eventParams[0].getT() instanceof IUpdate) {
+                    IUpdate iUpdate = (IUpdate) eventParams[0].getT();
+                    Loggers.gameExcutorUtil.debug("handle " + EventTypeEnum.values()[event.getEventType().getIndex()] + " id " + iUpdate.getId() + " dispatch");
+                }
             }
         }
 

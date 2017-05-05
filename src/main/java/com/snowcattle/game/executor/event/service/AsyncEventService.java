@@ -13,9 +13,7 @@ import com.snowcattle.game.expression.ExpressionUtil;
 import com.snowcattle.game.thread.executor.OrderedQueuePoolExecutor;
 import org.slf4j.Logger;
 
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by jwp on 2017/4/27.
@@ -38,11 +36,18 @@ public class AsyncEventService {
     /**work线程池大小*/
     private int workSize;
 
+    /**事件异步处理线程池大小*/
+    private int handlerSize;
+
     private Expression shardingExpresson;
 
     private String threadFactoryName;
     private int orderQueueMaxSize;
 
+
+    /** 消息处理线程池 */
+    private volatile ExecutorService executorService;
+    private String workThreadFactoryName;
     /**
      *
      * @param eventBus
@@ -51,24 +56,35 @@ public class AsyncEventService {
      * @param threadFactoryName 执行线程池名字
      * @param orderQueueMaxSize  顺序执行线程池队列大小
      */
-    public AsyncEventService(EventBus eventBus, int queueSize, int workSize, String threadFactoryName, int orderQueueMaxSize) {
+    public AsyncEventService(EventBus eventBus, int queueSize, int workSize, String workThreadFactoryName, int handlerSize, String threadFactoryName, int orderQueueMaxSize) {
         this.eventBus = eventBus;
         queue = new ArrayBlockingQueue<SingleEvent>(queueSize);
         this.workSize = workSize;
+        this.workThreadFactoryName = workThreadFactoryName;
+        this.handlerSize = handlerSize;
         this.threadFactoryName = threadFactoryName;
         this.orderQueueMaxSize = orderQueueMaxSize;
     }
 
     public void startUp() throws Exception {
+
+        ThreadNameFactory factory = new ThreadNameFactory(workThreadFactoryName);
+        this.executorService = Executors
+                .newFixedThreadPool(this.workSize, factory);
+
+        for (int i = 0; i < this.workSize; i++) {
+            this.executorService.execute(new Worker());
+        }
+
         if (this.orderedQueuePoolExecutor != null) {
             throw new IllegalStateException(
                     "AsyncEventService The executorSerive has not been stopped.");
         }
-        orderedQueuePoolExecutor = new OrderedQueuePoolExecutor(threadFactoryName, workSize, orderQueueMaxSize);
-        String expressionString = "${0}%" + workSize;
+        orderedQueuePoolExecutor = new OrderedQueuePoolExecutor(threadFactoryName, handlerSize, orderQueueMaxSize);
+        String expressionString = "${0}%" + handlerSize;
         shardingExpresson = ExpressionUtil.buildExpression(expressionString);
         eventLogger.info("AsyncEventService processor executorService started ["
-                + this.orderedQueuePoolExecutor + " with " + this.workSize
+                + this.orderedQueuePoolExecutor + " with " + this.handlerSize
                 + " threads ]");
     }
 
@@ -80,7 +96,6 @@ public class AsyncEventService {
                     TimeUnit.MILLISECONDS);
             this.orderedQueuePoolExecutor = null;
         }
-
 
         eventLogger.info("AsyncEventService" + this + " stopped");
     }
