@@ -66,7 +66,7 @@ public class DisruptorDispatchThread extends DispatchThread{
             blockingQueue.put(event);
             total.getAndIncrement();
         } catch (InterruptedException e) {
-            Loggers.gameExcutorError.error(e.toString(), e);
+            Loggers.gameExecutorError.error(e.toString(), e);
         }
     }
     @Override
@@ -106,7 +106,7 @@ public class DisruptorDispatchThread extends DispatchThread{
                     cycleEvent = (CycleEvent) blockingQueue.take();
                     dispatch(cycleEvent);
                 } catch (InterruptedException e) {
-                    Loggers.gameExcutorError.error(e.toString(), e);
+                    Loggers.gameExecutorError.error(e.toString(), e);
                 }
                 i++;
             }
@@ -124,7 +124,7 @@ public class DisruptorDispatchThread extends DispatchThread{
             try {
                 Thread.currentThread().sleep(cycleSleepTime, (int) (diff % 999999));
             } catch (Throwable e) {
-                Loggers.gameExcutorUtil.error(e.toString(), e);
+                Loggers.gameExecutorUtil.error(e.toString(), e);
             }
         }
     }

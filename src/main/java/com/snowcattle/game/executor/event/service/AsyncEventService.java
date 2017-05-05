@@ -7,7 +7,6 @@ import com.snowcattle.game.executor.common.utils.ExecutorUtil;
 import com.snowcattle.game.executor.common.utils.Loggers;
 import com.snowcattle.game.executor.event.EventBus;
 import com.snowcattle.game.executor.event.SingleEvent;
-import com.snowcattle.game.executor.event.common.IEvent;
 import com.snowcattle.game.expression.Expression;
 import com.snowcattle.game.expression.ExpressionUtil;
 import com.snowcattle.game.thread.executor.OrderedQueuePoolExecutor;
@@ -21,7 +20,7 @@ import java.util.concurrent.*;
  */
 public class AsyncEventService {
 
-    private Logger eventLogger = Loggers.gameExcutorEvent;
+    private Logger eventLogger = Loggers.gameExecutorEvent;
 
     private EventBus eventBus;
 

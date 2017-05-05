@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public final class SystemPropertyUtil {
 
-    private static final Logger logger = Loggers.gameExcutorUtil;
+    private static final Logger logger = Loggers.gameExecutorUtil;
 
     /**
      * Returns {@code true} if and only if the system property with the specified {@code key}

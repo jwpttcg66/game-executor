@@ -46,7 +46,7 @@ public class BindThreadUpdateExecutorService extends  FinalizableDelegatedExecut
                 new LinkedBlockingQueue<Runnable>(), new ThreadNameFactory("bind-thread-update")));
         this.updateExcutorIndex = updateExcutorIndex;
         updateQueue = new ConcurrentLinkedQueue<IUpdate>();
-        fetchUpdates = new LinkedBlockingQueue<IUpdate>(Short.MAX_VALUE);
+        fetchUpdates = new LinkedBlockingQueue<IUpdate>(Integer.MAX_VALUE);
         this.dispatchThread = dispatchThread;
     }
 
@@ -63,7 +63,7 @@ public class BindThreadUpdateExecutorService extends  FinalizableDelegatedExecut
         try {
             fetchUpdates.put(nullWeakUpUpdate);
         } catch (InterruptedException e) {
-            Loggers.gameExcutorError.error(e.toString(), e);
+            Loggers.gameExecutorError.error(e.toString(), e);
         }
     }
 

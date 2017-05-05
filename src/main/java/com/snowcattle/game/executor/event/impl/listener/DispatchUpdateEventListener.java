@@ -25,8 +25,8 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
 
 
     public void fireEvent(IEvent event) {
-//        if(Loggers.gameExcutorUtil.isDebugEnabled()){
-//            Loggers.gameExcutorUtil.debug("处理update");
+//        if(Loggers.gameExecutorUtil.isDebugEnabled()){
+//            Loggers.gameExecutorUtil.debug("处理update");
 //        }
         super.fireEvent(event);
 

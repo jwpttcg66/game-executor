@@ -48,8 +48,8 @@ public class UpdateService <ID extends Serializable> {
         IUpdate  iUpdate = (IUpdate) eventParams[0].getT();
         updateMap.put((ID) event.getId(), iUpdate);
         //通知dispatchThread
-        if(Loggers.gameExcutorUtil.isDebugEnabled()) {
-            Loggers.gameExcutorUtil.debug("readycreate " + iUpdate.getId() + " dispatch");
+        if(Loggers.gameExecutorUtil.isDebugEnabled()) {
+            Loggers.gameExecutorUtil.debug("readycreate " + iUpdate.getId() + " dispatch");
         }
         CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, event.getId(), eventParams);
         dispatchThread.addCreateEvent(createEvent);

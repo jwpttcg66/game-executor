@@ -19,9 +19,9 @@ public class LockSupportUpdateFutureListener implements ITaskFutureListener {
 
     @Override
     public void operationComplete(ITaskFuture iTaskFuture) throws Exception {
-        if(Loggers.gameExcutorUtil.isDebugEnabled()){
+        if(Loggers.gameExecutorUtil.isDebugEnabled()){
             IUpdate iUpdate = (IUpdate) iTaskFuture.get();
-            Loggers.gameExcutorUtil.debug("update complete event id " + iUpdate.getId());
+            Loggers.gameExecutorUtil.debug("update complete event id " + iUpdate.getId());
         }
         LockSupportUpdateFuture lockSupportUpdateFuture = (LockSupportUpdateFuture) iTaskFuture;
         IUpdate iUpdate = (IUpdate) iTaskFuture.get();

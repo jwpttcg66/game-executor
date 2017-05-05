@@ -27,7 +27,7 @@ public class AsyncNotifyUpdateTest {
         EventBus updateEventBus = new EventBus();
 //        int maxSize = 10000;
 //        int corePoolSize = 100;
-        int maxSize = 20000;
+        int maxSize = 3000;
         int corePoolSize = 10;
         long keepAliveTime = 60;
         TimeUnit timeUnit = TimeUnit.SECONDS;

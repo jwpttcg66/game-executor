@@ -36,7 +36,7 @@ public class StaticUpdateEventCacheFactory {
         try {
             return updateEventCacheFactory.borrowObject();
         } catch (Exception e) {
-            Loggers.gameExcutorError.error(e.toString(), e);
+            Loggers.gameExecutorError.error(e.toString(), e);
         }
         return null;
     }
