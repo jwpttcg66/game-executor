@@ -1,10 +1,14 @@
 package com.snowcattle.game.executor.event.service;
 
+import com.snowcattle.game.executor.common.ThreadNameFactory;
 import com.snowcattle.game.executor.common.utils.CommonErrorInfo;
 import com.snowcattle.game.executor.common.utils.ExecutorUtil;
 import com.snowcattle.game.executor.common.utils.Loggers;
 import com.snowcattle.game.executor.event.EventBus;
+import com.snowcattle.game.executor.event.SingleEvent;
 import com.snowcattle.game.executor.event.common.IEvent;
+import com.snowcattle.game.expression.Expression;
+import com.snowcattle.game.expression.ExpressionUtil;
 import com.snowcattle.game.thread.executor.OrderedQueuePoolExecutor;
 import org.slf4j.Logger;
 
@@ -22,7 +26,7 @@ public class AsyncEventService {
 
     private EventBus eventBus;
 
-    private BlockingQueue<IEvent> queue;
+    private BlockingQueue<SingleEvent> queue;
 
     private OrderedQueuePoolExecutor orderedQueuePoolExecutor;
 
@@ -32,6 +36,12 @@ public class AsyncEventService {
 
     /**work线程池大小*/
     private int workSize;
+
+    private Expression shardingExpresson;
+
+    private String threadFactoryName;
+    private int orderQueueMaxSize;
+
     /**
      *
      * @param eventBus
@@ -42,17 +52,20 @@ public class AsyncEventService {
      */
     public AsyncEventService(EventBus eventBus, int queueSize, int workSize, String threadFactoryName, int orderQueueMaxSize) {
         this.eventBus = eventBus;
-        queue = new ArrayBlockingQueue<IEvent>(queueSize);
+        queue = new ArrayBlockingQueue<SingleEvent>(queueSize);
         this.workSize = workSize;
-        orderedQueuePoolExecutor = new OrderedQueuePoolExecutor(threadFactoryName, workSize, orderQueueMaxSize);
+        this.threadFactoryName = threadFactoryName;
+        this.orderQueueMaxSize = orderQueueMaxSize;
     }
 
-    public void startUp(){
+    public void startUp() throws Exception {
         if (this.orderedQueuePoolExecutor != null) {
             throw new IllegalStateException(
                     "AsyncEventService The executorSerive has not been stopped.");
         }
-
+        orderedQueuePoolExecutor = new OrderedQueuePoolExecutor(threadFactoryName, workSize, orderQueueMaxSize);
+        String expressionString = "${0}%" + workSize;
+        shardingExpresson = ExpressionUtil.buildExpression(expressionString);
         eventLogger.info("AsyncEventService processor executorService started ["
                 + this.orderedQueuePoolExecutor + " with " + this.workSize
                 + " threads ]");
@@ -66,6 +79,8 @@ public class AsyncEventService {
                     TimeUnit.MILLISECONDS);
             this.orderedQueuePoolExecutor = null;
         }
+
+
         eventLogger.info("AsyncEventService" + this + " stopped");
     }
 
@@ -75,7 +90,7 @@ public class AsyncEventService {
      *
      * @param event
      */
-    public void put(IEvent event) {
+    public void put(SingleEvent event) {
         try {
             queue.put(event);
             if (eventLogger.isDebugEnabled()) {
@@ -94,7 +109,7 @@ public class AsyncEventService {
      * @param event
      */
     @SuppressWarnings("unchecked")
-    public void process(IEvent event) {
+    public void process(SingleEvent event) {
         if (event == null) {
             if (eventLogger.isWarnEnabled()) {
                 eventLogger.warn("[#CORE.QueueMessageExecutorProcessor.process] ["
@@ -108,6 +123,8 @@ public class AsyncEventService {
         }
         this.statisticsMessageCount++;
         try {
+             long shardignId = event.getShardingId();
+
 //            long sessionId = msg.getSessionId();
 //            ClientSessionUpdater onlineSessionService = LocalMananger.getInstance().getClientSessionUpdater();
 //            MinaGameClientSession clientSesion = onlineSessionService.getClientSession(sessionId);

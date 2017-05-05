@@ -11,6 +11,7 @@ public abstract  class AbstractEvent<ID extends Serializable> implements IEvent 
 
     private EventType eventType;
     private EventParam[] eventParamps;
+    private ID id;
 
     public void setEventType(EventType eventType) {
         this.eventType = eventType;
@@ -26,5 +27,13 @@ public abstract  class AbstractEvent<ID extends Serializable> implements IEvent 
 
     public void setParams(EventParam... eventParams) {
         this.eventParamps = eventParams;
+    }
+
+    public ID getId() {
+        return id;
+    }
+
+    public void setId(ID id) {
+        this.id = id;
     }
 }

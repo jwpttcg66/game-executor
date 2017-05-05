@@ -4,10 +4,9 @@ import java.io.Serializable;
 
 /**
  * Created by jiangwenping on 17/1/16.
+ * 具有生存周期，循环调度的事件
  */
-public class CycleEvent<ID extends Serializable>  extends AbstractEvent{
-
-    private ID id;
+public class CycleEvent<ID extends Serializable>  extends AbstractEvent<ID>  {
 
     //是否进行过初始化
     private boolean initFlag;
@@ -25,20 +24,12 @@ public class CycleEvent<ID extends Serializable>  extends AbstractEvent{
     public CycleEvent(EventType eventType, ID eventId, EventParam... parms){
         setEventType(eventType);
         setParams(parms);
-        this.id = eventId;
+        setId(eventId);
     }
 
     @Override
     public void call() {
 
-    }
-
-    public ID getId() {
-        return id;
-    }
-
-    public void setId(ID id) {
-        this.id = id;
     }
 
     public boolean isInitFlag() {
