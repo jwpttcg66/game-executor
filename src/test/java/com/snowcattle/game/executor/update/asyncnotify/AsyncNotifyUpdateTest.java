@@ -8,6 +8,7 @@ import com.snowcattle.game.executor.event.impl.listener.DispatchCreateEventListe
 import com.snowcattle.game.executor.event.impl.listener.DispatchFinishEventListener;
 import com.snowcattle.game.executor.event.impl.listener.DispatchUpdateEventListener;
 import com.snowcattle.game.executor.update.pool.UpdateBindExecutorService;
+import com.snowcattle.game.executor.update.service.NotifyTask;
 import com.snowcattle.game.executor.update.service.UpdateService;
 import com.snowcattle.game.executor.update.thread.dispatch.BindDisptachThread;
 import com.snowcattle.game.executor.common.utils.Constants;
