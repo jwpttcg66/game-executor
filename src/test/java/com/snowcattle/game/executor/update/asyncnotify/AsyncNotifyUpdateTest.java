@@ -9,6 +9,7 @@ import com.snowcattle.game.executor.event.impl.listener.DispatchFinishEventListe
 import com.snowcattle.game.executor.event.impl.listener.DispatchUpdateEventListener;
 import com.snowcattle.game.executor.update.pool.UpdateBindExecutorService;
 import com.snowcattle.game.executor.update.service.NotifyTask;
+import com.snowcattle.game.executor.update.service.UpdateNotifyService;
 import com.snowcattle.game.executor.update.service.UpdateService;
 import com.snowcattle.game.executor.update.thread.dispatch.BindDisptachThread;
 import com.snowcattle.game.executor.common.utils.Constants;
@@ -54,8 +55,11 @@ public class AsyncNotifyUpdateTest {
 
 
 //        updateService.shutDown();
-        Timer timer = new Timer();
-        timer.schedule(new NotifyTask(updateService), 0, 10);
+//        Timer timer = new Timer();
+//        timer.schedule(new NotifyTask(updateService), 0, 10);
+
+        UpdateNotifyService updateNotifyService = new UpdateNotifyService(updateService, 10);
+        updateNotifyService.startup();
         while (true) {
             Thread.currentThread().sleep(100);
             updateService.toString();
