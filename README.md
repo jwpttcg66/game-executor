@@ -6,6 +6,7 @@ dispatchThread消息分配模型需要的create, update, finish的事件进行�
 事件注册到dispatchThread消息分配模型进行循环处理。如果模型死亡将消息转化为readyfinish事件注册到更新服务UpdateServic进行销毁
 。这个系统实现了模型自动缓存，多线程异步循环调度模型更新，自动处理模型死亡事件进行销毁。
 支持将多个updater绑定到同一个更新线程上，减少线程调度。
+增加异步event-bus
 
 ## 异步使用例子
 
