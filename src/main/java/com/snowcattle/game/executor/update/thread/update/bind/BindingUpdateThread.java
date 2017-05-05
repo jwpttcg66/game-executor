@@ -106,7 +106,6 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
         updateEvent.setEventType(Constants.EventTypeConstans.updateEventType);
         updateEvent.setId(excutorUpdate.getId());
         updateEvent.setParams(params);
-//        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, excutorUpdate.getId(), params);
         updateEvent.setUpdateExcutorIndex(bindThreadEventExecutorService.getUpdateExcutorIndex());
         updateEvent.setUpdateAliveFlag(excutorUpdate.isActive());
         getEventBus().addEvent(updateEvent);

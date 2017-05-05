@@ -50,8 +50,11 @@ public class UpdateBindExecutorService implements IUpdateExecutor {
             BindThreadEventExecutorService bindThreadEventExecutorService = getNext();
             bindThreadEventExecutorService.excuteUpdate(iUpdate, firstFlag);
         }else{
-            //查找老的更新器
-            BindThreadEventExecutorService bindThreadEventExecutorService = bindThreadEventExecutorServices[updateExcutorIndex];
+
+        //查找老的更新器
+//            BindThreadEventExecutorService bindThreadEventExecutorService = bindThreadEventExecutorServices[updateExcutorIndex];
+            //完全随机，取消查找老的模块，使cpu更加平均。
+            BindThreadEventExecutorService bindThreadEventExecutorService = getNext();
             bindThreadEventExecutorService.excuteUpdate(iUpdate, false);
         }
     }
