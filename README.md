@@ -1,4 +1,4 @@
-# game-excutor
+# game-executor
 > 采用Reactor模式，注册readycreate, readyfinish事件到更新服务UpdateService，通过处理后进行模型缓存，然后将消息转化为
 dispatchThread消息分配模型需要的create, update, finish的事件进行单线程循环调度
 。调度过程使用了系统预置锁模型，来进行多线程唤醒机制，将所有的update循环检测进行多
