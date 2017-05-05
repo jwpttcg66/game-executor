@@ -1,6 +1,7 @@
 package com.snowcattle.game.executor.update.pool.excutor;
 
 import com.snowcattle.game.executor.common.ThreadNameFactory;
+import com.snowcattle.game.executor.common.utils.Constants;
 import com.snowcattle.game.executor.update.thread.dispatch.DispatchThread;
 import com.snowcattle.game.executor.update.thread.update.bind.BindingUpdateThread;
 import com.snowcattle.game.executor.update.entity.IUpdate;
@@ -43,7 +44,7 @@ public class BindThreadUpdateExecutorService extends  FinalizableDelegatedExecut
     public BindThreadUpdateExecutorService(int updateExcutorIndex, DispatchThread dispatchThread) {
         super(new ThreadPoolExecutor(1, 1,
                 0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>(), new ThreadNameFactory("bind-thread-update")));
+                new LinkedBlockingQueue<Runnable>(), new ThreadNameFactory(Constants.Thread.BindThreadUpdateExecutorService)));
         this.updateExcutorIndex = updateExcutorIndex;
         updateQueue = new ConcurrentLinkedQueue<IUpdate>();
         fetchUpdates = new LinkedBlockingQueue<IUpdate>(Integer.MAX_VALUE);
