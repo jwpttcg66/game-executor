@@ -1,5 +1,6 @@
 package com.snowcattle.game.executor.update.pool.excutor;
 
+import com.snowcattle.game.executor.common.ThreadNameFactory;
 import com.snowcattle.game.executor.update.thread.dispatch.DispatchThread;
 import com.snowcattle.game.executor.update.thread.update.bind.BindingUpdateThread;
 import com.snowcattle.game.executor.update.entity.IUpdate;
@@ -12,11 +13,11 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 /**
  * Created by jwp on 2017/2/23.
- * 单线程
+ * 单线程执行器
  *
  * 当线程执行完所有update的时候，退出eventloop
  */
-public class BindThreadEventExecutorService extends  FinalizableDelegatedExecutorService implements OrderedEventExecutor{
+public class BindThreadUpdateExecutorService extends  FinalizableDelegatedExecutorService implements OrderedEventExecutor{
 
 
     //当前线程执行器 执行状态
@@ -26,7 +27,7 @@ public class BindThreadEventExecutorService extends  FinalizableDelegatedExecuto
     private static final int ST_SHUTDOWN = 4;
     private static final int ST_TERMINATED = 5;
 
-    private final AtomicIntegerFieldUpdater<BindThreadEventExecutorService> STATE_UPDATER =  AtomicIntegerFieldUpdater.newUpdater(BindThreadEventExecutorService.class, "state");;
+    private final AtomicIntegerFieldUpdater<BindThreadUpdateExecutorService> STATE_UPDATER =  AtomicIntegerFieldUpdater.newUpdater(BindThreadUpdateExecutorService.class, "state");;
 
     private volatile int state = ST_NOT_STARTED;
 
@@ -39,10 +40,10 @@ public class BindThreadEventExecutorService extends  FinalizableDelegatedExecuto
 
 
     private int updateExcutorIndex;
-    public BindThreadEventExecutorService(int updateExcutorIndex, DispatchThread dispatchThread) {
+    public BindThreadUpdateExecutorService(int updateExcutorIndex, DispatchThread dispatchThread) {
         super(new ThreadPoolExecutor(1, 1,
                 0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<Runnable>()));
+                new LinkedBlockingQueue<Runnable>(), new ThreadNameFactory("bind-thread-update")));
         this.updateExcutorIndex = updateExcutorIndex;
         updateQueue = new ConcurrentLinkedQueue<IUpdate>();
         fetchUpdates = new LinkedBlockingQueue<IUpdate>(Short.MAX_VALUE);
