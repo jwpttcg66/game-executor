@@ -2,6 +2,7 @@ package com.snowcattle.game.executor.event.service;
 
 import com.snowcattle.game.executor.common.ThreadNameFactory;
 import com.snowcattle.game.executor.common.utils.CommonErrorInfo;
+import com.snowcattle.game.executor.common.utils.ErrorsUtil;
 import com.snowcattle.game.executor.common.utils.ExecutorUtil;
 import com.snowcattle.game.executor.common.utils.Loggers;
 import com.snowcattle.game.executor.event.EventBus;
@@ -124,21 +125,12 @@ public class AsyncEventService {
         this.statisticsMessageCount++;
         try {
              long shardignId = event.getShardingId();
-
-//            long sessionId = msg.getSessionId();
-//            ClientSessionUpdater onlineSessionService = LocalMananger.getInstance().getClientSessionUpdater();
-//            MinaGameClientSession clientSesion = onlineSessionService.getClientSession(sessionId);
-//            if(clientSesion != null){
-//                logger.debug("processor session" + clientSesion.getPlayerId() + " process message" + msg.getCommandId());
-//                clientSesion.addGameMessage(msg);
-//
-//            }else{
-//                logger.debug("session is closed, the message is unDispatch");
-//            }
+             long shardingResult = shardingExpresson.getValue(shardignId);
+             orderedQueuePoolExecutor.addTask(shardingResult, new SingleEventWork(eventBus, event));
         } catch (Exception e) {
             if (eventLogger.isErrorEnabled()) {
-//                eventLogger.error(ErrorsUtil.error("Error",
-//                        "#.QueueMessageExecutorProcessor.process", "param"), e);
+                eventLogger.error(ErrorsUtil.error("Error",
+                        "#.AsyncEventService.process", "param"), e);
             }
 
         } finally {
@@ -146,10 +138,10 @@ public class AsyncEventService {
                 // 特例，统计时间跨度
                 long time = (System.nanoTime() - begin) / (1000 * 1000);
                 if (time > 1) {
-//                    eventLogger.info("#CORE.MSG.PROCESS.DISPATCH_STATICS disptach Message id:"
-//                            + msg.getCommandId() + " Time:"
-//                            + time + "ms" + " Total:"
-//                            + this.statisticsMessageCount);
+                    eventLogger.info("#AsyncEventService disptach event id:" + event.getId(), " shardingId:"
+                            + event.getShardingId() + " Time:"
+                            + time + "ms" + " Total:"
+                            + this.statisticsMessageCount);
                 }
             }
         }
