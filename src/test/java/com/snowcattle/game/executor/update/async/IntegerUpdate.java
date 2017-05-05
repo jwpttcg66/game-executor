@@ -28,8 +28,8 @@ public class IntegerUpdate extends AbstractUpdate<Long> {
             long useTime = endTime - startTime;
             System.out.println("耗时" + useTime + "id" + getId());
         }
-        if (Loggers.utilLogger.isDebugEnabled()) {
-            Loggers.utilLogger.debug("update id " + getId() + " incrId:" + incrId);
+        if (Loggers.gameExcutorUtil.isDebugEnabled()) {
+            Loggers.gameExcutorUtil.debug("update id " + getId() + " incrId:" + incrId);
         }
     }
 

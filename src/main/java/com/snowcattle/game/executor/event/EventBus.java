@@ -98,11 +98,11 @@ public class EventBus implements IEventBus {
 
     public void handleSingleEvent(IEvent event) {
 
-        if(Loggers.utilLogger.isDebugEnabled()) {
+        if(Loggers.gameExcutorUtil.isDebugEnabled()) {
             EventParam[] eventParams = event.getParams();
             if(eventParams[0].getT() instanceof  IUpdate) {
                 IUpdate iUpdate = (IUpdate) eventParams[0].getT();
-                Loggers.utilLogger.debug("handle " + EventTypeEnum.values()[event.getEventType().getIndex()] + " id " + iUpdate.getId() + " dispatch");
+                Loggers.gameExcutorUtil.debug("handle " + EventTypeEnum.values()[event.getEventType().getIndex()] + " id " + iUpdate.getId() + " dispatch");
             }
         }
 

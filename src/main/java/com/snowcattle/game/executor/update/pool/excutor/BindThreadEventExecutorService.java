@@ -62,7 +62,7 @@ public class BindThreadEventExecutorService extends  FinalizableDelegatedExecuto
         try {
             fetchUpdates.put(nullWeakUpUpdate);
         } catch (InterruptedException e) {
-            Loggers.errorLogger.error(e.toString(), e);
+            Loggers.gameExcutorError.error(e.toString(), e);
         }
     }
 

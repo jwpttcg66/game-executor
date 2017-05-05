@@ -20,9 +20,9 @@ public class CreateEvent<ID extends Serializable> extends CycleEvent {
     }
 
     public void call() {
-        if(Loggers.utilLogger.isDebugEnabled()){
+        if(Loggers.gameExcutorUtil.isDebugEnabled()){
             EventParam[] eventParams = getParams();
-            Loggers.utilLogger.debug("create event " + eventParams[0].getT());
+            Loggers.gameExcutorUtil.debug("create event " + eventParams[0].getT());
         }
 
     }

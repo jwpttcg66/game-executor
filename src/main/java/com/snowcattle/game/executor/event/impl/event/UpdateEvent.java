@@ -32,9 +32,9 @@ public class UpdateEvent <ID extends Serializable> extends CycleEvent {
     }
 
     public void call() {
-//        if(Loggers.utilLogger.isDebugEnabled()){
+//        if(Loggers.gameExcutorUtil.isDebugEnabled()){
 //            EventParam[] eventParams = getParams();
-//            Loggers.utilLogger.debug("update event " + eventParams[0].getT());
+//            Loggers.gameExcutorUtil.debug("update event " + eventParams[0].getT());
 //        }
     }
 

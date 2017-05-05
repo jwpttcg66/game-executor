@@ -56,7 +56,7 @@ public class LockSupportDisptachThread extends DispatchThread {
             try {
                 Thread.currentThread().sleep(cycleSleepTime, (int) (diff % 999999));
             } catch (Throwable e) {
-                Loggers.utilLogger.error(e.toString(), e);
+                Loggers.gameExcutorUtil.error(e.toString(), e);
             }
         }
     }

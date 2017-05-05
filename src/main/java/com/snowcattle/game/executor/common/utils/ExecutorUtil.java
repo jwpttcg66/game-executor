@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
  * Created by jiangwenping on 17/1/11.
  */
 public class ExecutorUtil {
-    private static final Logger logger = Loggers.utilLogger;
+    private static final Logger logger = Loggers.gameExcutorUtil;
     /** 默认的{@link ExecutorService}关闭前等待其中的任务结束的时间:5分钟 */
     private static final int DEFAULT_AWAIT_TERMINATE_MINUTES = 5;
 

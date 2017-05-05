@@ -60,7 +60,7 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
                         break;
                     }
                 } catch (Exception e) {
-                    Loggers.errorLogger.error(e.toString(), e);
+                    Loggers.gameExcutorError.error(e.toString(), e);
                     break;
                 }
 
@@ -76,7 +76,7 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
             try {
                 fetchUpdates.take();
             } catch (InterruptedException e) {
-                Loggers.errorLogger.error(e.toString(), e);
+                Loggers.gameExcutorError.error(e.toString(), e);
             }
         }
 
@@ -117,8 +117,8 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
 
         //事件总线增加更新完成通知
         for(IUpdate excutorUpdate : finishList){
-//            if(Loggers.utilLogger.isDebugEnabled()) {
-//                Loggers.utilLogger.debug(executorUpdate.getId() + "发送存活" + executorUpdate.isActive());
+//            if(Loggers.gameExcutorUtil.isDebugEnabled()) {
+//                Loggers.gameExcutorUtil.debug(executorUpdate.getId() + "发送存活" + executorUpdate.isActive());
 //            }
             sendFinish(excutorUpdate);
         }
