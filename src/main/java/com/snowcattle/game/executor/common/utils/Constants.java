@@ -26,6 +26,8 @@ public class Constants {
     public static class Thread{
         public static final String UPDATE="update";
         public static final String DISPATCH="dispatch";
+        public static final String UpdateNotifyService="UpdateNotifyService";
+        public static final String BindThreadUpdateExecutorService="BindThreadUpdateExecutorService";
     }
 
     /**

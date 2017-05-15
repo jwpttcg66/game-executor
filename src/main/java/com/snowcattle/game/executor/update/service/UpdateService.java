@@ -8,7 +8,7 @@ import com.snowcattle.game.executor.event.impl.event.CreateEvent;
 import com.snowcattle.game.executor.event.impl.event.FinishEvent;
 import com.snowcattle.game.executor.event.impl.event.FinishedEvent;
 import com.snowcattle.game.executor.event.impl.event.ReadFinishEvent;
-import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
+import com.snowcattle.game.executor.update.cache.UpdateEventCacheService;
 import com.snowcattle.game.executor.update.entity.IUpdate;
 import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
 import com.snowcattle.game.executor.update.thread.dispatch.DispatchThread;
@@ -48,8 +48,8 @@ public class UpdateService <ID extends Serializable> {
         IUpdate  iUpdate = (IUpdate) eventParams[0].getT();
         updateMap.put((ID) event.getId(), iUpdate);
         //通知dispatchThread
-        if(Loggers.utilLogger.isDebugEnabled()) {
-            Loggers.utilLogger.debug("readycreate " + iUpdate.getId() + " dispatch");
+        if(Loggers.gameExecutorUtil.isDebugEnabled()) {
+            Loggers.gameExecutorUtil.debug("readycreate " + iUpdate.getId() + " dispatch");
         }
         CreateEvent createEvent = new CreateEvent(Constants.EventTypeConstans.createEventType, event.getId(), eventParams);
         dispatchThread.addCreateEvent(createEvent);
@@ -76,11 +76,11 @@ public class UpdateService <ID extends Serializable> {
         iUpdateExecutor.shutdown();
         dispatchThread.shutDown();
         this.updateMap.clear();
-        StaticUpdateEventCacheFactory.stop();
+        UpdateEventCacheService.stop();
     }
 
     public void start(){
-        StaticUpdateEventCacheFactory.start();
+        UpdateEventCacheService.start();
         dispatchThread.startup();
         iUpdateExecutor.startup();
         dispatchThread.start();
@@ -88,7 +88,7 @@ public class UpdateService <ID extends Serializable> {
     }
 
     public void notifyStart(){
-        StaticUpdateEventCacheFactory.start();
+        UpdateEventCacheService.start();
         iUpdateExecutor.startup();
         this.updateMap.clear();
     }

@@ -2,8 +2,8 @@ package com.snowcattle.game.executor.update.thread.update.bind;
 
 import com.snowcattle.game.executor.event.EventParam;
 import com.snowcattle.game.executor.event.impl.event.UpdateEvent;
-import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
-import com.snowcattle.game.executor.update.pool.excutor.BindThreadEventExecutorService;
+import com.snowcattle.game.executor.update.cache.UpdateEventCacheService;
+import com.snowcattle.game.executor.update.pool.excutor.BindThreadUpdateExecutorService;
 import com.snowcattle.game.executor.update.thread.dispatch.DispatchThread;
 import com.snowcattle.game.executor.update.entity.IUpdate;
 import com.snowcattle.game.executor.common.utils.Constants;
@@ -31,10 +31,10 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
 
     private List<IUpdate> finishList;
 
-    private BindThreadEventExecutorService bindThreadEventExecutorService;
-    public BindingUpdateThread(BindThreadEventExecutorService bindThreadEventExecutorService, DispatchThread dispatchThread, Queue<IUpdate> iUpdates, BlockingQueue<IUpdate> fetchUpdates) {
+    private BindThreadUpdateExecutorService bindThreadUpdateExecutorService;
+    public BindingUpdateThread(BindThreadUpdateExecutorService bindThreadUpdateExecutorService, DispatchThread dispatchThread, Queue<IUpdate> iUpdates, BlockingQueue<IUpdate> fetchUpdates) {
         super(dispatchThread, dispatchThread.getEventBus());
-        this.bindThreadEventExecutorService = bindThreadEventExecutorService;
+        this.bindThreadUpdateExecutorService = bindThreadUpdateExecutorService;
         this.iUpdates = iUpdates;
         this.fetchUpdates = fetchUpdates;
         this.finishList = new ArrayList<IUpdate>();
@@ -50,7 +50,7 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
                 try {
                     IUpdate excutorUpdate = fetchUpdates.take();
                     if (excutorUpdate != null) {
-                        if(excutorUpdate == BindThreadEventExecutorService.nullWeakUpUpdate){
+                        if(excutorUpdate == BindThreadUpdateExecutorService.nullWeakUpUpdate){
                             continue;
                         }
                         excutorUpdate.update();
@@ -60,7 +60,7 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
                         break;
                     }
                 } catch (Exception e) {
-                    Loggers.errorLogger.error(e.toString(), e);
+                    Loggers.gameExecutorError.error(e.toString(), e);
                     break;
                 }
 
@@ -76,7 +76,7 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
             try {
                 fetchUpdates.take();
             } catch (InterruptedException e) {
-                Loggers.errorLogger.error(e.toString(), e);
+                Loggers.gameExecutorError.error(e.toString(), e);
             }
         }
 
@@ -98,16 +98,15 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
     public void sendFinish(IUpdate excutorUpdate) {
         //如果生命周期结束了，直接进行销毁
         if(!excutorUpdate.isActive()){
-            bindThreadEventExecutorService.removeTaskQueue(excutorUpdate);
+            bindThreadUpdateExecutorService.removeTaskQueue(excutorUpdate);
         }
         //事件总线增加更新完成通知
         EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
-        UpdateEvent updateEvent = StaticUpdateEventCacheFactory.createUpdateEvent();
+        UpdateEvent updateEvent = UpdateEventCacheService.createUpdateEvent();
         updateEvent.setEventType(Constants.EventTypeConstans.updateEventType);
         updateEvent.setId(excutorUpdate.getId());
         updateEvent.setParams(params);
-//        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, excutorUpdate.getId(), params);
-        updateEvent.setUpdateExcutorIndex(bindThreadEventExecutorService.getUpdateExcutorIndex());
+        updateEvent.setUpdateExcutorIndex(bindThreadUpdateExecutorService.getUpdateExcutorIndex());
         updateEvent.setUpdateAliveFlag(excutorUpdate.isActive());
         getEventBus().addEvent(updateEvent);
 
@@ -117,8 +116,8 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
 
         //事件总线增加更新完成通知
         for(IUpdate excutorUpdate : finishList){
-//            if(Loggers.utilLogger.isDebugEnabled()) {
-//                Loggers.utilLogger.debug(executorUpdate.getId() + "发送存活" + executorUpdate.isActive());
+//            if(Loggers.gameExecutorUtil.isDebugEnabled()) {
+//                Loggers.gameExecutorUtil.debug(executorUpdate.getId() + "发送存活" + executorUpdate.isActive());
 //            }
             sendFinish(excutorUpdate);
         }

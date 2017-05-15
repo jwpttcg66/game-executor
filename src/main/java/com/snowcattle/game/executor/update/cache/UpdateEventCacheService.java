@@ -6,8 +6,9 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 /**
  * Created by jiangwenping on 17/4/26.
+ *  updateevent的缓存服务
  */
-public class StaticUpdateEventCacheFactory {
+public class UpdateEventCacheService {
 
     public static UpdateEventCacheFactory updateEventCacheFactory;
 
@@ -36,7 +37,7 @@ public class StaticUpdateEventCacheFactory {
         try {
             return updateEventCacheFactory.borrowObject();
         } catch (Exception e) {
-            Loggers.errorLogger.error(e.toString(), e);
+            Loggers.gameExecutorError.error(e.toString(), e);
         }
         return null;
     }

@@ -8,7 +8,7 @@ import com.snowcattle.game.executor.event.EventBus;
 import com.snowcattle.game.executor.event.common.IEvent;
 import com.snowcattle.game.executor.event.factory.CycleDisruptorEventFactory;
 import com.snowcattle.game.executor.event.impl.event.UpdateEvent;
-import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
+import com.snowcattle.game.executor.update.cache.UpdateEventCacheService;
 import com.snowcattle.game.executor.update.pool.DisruptorExecutorService;
 import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
 
@@ -68,7 +68,7 @@ public class DisruptorDispatchThread extends DispatchThread{
             blockingQueue.put(event);
             total.getAndIncrement();
         } catch (InterruptedException e) {
-            Loggers.errorLogger.error(e.toString(), e);
+            Loggers.gameExecutorError.error(e.toString(), e);
         }
     }
     @Override
@@ -108,7 +108,7 @@ public class DisruptorDispatchThread extends DispatchThread{
                     cycleEvent = (CycleEvent) blockingQueue.take();
                     dispatch(cycleEvent);
                 } catch (InterruptedException e) {
-                    Loggers.errorLogger.error(e.toString(), e);
+                    Loggers.gameExecutorError.error(e.toString(), e);
                 }
                 i++;
             }
@@ -126,7 +126,7 @@ public class DisruptorDispatchThread extends DispatchThread{
             try {
                 Thread.currentThread().sleep(cycleSleepTime, (int) (diff % 999999));
             } catch (Throwable e) {
-                Loggers.utilLogger.error(e.toString(), e);
+                Loggers.gameExecutorUtil.error(e.toString(), e);
             }
         }
     }
@@ -146,7 +146,7 @@ public class DisruptorDispatchThread extends DispatchThread{
         total.getAndDecrement();
         if(event instanceof UpdateEvent){
             UpdateEvent updateEvent = (UpdateEvent) event;
-            StaticUpdateEventCacheFactory.releaseUpdateEvent(updateEvent);
+            UpdateEventCacheService.releaseUpdateEvent(updateEvent);
         }
     }
 

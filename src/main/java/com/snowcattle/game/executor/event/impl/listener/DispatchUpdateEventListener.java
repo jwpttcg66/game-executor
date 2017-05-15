@@ -6,7 +6,7 @@ import com.snowcattle.game.executor.event.EventParam;
 import com.snowcattle.game.executor.event.common.IEvent;
 import com.snowcattle.game.executor.event.impl.event.FinishEvent;
 import com.snowcattle.game.executor.event.impl.event.UpdateEvent;
-import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
+import com.snowcattle.game.executor.update.cache.UpdateEventCacheService;
 import com.snowcattle.game.executor.update.entity.IUpdate;
 import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
 import com.snowcattle.game.executor.update.service.UpdateService;
@@ -25,8 +25,8 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
 
 
     public void fireEvent(IEvent event) {
-//        if(Loggers.utilLogger.isDebugEnabled()){
-//            Loggers.utilLogger.debug("处理update");
+//        if(Loggers.gameExecutorUtil.isDebugEnabled()){
+//            Loggers.gameExecutorUtil.debug("处理update");
 //        }
         super.fireEvent(event);
 
@@ -48,7 +48,7 @@ public class DispatchUpdateEventListener extends UpdateEventListener {
         //如果是update，需要释放cache
         if(cycleEvent instanceof UpdateEvent){
             UpdateEvent updateEvent = (UpdateEvent) cycleEvent;
-            StaticUpdateEventCacheFactory.releaseUpdateEvent(updateEvent);
+            UpdateEventCacheService.releaseUpdateEvent(updateEvent);
         }
     }
 }

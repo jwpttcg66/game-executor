@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
  */
 public class Loggers {
     /** Server相关的日志 */
-    public static final Logger errorLogger = (Logger) LoggerFactory.getLogger("gameExcutorError");
+    public static final Logger gameExecutorError = (Logger) LoggerFactory.getLogger("gameExecutorError");
     /** Server相关的日志 */
-    public static final Logger utilLogger = (Logger) LoggerFactory.getLogger("gameExcutorUtil");
+    public static final Logger gameExecutorUtil = (Logger) LoggerFactory.getLogger("gameExecutorUtil");
+    /** Server相关的日志 */
+    public static final Logger gameExecutorEvent = (Logger) LoggerFactory.getLogger("gameExecutorEvent");
 }
 

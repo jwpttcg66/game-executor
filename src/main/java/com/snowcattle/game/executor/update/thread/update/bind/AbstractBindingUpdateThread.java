@@ -3,7 +3,7 @@ package com.snowcattle.game.executor.update.thread.update.bind;
 import com.snowcattle.game.executor.event.EventBus;
 import com.snowcattle.game.executor.event.EventParam;
 import com.snowcattle.game.executor.event.impl.event.UpdateEvent;
-import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
+import com.snowcattle.game.executor.update.cache.UpdateEventCacheService;
 import com.snowcattle.game.executor.update.thread.update.UpdateThread;
 import com.snowcattle.game.executor.update.thread.dispatch.DispatchThread;
 import com.snowcattle.game.executor.update.entity.IUpdate;
@@ -30,7 +30,7 @@ public abstract class AbstractBindingUpdateThread extends UpdateThread {
 
             //事件总线增加更新完成通知
             EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
-            UpdateEvent updateEvent = StaticUpdateEventCacheFactory.createUpdateEvent();
+            UpdateEvent updateEvent = UpdateEventCacheService.createUpdateEvent();
             updateEvent.setEventType(Constants.EventTypeConstans.updateEventType);
             updateEvent.setId(excutorUpdate.getId());
             updateEvent.setParams(params);
