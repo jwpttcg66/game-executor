@@ -2,6 +2,7 @@ package com.snowcattle.game.executor.update.thread.dispatch;
 
 import com.lmax.disruptor.BlockingWaitStrategy;
 import com.lmax.disruptor.RingBuffer;
+import com.snowcattle.game.executor.common.utils.Loggers;
 import com.snowcattle.game.executor.event.CycleEvent;
 import com.snowcattle.game.executor.event.EventBus;
 import com.snowcattle.game.executor.event.common.IEvent;
@@ -10,9 +11,9 @@ import com.snowcattle.game.executor.event.impl.event.UpdateEvent;
 import com.snowcattle.game.executor.update.cache.StaticUpdateEventCacheFactory;
 import com.snowcattle.game.executor.update.pool.DisruptorExecutorService;
 import com.snowcattle.game.executor.update.pool.IUpdateExecutor;
-import com.snowcattle.game.executor.common.utils.Loggers;
 
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -23,11 +24,11 @@ public class DisruptorDispatchThread extends DispatchThread{
 
     private RingBuffer<CycleEvent> ringBuffer;
 
-    private int bufferSize = 1024 * 32;
+    private int bufferSize = 1024 * 64;
 
     private DisruptorExecutorService disruptorExcutorService;
 
-    private ArrayBlockingQueue<IEvent> blockingQueue;
+    private BlockingQueue<IEvent> blockingQueue;
 
     private boolean runningFlag = true;
 
@@ -39,7 +40,8 @@ public class DisruptorDispatchThread extends DispatchThread{
     public DisruptorDispatchThread(EventBus eventBus, IUpdateExecutor iUpdateExecutor,  int cycleSleepTime , long minCycleTime) {
         super(eventBus);
         this.disruptorExcutorService = (DisruptorExecutorService) iUpdateExecutor;
-        this.blockingQueue = new ArrayBlockingQueue<IEvent>(bufferSize);
+//        this.blockingQueue = new ArrayBlockingQueue<IEvent>(bufferSize);
+        this.blockingQueue = new LinkedBlockingDeque<>(bufferSize);
         this.cycleSleepTime = cycleSleepTime;
         this.minCycleTime = minCycleTime;
         this.total = new AtomicLong();
