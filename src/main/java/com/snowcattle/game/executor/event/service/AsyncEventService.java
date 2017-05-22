@@ -89,7 +89,16 @@ public class AsyncEventService {
 
     public void shutDown(){
 
-        eventLogger.info("AsyncEventService " + this + " stopping ...");
+        eventLogger.info("AsyncEventService eventbus" + this + " stopping ...");
+        eventBus.clear();
+        eventLogger.info("AsyncEventService worker" + this + " stopping ...");
+        if (this.executorService != null) {
+            ExecutorUtil.shutdownAndAwaitTermination(this.executorService, 60,
+                    TimeUnit.MILLISECONDS);
+            this.executorService = null;
+        }
+
+        eventLogger.info("AsyncEventService handle thread" + this + " stopping ...");
         if (this.orderedQueuePoolExecutor != null) {
             ExecutorUtil.shutdownAndAwaitTermination(this.orderedQueuePoolExecutor, 60,
                     TimeUnit.MILLISECONDS);
