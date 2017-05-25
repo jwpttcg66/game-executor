@@ -13,7 +13,7 @@ public class IntegerUpdate extends AbstractUpdate<Long> {
     private  long maxSize;
     private  long startTime;
     public IntegerUpdate(long id, long maxSize) {
-        setId(id);
+        setUpdateId(id);
         this.maxSize = maxSize;
         this.startTime = System.currentTimeMillis();
     }
@@ -26,14 +26,14 @@ public class IntegerUpdate extends AbstractUpdate<Long> {
             setActive(false);
             long endTime = System.currentTimeMillis();
             long useTime = endTime - startTime;
-            System.out.println("耗时" + useTime + "id" + getId());
+            System.out.println("耗时" + useTime + "id" + getUpdateId());
         }
         if (Loggers.gameExecutorUtil.isDebugEnabled()) {
-            Loggers.gameExecutorUtil.debug("update id " + getId() + " incrId:" + incrId);
+            Loggers.gameExecutorUtil.debug("update id " + getUpdateId() + " incrId:" + incrId);
         }
     }
 
     public String toString() {
-        return String.valueOf(this.getId());
+        return String.valueOf(this.getUpdateId());
     }
 }

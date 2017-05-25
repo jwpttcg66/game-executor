@@ -21,16 +21,16 @@ public class LockSupportUpdateFutureListener implements ITaskFutureListener {
     public void operationComplete(ITaskFuture iTaskFuture) throws Exception {
         if(Loggers.gameExecutorUtil.isDebugEnabled()){
             IUpdate iUpdate = (IUpdate) iTaskFuture.get();
-            Loggers.gameExecutorUtil.debug("update complete event id " + iUpdate.getId());
+            Loggers.gameExecutorUtil.debug("update complete event id " + iUpdate.getUpdateId());
         }
         LockSupportUpdateFuture lockSupportUpdateFuture = (LockSupportUpdateFuture) iTaskFuture;
         IUpdate iUpdate = (IUpdate) iTaskFuture.get();
         //事件总线增加更新完成通知
         EventParam<IUpdate> params = new EventParam<IUpdate>(iUpdate);
-//        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getId(), params);
+//        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getUpdateId(), params);
         UpdateEvent updateEvent = UpdateEventCacheService.createUpdateEvent();
         updateEvent.setEventType(Constants.EventTypeConstans.updateEventType);
-        updateEvent.setId(iUpdate.getId());
+        updateEvent.setId(iUpdate.getUpdateId());
         updateEvent.setParams(params);
         updateEvent.setUpdateAliveFlag(iUpdate.isActive());
         lockSupportUpdateFuture.getDispatchThread().addUpdateEvent(updateEvent);

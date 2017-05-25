@@ -45,9 +45,9 @@ public class DisruptorExecutorService implements IUpdateExecutor {
         EventParam<IUpdate> params = new EventParam<IUpdate>(iUpdate);
         UpdateEvent updateEvent = UpdateEventCacheService.createUpdateEvent();
         updateEvent.setEventType(Constants.EventTypeConstans.updateEventType);
-        updateEvent.setId(iUpdate.getId());
+        updateEvent.setId(iUpdate.getUpdateId());
         updateEvent.setParams(params);
-//        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getId(), params);
+//        UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, iUpdate.getUpdateId(), params);
         updateEvent.setUpdateAliveFlag(iUpdate.isActive());
         disruptorDispatchThread.addUpdateEvent(updateEvent);
     }

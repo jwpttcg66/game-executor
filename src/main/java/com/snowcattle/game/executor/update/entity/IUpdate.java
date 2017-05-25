@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public interface IUpdate <ID extends Serializable> extends Serializable {
     public void update();
-    public ID getId();
+    public ID getUpdateId();
     public boolean isActive();
     public void setActive(boolean activeFlag);
 }

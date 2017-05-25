@@ -32,9 +32,9 @@ public abstract class AbstractBindingUpdateThread extends UpdateThread {
             EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
             UpdateEvent updateEvent = UpdateEventCacheService.createUpdateEvent();
             updateEvent.setEventType(Constants.EventTypeConstans.updateEventType);
-            updateEvent.setId(excutorUpdate.getId());
+            updateEvent.setId(excutorUpdate.getUpdateId());
             updateEvent.setParams(params);
-//            UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, excutorUpdate.getId(), params);
+//            UpdateEvent event = new UpdateEvent(Constants.EventTypeConstans.updateEventType, excutorUpdate.getUpdateId(), params);
             updateEvent.setUpdateAliveFlag(getiUpdate().isActive());
             getEventBus().addEvent(updateEvent);
         }

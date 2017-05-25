@@ -8,13 +8,11 @@ import com.snowcattle.game.executor.event.impl.listener.DispatchCreateEventListe
 import com.snowcattle.game.executor.event.impl.listener.DispatchFinishEventListener;
 import com.snowcattle.game.executor.event.impl.listener.DispatchUpdateEventListener;
 import com.snowcattle.game.executor.update.pool.UpdateBindExecutorService;
-import com.snowcattle.game.executor.update.service.NotifyTask;
 import com.snowcattle.game.executor.update.service.UpdateNotifyService;
 import com.snowcattle.game.executor.update.service.UpdateService;
 import com.snowcattle.game.executor.update.thread.dispatch.BindDisptachThread;
 import com.snowcattle.game.executor.common.utils.Constants;
 
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,7 +47,7 @@ public class AsyncNotifyUpdateTest {
         for (long i = 0; i < maxSize; i++) {
             IntegerUpdate integerUpdate = new IntegerUpdate(i, updateMaxSize);
             EventParam<IntegerUpdate> param = new EventParam<IntegerUpdate>(integerUpdate);
-            CycleEvent cycleEvent = new CycleEvent(Constants.EventTypeConstans.readyCreateEventType, integerUpdate.getId(), param);
+            CycleEvent cycleEvent = new CycleEvent(Constants.EventTypeConstans.readyCreateEventType, integerUpdate.getUpdateId(), param);
             updateService.addReadyCreateEvent(cycleEvent);
         }
 

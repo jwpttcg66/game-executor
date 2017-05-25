@@ -104,7 +104,7 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
         EventParam<IUpdate> params = new EventParam<IUpdate>(excutorUpdate);
         UpdateEvent updateEvent = UpdateEventCacheService.createUpdateEvent();
         updateEvent.setEventType(Constants.EventTypeConstans.updateEventType);
-        updateEvent.setId(excutorUpdate.getId());
+        updateEvent.setId(excutorUpdate.getUpdateId());
         updateEvent.setParams(params);
         updateEvent.setUpdateExcutorIndex(bindThreadUpdateExecutorService.getUpdateExcutorIndex());
         updateEvent.setUpdateAliveFlag(excutorUpdate.isActive());
@@ -117,7 +117,7 @@ public class BindingUpdateThread extends AbstractBindingUpdateThread {
         //事件总线增加更新完成通知
         for(IUpdate excutorUpdate : finishList){
 //            if(Loggers.gameExecutorUtil.isDebugEnabled()) {
-//                Loggers.gameExecutorUtil.debug(executorUpdate.getId() + "发送存活" + executorUpdate.isActive());
+//                Loggers.gameExecutorUtil.debug(executorUpdate.getUpdateId() + "发送存活" + executorUpdate.isActive());
 //            }
             sendFinish(excutorUpdate);
         }

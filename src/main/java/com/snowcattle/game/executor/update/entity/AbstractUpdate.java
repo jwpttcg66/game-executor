@@ -11,7 +11,7 @@ public abstract class AbstractUpdate<ID extends Serializable> implements IUpdate
     //是否存放标志
     private boolean activeFlag = true;
     //标示id
-    private ID id;
+    private ID updateId;
 
     @Override
     public boolean isActive() {
@@ -24,12 +24,12 @@ public abstract class AbstractUpdate<ID extends Serializable> implements IUpdate
     }
 
     @Override
-    public ID getId() {
-        return id;
+    public ID getUpdateId() {
+        return updateId;
     }
 
-    public void setId(ID id) {
-        this.id = id;
+    public void setUpdateId(ID updateId) {
+        this.updateId = updateId;
     }
 }
 
