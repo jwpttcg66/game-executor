@@ -6,6 +6,7 @@ import java.util.TimerTask;
 
 /**
  * Created by jwp on 2017/3/28.
+ * 任务通知
  */
 public class NotifyTask extends TimerTask {
 
