@@ -5,7 +5,7 @@ import com.snowcattle.game.executor.update.entity.IUpdate;
 
 /**
  * Created by jiangwenping on 17/1/9.
- * 事件执行器
+ * 事件更新执行器
  */
 public class UpdateThread implements Runnable{
 
