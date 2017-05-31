@@ -1,5 +1,6 @@
 package com.snowcattle.game.executor.update.pool;
 
+import com.snowcattle.game.executor.common.utils.Constants;
 import com.snowcattle.game.executor.update.thread.dispatch.DispatchThread;
 import com.snowcattle.game.executor.update.thread.update.LockSupportUpdateFuture;
 import com.snowcattle.game.executor.update.thread.update.LockSupportUpdateFutureThread;
@@ -20,7 +21,7 @@ public class UpdateExecutorService implements IUpdateExecutor {
 
 
     public UpdateExecutorService(int corePoolSize) {
-        nonOrderedQueuePoolExecutor = new NonOrderedQueuePoolExecutor(corePoolSize);
+        nonOrderedQueuePoolExecutor = new NonOrderedQueuePoolExecutor(Constants.Thread.UpdateExecutorService, corePoolSize);
     }
 
     @Override
