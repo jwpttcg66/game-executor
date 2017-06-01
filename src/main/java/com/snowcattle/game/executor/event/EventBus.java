@@ -70,7 +70,12 @@ public class EventBus implements IEventBus {
             if(event == null){
                 break;
             }
-            handleSingleEvent(event);
+            try {
+                handleSingleEvent(event);
+            }catch (Exception e){
+                Loggers.gameExecutorError.error(e.toString(), e);
+            }
+
         }
     }
 
@@ -86,7 +91,12 @@ public class EventBus implements IEventBus {
             if(event == null){
                 break;
             }
-            handleSingleEvent(event);
+            try {
+                handleSingleEvent(event);
+            }catch (Exception e){
+                Loggers.gameExecutorError.error(e.toString(), e);
+            }
+
             i++;
             if(i > maxSize){
                 break;
@@ -96,7 +106,7 @@ public class EventBus implements IEventBus {
         return i;
     }
 
-    public void handleSingleEvent(IEvent event) {
+    public void handleSingleEvent(IEvent event) throws Exception{
 
         if(Loggers.gameExecutorUtil.isDebugEnabled()) {
             EventParam[] eventParams = event.getParams();

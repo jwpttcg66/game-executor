@@ -12,7 +12,7 @@ public interface IEventBus {
     public void clearEventListener();
     public void addEvent(IEvent event);
     public void handleEvent();
-    public void handleSingleEvent(IEvent event);
+    public void handleSingleEvent(IEvent event) throws Exception;
     public void clearEvent();
     public void clear();
 }

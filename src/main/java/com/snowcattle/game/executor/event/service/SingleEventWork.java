@@ -1,5 +1,6 @@
 package com.snowcattle.game.executor.event.service;
 
+import com.snowcattle.game.executor.common.utils.Loggers;
 import com.snowcattle.game.executor.event.EventBus;
 import com.snowcattle.game.executor.event.SingleEvent;
 import com.snowcattle.game.thread.worker.AbstractWork;
@@ -20,6 +21,11 @@ public class SingleEventWork extends AbstractWork{
 
     @Override
     public void run() {
-        eventBus.handleSingleEvent(singleEvent);
+        try {
+            eventBus.handleSingleEvent(singleEvent);
+        }catch (Exception e){
+            Loggers.gameExecutorError.error(e.toString(), e);
+        }
+
     }
 }
